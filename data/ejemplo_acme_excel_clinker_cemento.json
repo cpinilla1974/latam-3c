@@ -1,0 +1,251 @@
+{
+  "archivo": "ACME_Colombia_2024_Clinker_Cemento.xlsx",
+  "empresa_uuid": "uuid-acme-12345",
+  "periodo": 2024,
+  "hoja_empresa": {
+    "nombre_empresa": "ACME Cementos S.A.",
+    "pais": "Colombia",
+    "responsable": "Ana García",
+    "email": "agarcia@acme.com"
+  },
+  "hoja_plantas": [
+    {
+      "id_planta": "P001",
+      "nombre": "Planta Norte",
+      "ubicacion": "Bogotá, Cundinamarca",
+      "archivo_gcca": "GCCA_P001_2024.xlsx"
+    },
+    {
+      "id_planta": "P002",
+      "nombre": "Planta Sur",
+      "ubicacion": "Cali, Valle del Cauca",
+      "archivo_gcca": "GCCA_P002_2024.xlsx"
+    }
+  ],
+  "hoja_produccion_clinker": {
+    "_nota": "Agregado de todos los tipos de clinker",
+    "minerales": [
+      {
+        "material": "Caliza",
+        "cantidad_ton": 2700000,
+        "origen": "Cantera propia",
+        "distancia_km": 5,
+        "modo_transporte": "Banda"
+      },
+      {
+        "material": "Arcilla",
+        "cantidad_ton": 320000,
+        "origen": "Cantera local",
+        "distancia_km": 25,
+        "modo_transporte": "Camión"
+      },
+      {
+        "material": "Mineral_Hierro",
+        "cantidad_ton": 28000,
+        "origen": "Proveedor Nacional",
+        "distancia_km": 150,
+        "modo_transporte": "Camión"
+      },
+      {
+        "material": "Yeso",
+        "cantidad_ton": 65000,
+        "origen": "Importado",
+        "distancia_km": 500,
+        "modo_transporte": "Barco"
+      }
+    ],
+    "produccion": {
+      "clinker_producido_ton": 1800000,
+      "_detalle_interno": {
+        "clinker_a": 1200000,
+        "clinker_b": 600000
+      }
+    }
+  },
+  "hojas_cemento": [
+    {
+      "tipo": "CEMENTO_TIPO_1",
+      "identificacion": {
+        "tipo_cemento": "CPC 30R",
+        "nombre_comercial": "Cemento Estructural",
+        "produccion_anual_ton": 950000
+      },
+      "composicion": [
+        {
+          "id_material": "CLK_01",
+          "material": "Clinker",
+          "proveedor": "Producción propia",
+          "cantidad_ton": 807500,
+          "distancia_km": 0,
+          "modo_transporte": "-"
+        },
+        {
+          "id_material": "ESC_01",
+          "material": "Escoria",
+          "proveedor": "Siderúrgica Nacional",
+          "cantidad_ton": 95000,
+          "distancia_km": 200,
+          "modo_transporte": "Camión"
+        },
+        {
+          "id_material": "CAL_01",
+          "material": "Caliza",
+          "proveedor": "Cantera propia",
+          "cantidad_ton": 38000,
+          "distancia_km": 5,
+          "modo_transporte": "Banda"
+        },
+        {
+          "id_material": "YES_01",
+          "material": "Yeso",
+          "proveedor": "Stock",
+          "cantidad_ton": 9500,
+          "distancia_km": 0,
+          "modo_transporte": "-"
+        }
+      ],
+      "molienda": {
+        "electricidad_red_kwh": 38000000,
+        "electricidad_renovable_kwh": 2000000
+      }
+    },
+    {
+      "tipo": "CEMENTO_TIPO_2",
+      "identificacion": {
+        "tipo_cemento": "CPO 40",
+        "nombre_comercial": "Cemento Alta Resistencia",
+        "produccion_anual_ton": 620000
+      },
+      "composicion": [
+        {
+          "id_material": "CLK_01",
+          "material": "Clinker",
+          "proveedor": "Producción propia",
+          "cantidad_ton": 527000,
+          "distancia_km": 0,
+          "modo_transporte": "-"
+        },
+        {
+          "id_material": "CLK_02",
+          "material": "Clinker",
+          "proveedor": "Importado Vietnam",
+          "cantidad_ton": 62000,
+          "distancia_km": 15000,
+          "modo_transporte": "Barco"
+        },
+        {
+          "id_material": "CAL_01",
+          "material": "Caliza",
+          "proveedor": "Cantera propia",
+          "cantidad_ton": 24800,
+          "distancia_km": 5,
+          "modo_transporte": "Banda"
+        },
+        {
+          "id_material": "YES_01",
+          "material": "Yeso",
+          "proveedor": "Stock",
+          "cantidad_ton": 6200,
+          "distancia_km": 0,
+          "modo_transporte": "-"
+        }
+      ],
+      "molienda": {
+        "electricidad_red_kwh": 27900000,
+        "electricidad_renovable_kwh": 0
+      }
+    },
+    {
+      "tipo": "CEMENTO_TIPO_3",
+      "identificacion": {
+        "tipo_cemento": "CPO 40RS",
+        "nombre_comercial": "Cemento Resistente a Sulfatos",
+        "produccion_anual_ton": 180000
+      },
+      "composicion": [
+        {
+          "id_material": "CLK_01",
+          "material": "Clinker",
+          "proveedor": "Producción propia",
+          "cantidad_ton": 162000,
+          "distancia_km": 0,
+          "modo_transporte": "-"
+        },
+        {
+          "id_material": "CAL_01",
+          "material": "Caliza",
+          "proveedor": "Cantera propia",
+          "cantidad_ton": 14400,
+          "distancia_km": 5,
+          "modo_transporte": "Banda"
+        },
+        {
+          "id_material": "YES_01",
+          "material": "Yeso",
+          "proveedor": "Stock",
+          "cantidad_ton": 3600,
+          "distancia_km": 0,
+          "modo_transporte": "-"
+        }
+      ],
+      "molienda": {
+        "electricidad_red_kwh": 8100000,
+        "electricidad_renovable_kwh": 0
+      }
+    },
+    {
+      "tipo": "CEMENTO_TIPO_4",
+      "identificacion": {
+        "tipo_cemento": "Cemento Puzolánico",
+        "nombre_comercial": "EcoCem",
+        "produccion_anual_ton": 250000
+      },
+      "composicion": [
+        {
+          "id_material": "CLK_01",
+          "material": "Clinker",
+          "proveedor": "Producción propia",
+          "cantidad_ton": 150000,
+          "distancia_km": 0,
+          "modo_transporte": "-"
+        },
+        {
+          "id_material": "PUZ_01",
+          "material": "Ceniza Volante",
+          "proveedor": "Termoeléctrica Nacional",
+          "cantidad_ton": 75000,
+          "distancia_km": 300,
+          "modo_transporte": "Tren"
+        },
+        {
+          "id_material": "PUZ_02",
+          "material": "Puzolana Natural",
+          "proveedor": "Cantera volcánica",
+          "cantidad_ton": 17500,
+          "distancia_km": 400,
+          "modo_transporte": "Camión"
+        },
+        {
+          "id_material": "CAL_01",
+          "material": "Caliza",
+          "proveedor": "Cantera propia",
+          "cantidad_ton": 5000,
+          "distancia_km": 5,
+          "modo_transporte": "Banda"
+        },
+        {
+          "id_material": "YES_01",
+          "material": "Yeso",
+          "proveedor": "Stock",
+          "cantidad_ton": 2500,
+          "distancia_km": 0,
+          "modo_transporte": "-"
+        }
+      ],
+      "molienda": {
+        "electricidad_red_kwh": 12500000,
+        "electricidad_renovable_kwh": 0
+      }
+    }
+  ]
+}

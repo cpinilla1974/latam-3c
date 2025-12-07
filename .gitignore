@@ -1,0 +1,69 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+
+# Streamlit
+.streamlit/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Excel temporales
+~$*.xlsx
+*.tmp
+
+# Configuración local
+config.local.py
+.env
+
+# Datos sensibles
+/data/produccion/
+/data/real/
+
+# Claude instructions
+CLAUDE.md
+
+# Obsidian
+.obsidian/workspace*
+.obsidian/cache
+.obsidian/hotkeys.json
+
+# Herramientas
+tools/
+obsidian.sh
+
+# Entornos virtuales adicionales
+**/venv*/
+
+# Vector stores y ChromaDB
+**/vector_store/
+**/chroma_db/
+*.chroma
+
+# Modelos ML
+*.pkl
+*.joblib
+saved_models/

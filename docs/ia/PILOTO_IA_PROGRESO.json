@@ -1,0 +1,599 @@
+{
+  "proyecto": {
+    "nombre": "Piloto IA - Asistente de Benchmarking y Predictor de Huella CO2",
+    "version": "1.0",
+    "fecha_inicio": "2025-11-29",
+    "estado_general": "planificacion",
+    "ultima_actualizacion": "2025-11-29"
+  },
+
+  "stack_tecnologico": {
+    "python": "3.12",
+    "framework_ui": "streamlit",
+    "base_datos": "sqlite3",
+    "llm_provider": "pendiente_definir",
+    "vector_db": "chromadb",
+    "ml_framework": "scikit-learn",
+    "dependencias_nuevas": {
+      "rag": [
+        "langchain>=0.1.0",
+        "langchain-openai",
+        "chromadb>=0.4.0",
+        "openai>=1.0.0"
+      ],
+      "ml": [
+        "scikit-learn>=1.3.0",
+        "xgboost>=2.0.0",
+        "prophet>=1.1.0",
+        "joblib>=1.3.0"
+      ],
+      "reportes": [
+        "reportlab>=4.0.0",
+        "python-docx>=1.0.0"
+      ],
+      "utils": [
+        "pydantic>=2.0.0"
+      ]
+    }
+  },
+
+  "fases": [
+    {
+      "fase": 1,
+      "nombre": "Preparación de Datos",
+      "duracion_estimada_dias": 4,
+      "estado": "pendiente",
+      "fecha_inicio": null,
+      "fecha_fin": null,
+      "tareas": [
+        {
+          "id": "1.1",
+          "nombre": "Análisis Exploratorio de Datos (EDA)",
+          "estado": "pendiente",
+          "completado": false,
+          "subtareas": [
+            {
+              "nombre": "Distribuciones de huella por resistencia/compañía/año",
+              "completado": false
+            },
+            {
+              "nombre": "Correlaciones entre variables",
+              "completado": false
+            },
+            {
+              "nombre": "Identificación de datos faltantes/inconsistentes",
+              "completado": false
+            },
+            {
+              "nombre": "Crear notebook 01_exploracion_datos.ipynb",
+              "completado": false
+            }
+          ],
+          "notas": "",
+          "bloqueadores": []
+        },
+        {
+          "id": "1.2",
+          "nombre": "Limpieza y preparación de datos",
+          "estado": "pendiente",
+          "completado": false,
+          "subtareas": [
+            {
+              "nombre": "Normalización de nombres compañías/plantas",
+              "completado": false
+            },
+            {
+              "nombre": "Manejo de valores nulos",
+              "completado": false
+            },
+            {
+              "nombre": "Creación de features derivadas",
+              "completado": false
+            }
+          ],
+          "notas": "",
+          "bloqueadores": []
+        },
+        {
+          "id": "1.3",
+          "nombre": "Creación de embeddings para RAG",
+          "estado": "pendiente",
+          "completado": false,
+          "subtareas": [
+            {
+              "nombre": "Preparar documentos de referencia (GNR, GCCA)",
+              "completado": false
+            },
+            {
+              "nombre": "Generar embeddings de indicadores",
+              "completado": false
+            },
+            {
+              "nombre": "Cargar en ChromaDB",
+              "completado": false
+            }
+          ],
+          "notas": "",
+          "bloqueadores": []
+        }
+      ]
+    },
+    {
+      "fase": 2,
+      "nombre": "Módulo Predictor ML",
+      "duracion_estimada_dias": 5,
+      "estado": "pendiente",
+      "fecha_inicio": null,
+      "fecha_fin": null,
+      "tareas": [
+        {
+          "id": "2.1",
+          "nombre": "Feature Engineering",
+          "estado": "pendiente",
+          "completado": false,
+          "subtareas": [
+            {
+              "nombre": "Selección de variables predictoras",
+              "completado": false
+            },
+            {
+              "nombre": "Transformaciones (log, normalización)",
+              "completado": false
+            },
+            {
+              "nombre": "Encoding de variables categóricas",
+              "completado": false
+            }
+          ],
+          "notas": "",
+          "bloqueadores": []
+        },
+        {
+          "id": "2.2",
+          "nombre": "Entrenamiento de modelos",
+          "estado": "pendiente",
+          "completado": false,
+          "subtareas": [
+            {
+              "nombre": "Split train/test/validation",
+              "completado": false
+            },
+            {
+              "nombre": "Modelo baseline (Linear Regression)",
+              "completado": false
+            },
+            {
+              "nombre": "Modelo Random Forest",
+              "completado": false
+            },
+            {
+              "nombre": "Modelo XGBoost",
+              "completado": false
+            },
+            {
+              "nombre": "Validación cruzada",
+              "completado": false
+            }
+          ],
+          "notas": "",
+          "bloqueadores": []
+        },
+        {
+          "id": "2.3",
+          "nombre": "Evaluación y selección de modelo",
+          "estado": "pendiente",
+          "completado": false,
+          "subtareas": [
+            {
+              "nombre": "Cálculo de métricas (RMSE, MAE, R²)",
+              "completado": false
+            },
+            {
+              "nombre": "Análisis de residuos",
+              "completado": false
+            },
+            {
+              "nombre": "Feature importance",
+              "completado": false
+            },
+            {
+              "nombre": "Serialización del mejor modelo",
+              "completado": false
+            }
+          ],
+          "notas": "",
+          "bloqueadores": []
+        },
+        {
+          "id": "2.4",
+          "nombre": "Detector de anomalías",
+          "estado": "pendiente",
+          "completado": false,
+          "subtareas": [
+            {
+              "nombre": "Implementar Isolation Forest",
+              "completado": false
+            },
+            {
+              "nombre": "Definir umbrales de alertas",
+              "completado": false
+            },
+            {
+              "nombre": "Validar con datos históricos",
+              "completado": false
+            }
+          ],
+          "notas": "",
+          "bloqueadores": []
+        }
+      ]
+    },
+    {
+      "fase": 3,
+      "nombre": "Módulo RAG",
+      "duracion_estimada_dias": 5,
+      "estado": "pendiente",
+      "fecha_inicio": null,
+      "fecha_fin": null,
+      "tareas": [
+        {
+          "id": "3.1",
+          "nombre": "Configuración de LLM",
+          "estado": "pendiente",
+          "completado": false,
+          "subtareas": [
+            {
+              "nombre": "Definir provider (OpenAI/Anthropic)",
+              "completado": false
+            },
+            {
+              "nombre": "Configurar API key",
+              "completado": false
+            },
+            {
+              "nombre": "Crear prompt templates",
+              "completado": false
+            },
+            {
+              "nombre": "Configurar parámetros de generación",
+              "completado": false
+            }
+          ],
+          "notas": "",
+          "bloqueadores": []
+        },
+        {
+          "id": "3.2",
+          "nombre": "Sistema de recuperación",
+          "estado": "pendiente",
+          "completado": false,
+          "subtareas": [
+            {
+              "nombre": "Configurar Retriever con ChromaDB",
+              "completado": false
+            },
+            {
+              "nombre": "Implementar reranking",
+              "completado": false
+            },
+            {
+              "nombre": "Contextualización de queries",
+              "completado": false
+            }
+          ],
+          "notas": "",
+          "bloqueadores": []
+        },
+        {
+          "id": "3.3",
+          "nombre": "Chains de LangChain",
+          "estado": "pendiente",
+          "completado": false,
+          "subtareas": [
+            {
+              "nombre": "Chain de benchmarking comparativo",
+              "completado": false
+            },
+            {
+              "nombre": "Chain de análisis de portafolio",
+              "completado": false
+            },
+            {
+              "nombre": "Chain de recomendaciones",
+              "completado": false
+            }
+          ],
+          "notas": "",
+          "bloqueadores": []
+        },
+        {
+          "id": "3.4",
+          "nombre": "Integración con datos SQL",
+          "estado": "pendiente",
+          "completado": false,
+          "subtareas": [
+            {
+              "nombre": "Crear herramientas de consulta dinámica",
+              "completado": false
+            },
+            {
+              "nombre": "Validación de resultados",
+              "completado": false
+            }
+          ],
+          "notas": "",
+          "bloqueadores": []
+        }
+      ]
+    },
+    {
+      "fase": 4,
+      "nombre": "Interfaz de Usuario",
+      "duracion_estimada_dias": 4,
+      "estado": "pendiente",
+      "fecha_inicio": null,
+      "fecha_fin": null,
+      "tareas": [
+        {
+          "id": "4.1",
+          "nombre": "Chat de Benchmarking",
+          "estado": "pendiente",
+          "completado": false,
+          "subtareas": [
+            {
+              "nombre": "Interfaz Streamlit chat",
+              "completado": false
+            },
+            {
+              "nombre": "Historial de conversaciones",
+              "completado": false
+            },
+            {
+              "nombre": "Visualizaciones dinámicas",
+              "completado": false
+            }
+          ],
+          "notas": "",
+          "bloqueadores": []
+        },
+        {
+          "id": "4.2",
+          "nombre": "Dashboard Predictor",
+          "estado": "pendiente",
+          "completado": false,
+          "subtareas": [
+            {
+              "nombre": "Inputs interactivos",
+              "completado": false
+            },
+            {
+              "nombre": "Gráficos de predicción",
+              "completado": false
+            },
+            {
+              "nombre": "Intervalos de confianza",
+              "completado": false
+            }
+          ],
+          "notas": "",
+          "bloqueadores": []
+        },
+        {
+          "id": "4.3",
+          "nombre": "Generador de Informes",
+          "estado": "pendiente",
+          "completado": false,
+          "subtareas": [
+            {
+              "nombre": "Selector de tipo de informe",
+              "completado": false
+            },
+            {
+              "nombre": "Generación de PDF",
+              "completado": false
+            },
+            {
+              "nombre": "Generación de Excel",
+              "completado": false
+            },
+            {
+              "nombre": "Descarga de archivos",
+              "completado": false
+            }
+          ],
+          "notas": "",
+          "bloqueadores": []
+        }
+      ]
+    },
+    {
+      "fase": 5,
+      "nombre": "Testing y Refinamiento",
+      "duracion_estimada_dias": 3,
+      "estado": "pendiente",
+      "fecha_inicio": null,
+      "fecha_fin": null,
+      "tareas": [
+        {
+          "id": "5.1",
+          "nombre": "Pruebas de usuarios",
+          "estado": "pendiente",
+          "completado": false,
+          "subtareas": [
+            {
+              "nombre": "Ejecutar casos de uso reales",
+              "completado": false
+            },
+            {
+              "nombre": "Recolectar feedback de analistas",
+              "completado": false
+            }
+          ],
+          "notas": "",
+          "bloqueadores": []
+        },
+        {
+          "id": "5.2",
+          "nombre": "Optimización",
+          "estado": "pendiente",
+          "completado": false,
+          "subtareas": [
+            {
+              "nombre": "Mejora de prompts",
+              "completado": false
+            },
+            {
+              "nombre": "Ajuste de umbrales",
+              "completado": false
+            },
+            {
+              "nombre": "Performance tuning",
+              "completado": false
+            }
+          ],
+          "notas": "",
+          "bloqueadores": []
+        },
+        {
+          "id": "5.3",
+          "nombre": "Documentación",
+          "estado": "pendiente",
+          "completado": false,
+          "subtareas": [
+            {
+              "nombre": "Guía de usuario",
+              "completado": false
+            },
+            {
+              "nombre": "Documentación técnica",
+              "completado": false
+            },
+            {
+              "nombre": "Casos de uso resueltos",
+              "completado": false
+            }
+          ],
+          "notas": "",
+          "bloqueadores": []
+        }
+      ]
+    }
+  ],
+
+  "metricas_exito": {
+    "rag": {
+      "precision_respuestas": {
+        "objetivo": ">85%",
+        "actual": null
+      },
+      "tiempo_respuesta": {
+        "objetivo": "<10 segundos",
+        "actual": null
+      },
+      "satisfaccion_usuario": {
+        "objetivo": "4/5 casos positivos",
+        "actual": null
+      }
+    },
+    "predictor": {
+      "r_cuadrado": {
+        "objetivo": ">0.80",
+        "actual": null
+      },
+      "rmse": {
+        "objetivo": "<20 kg CO2/m3",
+        "actual": null
+      },
+      "recall_anomalias": {
+        "objetivo": ">80%",
+        "actual": null
+      }
+    },
+    "generador_informes": {
+      "tiempo_generacion": {
+        "objetivo": "<30 segundos",
+        "actual": null
+      },
+      "calidad_informes": {
+        "objetivo": ">70% usables sin edición",
+        "actual": null
+      }
+    }
+  },
+
+  "decisiones_pendientes": [
+    {
+      "id": "D1",
+      "tema": "Selección de proveedor LLM",
+      "opciones": ["OpenAI GPT-4", "Anthropic Claude", "Modelo local (Llama)"],
+      "fecha_limite": "2025-12-02",
+      "decision_tomada": null,
+      "notas": ""
+    },
+    {
+      "id": "D2",
+      "tema": "Alcance de casos de uso para MVP",
+      "opciones": ["Solo benchmarking comparativo", "Benchmarking + predictor básico", "Full scope"],
+      "fecha_limite": "2025-12-03",
+      "decision_tomada": null,
+      "notas": ""
+    }
+  ],
+
+  "riesgos_identificados": [
+    {
+      "id": "R1",
+      "descripcion": "Datos insuficientes para ML",
+      "probabilidad": "media",
+      "impacto": "alto",
+      "mitigacion": "Usar datos agregados + data augmentation",
+      "estado": "activo"
+    },
+    {
+      "id": "R2",
+      "descripcion": "Costo de API LLM alto",
+      "probabilidad": "media",
+      "impacto": "medio",
+      "mitigacion": "Cache de respuestas + modelo local alternativo",
+      "estado": "activo"
+    },
+    {
+      "id": "R3",
+      "descripcion": "Respuestas RAG no precisas",
+      "probabilidad": "media",
+      "impacto": "alto",
+      "mitigacion": "Fine-tuning de prompts + validación experta",
+      "estado": "activo"
+    }
+  ],
+
+  "log_sesiones": [
+    {
+      "fecha": "2025-11-29",
+      "duracion_minutos": 45,
+      "actividades": [
+        "Análisis inicial de base de datos",
+        "Definición de alcance del piloto",
+        "Creación de documentación (PILOTO_IA_PLAN.md, PILOTO_IA_PROGRESO.json)"
+      ],
+      "decisiones_tomadas": [
+        "Piloto será Asistente de Benchmarking + Predictor de Huella"
+      ],
+      "proximos_pasos": [
+        "Crear estructura de carpetas para módulos IA",
+        "Instalar dependencias",
+        "Comenzar FASE 1: EDA"
+      ]
+    }
+  ],
+
+  "recursos": {
+    "repositorio": "/home/cpinilla/projects/ficem_bd",
+    "base_datos": "/home/cpinilla/databases/ficem_bd/data/ficem_bd.db",
+    "documentacion": {
+      "plan": "docs/PILOTO_IA_PLAN.md",
+      "progreso": "docs/PILOTO_IA_PROGRESO.json",
+      "casos_uso": "docs/PILOTO_IA_CASOS_USO.md"
+    }
+  }
+}

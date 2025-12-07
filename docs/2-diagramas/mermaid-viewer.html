@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visor Diagramas Mermaid - Calculadora 3C País</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px; 
+            background-color: #f5f5f5; 
+        }
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 20px; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+        }
+        h1 { 
+            color: #333; 
+            text-align: center; 
+            margin-bottom: 30px; 
+        }
+        .diagram-section { 
+            margin: 40px 0; 
+            padding: 20px; 
+            border-left: 4px solid #007acc; 
+            background-color: #f9f9f9; 
+        }
+        .diagram-title { 
+            font-size: 1.2em; 
+            font-weight: bold; 
+            color: #007acc; 
+            margin-bottom: 15px; 
+        }
+        .mermaid { 
+            text-align: center; 
+            margin: 20px 0; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌍 Calculadora 3C País - Diagramas de Flujo</h1>
+        
+        <div class="diagram-section">
+            <div class="diagram-title">📊 Proceso Completo: Recopilación y Análisis de Datos</div>
+            <div class="mermaid">
+graph TD
+    A[🏭 Empresas Cementeras<br/>y Concreteras] 
+    B[🏛️ FICEM<br/>Federación]
+    C[📊 Sistema 3C País<br/>Calculadora]
+    D[🌎 Países LATAM<br/>Indicadores Nacionales]
+
+    A --> E[📝 Acceso a Formularios<br/>Ingreso de Datos]
+    E --> F{Tipo de Planta}
+    
+    F -->|Cemento| G[🏭 Formulario Cemento<br/>• Datos empresa<br/>• Datos planta<br/>• Producción clínker<br/>• Composición cemento<br/>• Emisiones proceso]
+    F -->|Concreto| H[🚛 Formulario Concreto<br/>• Datos empresa<br/>• Datos planta<br/>• Dosificaciones<br/>• Resistencias<br/>• Transporte]
+
+    G --> I[📊 Generación Excel<br/>Plantilla validable]
+    H --> I
+
+    I --> J[✅ Validación Externa<br/>Revisión técnica]
+    J --> K[🔄 Carga al Sistema<br/>Base de datos]
+
+    K --> L[⚙️ Motor de Cálculos]
+    L --> M[🧮 Cálculo Huellas CO2<br/>• Cemento: Factor emisión<br/>• Concreto: Huella total]
+    M --> N[📈 Clasificación GCCA<br/>• Bandas cemento A-G<br/>• Bandas concreto AA-F]
+
+    N --> O[🌐 Agregación Nacional<br/>Consolidación datos]
+    O --> P[📊 Indicadores País<br/>• CO2/Clínker<br/>• CO2/Cemento<br/>• CO2/Concreto<br/>• CO2/Resistencia]
+
+    P --> Q[🎯 Dashboard Nacional<br/>Visualizaciones]
+    P --> R[📋 Reportes FICEM<br/>Comparativos regionales]
+    P --> S[🌍 Benchmarking<br/>Internacional]
+
+    R --> B
+    B --> U[📢 Políticas y<br/>Mejores Prácticas]
+    U --> A
+
+    classDef empresa fill:#e1f5fe,stroke:#0277bd,stroke-width:2px
+    classDef sistema fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    classDef proceso fill:#e8f5e8,stroke:#388e3c,stroke-width:2px
+    classDef output fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+
+    class A,E,F,G,H empresa
+    class C,I,J,L,M,N,O,P sistema
+    class K,U proceso
+    class Q,R,S,T,D output
+            </div>
+        </div>
+
+        <div class="diagram-section">
+            <div class="diagram-title">🔄 Flujo de Datos Temporal</div>
+            <div class="mermaid">
+sequenceDiagram
+    participant E as 🏭 Empresa
+    participant S as 📊 Sistema 3C
+    participant V as ✅ Validador
+    participant F as 🏛️ FICEM
+    participant P as 🌎 País
+
+    Note over E,P: Fase 1: Ingreso de Datos
+    E->>S: Accede a formularios
+    S->>E: Presenta formulario específico
+    E->>S: Completa datos operacionales
+    S->>E: Genera archivo Excel
+    
+    Note over E,P: Fase 2: Validación
+    E->>V: Envía archivo Excel
+    V->>V: Revisa consistencia datos
+    V->>E: Retroalimenta correcciones
+    E->>S: Carga archivo validado
+
+    Note over E,P: Fase 3: Procesamiento
+    S->>S: Calcula huellas CO2
+    S->>S: Aplica clasificación GCCA
+    S->>S: Agrega datos por país
+    
+    Note over E,P: Fase 4: Resultados
+    S->>F: Genera indicadores regionales
+    S->>P: Publica dashboard nacional
+    F->>E: Comparte benchmarks
+    E->>S: Mejora datos siguiente ciclo
+            </div>
+        </div>
+
+        <div class="diagram-section">
+            <div class="diagram-title">🏗️ Arquitectura de Datos</div>
+            <div class="mermaid">
+erDiagram
+    EMPRESA ||--o{ PLANTA-CEMENTO : opera
+    EMPRESA ||--o{ PLANTA-CONCRETO : opera
+    
+    EMPRESA {
+        string nombre
+        string pais
+        string responsable
+        string contacto
+    }
+    
+    PLANTA-CEMENTO {
+        string id_planta
+        float capacidad_clinker
+        float produccion_anual
+        float factor_co2
+        string tipo_cemento
+    }
+    
+    PLANTA-CONCRETO {
+        string id_planta
+        float capacidad_m3
+        float resistencia_promedio
+        float contenido_cemento
+        float huella_co2
+    }
+    
+    PLANTA-CEMENTO ||--o{ CALCULO-CEMENTO : genera
+    PLANTA-CONCRETO ||--o{ CALCULO-CONCRETO : genera
+    
+    CALCULO-CEMENTO {
+        float emisiones_proceso
+        float emisiones_energia
+        string banda_gcca
+        date fecha_calculo
+    }
+    
+    CALCULO-CONCRETO {
+        float huella_materiales
+        float huella_transporte
+        string banda_gcca
+        date fecha_calculo
+    }
+    
+    CALCULO-CEMENTO ||--o{ INDICADOR-PAIS : agrega
+    CALCULO-CONCRETO ||--o{ INDICADOR-PAIS : agrega
+    
+    INDICADOR-PAIS {
+        string pais
+        float co2_clinker_promedio
+        float co2_cemento_promedio
+        float co2_concreto_promedio
+        float indice_eficiencia
+        date periodo
+    }
+            </div>
+        </div>
+
+        <div class="diagram-section">
+            <div class="diagram-title">🎭 Casos de Uso Principales</div>
+            <div class="mermaid">
+graph LR
+    EM[🏭 Empresa]
+    FI[🏛️ FICEM]
+    GOB[🏛️ Gobierno]
+    
+    SYS[📊 Sistema 3C País]
+    
+    EM --> UC1[Registrar datos<br/>operacionales]
+    UC1 --> SYS
+    
+    SYS --> UC2[Generar reporte<br/>huella carbono]
+    UC2 --> EM
+    
+    SYS --> UC3[Comparar con<br/>benchmarks]
+    UC3 --> EM
+    
+    FI --> UC4[Consolidar datos<br/>regionales]
+    UC4 --> SYS
+    
+    SYS --> UC5[Generar indicadores<br/>comparativos]
+    UC5 --> FI
+    
+    SYS --> UC6[Identificar mejores<br/>prácticas]
+    UC6 --> FI
+    
+    SYS --> UC7[Consultar indicadores<br/>nacionales]
+    UC7 --> GOB
+    
+    SYS --> UC8[Proveer datos para<br/>políticas ambientales]
+    UC8 --> GOB
+            </div>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true
+            }
+        });
+    </script>
+</body>
+</html>

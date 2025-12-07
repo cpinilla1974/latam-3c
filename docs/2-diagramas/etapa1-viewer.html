@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagramas Etapa 1 - LATAM-3C</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #2196F3 0%, #21CBF3 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        .header .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-top: 10px;
+        }
+        .content {
+            padding: 40px;
+        }
+        .diagram-section {
+            margin: 60px 0;
+            padding: 30px;
+            border-radius: 10px;
+            background: linear-gradient(145deg, #f8f9fa 0%, #e9ecef 100%);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+        .diagram-title {
+            font-size: 1.8em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #3498db;
+        }
+        .mermaid {
+            text-align: center;
+            margin: 30px 0;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .description {
+            background: #e3f2fd;
+            border-left: 5px solid #2196F3;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            color: #1565C0;
+        }
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+            background: #f8f9fa;
+            border-top: 1px solid #dee2e6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏗️ LATAM-3C Etapa 1</h1>
+            <div class="subtitle">Diagramas de Flujo del Sistema Simplificado</div>
+        </div>
+
+        <div class="content">
+            <div class="diagram-section">
+                <div class="diagram-title">📊 Diagrama de Flujo General</div>
+                <div class="description">
+                    Flujo completo del proceso simplificado de Etapa 1, desde la solicitud de templates Excel hasta la generación de reportes nacionales.
+                </div>
+                <div class="mermaid">
+graph TD
+    A[Empresas Cementeras]
+    B[FICEM Operador]
+    C[Sistema 3C]
+    D[Indicadores Nacionales]
+
+    A --> E[Solicita Template]
+    E --> F{Perfil Planta}
+
+    F -->|Integrada| G[Excel Integrada]
+    F -->|Molienda| H[Excel Molienda]
+    F -->|Concreto| I[Excel Concreto]
+
+    G --> J[Completado Offline]
+    H --> J
+    I --> J
+
+    J --> K[Validación Interna]
+    K --> L[Envío FICEM]
+
+    L --> B
+    B --> M[Carga Sistema]
+    M --> N[Validación]
+    N --> O{Válido}
+
+    O -->|No| P[Errores]
+    P --> A
+    O -->|Sí| Q[Cálculos]
+
+    Q --> R[Emisiones A1-A3]
+    R --> S[Clasificación GCCA]
+    S --> T[Agregación Nacional]
+    T --> U[Indicadores País]
+
+    U --> V[Dashboard FICEM]
+    U --> W[Reportes Empresa]
+    U --> D
+
+    V --> B
+    W --> A
+
+    classDef empresa fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    classDef ficem fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    classDef sistema fill:#e8f5e8,stroke:#388e3c,stroke-width:2px
+    classDef output fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+
+    class A,E,F,G,H,I,J,K,L empresa
+    class B,M,N,O,P ficem
+    class C,Q,R,S,T sistema
+    class U,V,W,D output
+                </div>
+            </div>
+
+            <div class="diagram-section">
+                <div class="diagram-title">⏱️ Secuencia Temporal Detallada</div>
+                <div class="description">
+                    Flujo paso a paso mostrando la interacción temporal entre los participantes del sistema en la Etapa 1.
+                </div>
+                <div class="mermaid">
+sequenceDiagram
+    participant E as Empresa
+    participant F as FICEM Operador
+    participant S as Sistema 3C
+    participant D as Base Datos
+
+    Note over E,D: Fase 1 - Solicitud Template
+    E->>F: Solicita template Excel por email/teléfono
+    F->>E: Envía cuestionario perfil planta
+    E->>F: Responde perfil (integrada/molienda/concreto)
+    F->>S: Genera template Excel según perfil
+    S->>F: Template Excel personalizado
+    F->>E: Envía Excel con instrucciones
+
+    Note over E,D: Fase 2 - Completado Offline
+    E->>E: Completa Excel offline
+    E->>E: Validación interna técnica
+    E->>F: Envía Excel completado por email
+
+    Note over E,D: Fase 3 - Procesamiento FICEM
+    F->>S: Carga Excel manualmente en sistema
+    S->>S: Valida estructura y datos
+    alt Datos válidos
+        S->>D: Almacena datos empresa
+        S->>S: Calcula emisiones A1-A3
+        S->>S: Clasifica bandas GCCA
+        S->>D: Guarda resultados calculados
+    else Datos inválidos
+        S->>F: Genera reporte errores
+        F->>E: Solicita correcciones por email
+    end
+
+    Note over E,D: Fase 4 - Reportes
+    S->>D: Consulta datos todas empresas
+    S->>S: Agrega indicadores país
+    S->>F: Dashboard operador actualizado
+    F->>E: Envía reporte individual por email
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>LATAM-3C</strong> - Sistema de Huella de Carbono para la Industria Cementera</p>
+            <p>Etapa 1: Modelo Operativo Centralizado con FICEM</p>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            },
+            sequence: {
+                diagramMarginX: 50,
+                diagramMarginY: 20,
+                actorMargin: 50,
+                width: 150,
+                height: 65,
+                boxMargin: 10,
+                boxTextMargin: 5,
+                noteMargin: 10,
+                messageMargin: 35
+            }
+        });
+    </script>
+</body>
+</html>

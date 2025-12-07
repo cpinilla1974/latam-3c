@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cronograma Etapa 1 LATAM-3C</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #FF9800 0%, #FF5722 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.2em;
+            font-weight: 300;
+        }
+        .header .duration {
+            margin-top: 15px;
+            font-size: 1.3em;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 40px;
+        }
+        .mermaid {
+            text-align: center;
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            overflow-x: auto;
+        }
+        .phases {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .phase {
+            background: linear-gradient(145deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+        .phase h3 {
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #3498db;
+            text-align: center;
+        }
+        .activity {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .activity:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .activity-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        .activity-desc {
+            font-size: 0.9em;
+            color: #6c757d;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📅 Cronograma Etapa 1 LATAM-3C</h1>
+            <div class="duration">
+                22 Semanas (Oct 2025 - Feb 2026)
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="mermaid">
+gantt
+    title Cronograma LATAM-3C Etapa 1 - 250 HH / 22 semanas
+    dateFormat YYYY-MM-DD
+
+    section Fase 1 Excel y Validacion
+    Generador Excel           :gen, 2025-10-01, 14d
+    Prueba 2 empresas        :test, after gen, 14d
+    Ajustes según feedback   :adj, after test, 7d
+
+    section Fase 2 Sistema Principal
+    Base datos y modelos     :bd, after adj, 14d
+    Cálculos cemento clinker :calc1, after bd, 14d
+    Cálculos concreto       :calc2, after calc1, 14d
+    Clasificación GCCA      :gcca, after calc2, 7d
+    Sistema carga básico    :carga, after gcca, 7d
+
+    section Fase 3 Interfaz y Reportes
+    Interfaz operador FICEM :ui, after carga, 14d
+    Testing datos reales    :real, after ui, 7d
+    Reportes y deploy       :final, after real, 14d
+            </div>
+
+            <div class="phases">
+                <div class="phase">
+                    <h3>Fase 1: Excel y Validación</h3>
+
+                    <div class="activity">
+                        <div class="activity-title">Generador Excel</div>
+                        <div class="activity-desc">Desarrollo de sistema para generar templates Excel personalizados según perfil de planta (integrada/molienda/concreto)</div>
+                    </div>
+
+                    <div class="activity">
+                        <div class="activity-title">Prueba 2 empresas</div>
+                        <div class="activity-desc">Coordinación y ejecución de pruebas piloto con empresas reales para validar templates y proceso</div>
+                    </div>
+
+                    <div class="activity">
+                        <div class="activity-title">Ajustes según feedback</div>
+                        <div class="activity-desc">Refinamiento de templates Excel basado en comentarios y experiencia de las empresas piloto</div>
+                    </div>
+                </div>
+
+                <div class="phase">
+                    <h3>Fase 2: Sistema Principal</h3>
+
+                    <div class="activity">
+                        <div class="activity-title">Base datos y modelos</div>
+                        <div class="activity-desc">Diseño e implementación del esquema de base de datos SQLite con modelos para empresa, planta y materiales</div>
+                    </div>
+
+                    <div class="activity">
+                        <div class="activity-title">Cálculos cemento/clinker</div>
+                        <div class="activity-desc">Implementación del motor de cálculos para emisiones A1-A3 de cemento y clinker según estándares GCCA</div>
+                    </div>
+
+                    <div class="activity">
+                        <div class="activity-title">Cálculos concreto</div>
+                        <div class="activity-desc">Desarrollo de algoritmos para calcular huella de carbono por m³ y clasificación por resistencia</div>
+                    </div>
+
+                    <div class="activity">
+                        <div class="activity-title">Clasificación GCCA</div>
+                        <div class="activity-desc">Sistema de bandas A-G para cemento y AA-F para concreto según metodología GCCA oficial</div>
+                    </div>
+
+                    <div class="activity">
+                        <div class="activity-title">Sistema carga básico</div>
+                        <div class="activity-desc">Parser para leer archivos Excel y validar estructura de datos antes del procesamiento</div>
+                    </div>
+                </div>
+
+                <div class="phase">
+                    <h3>Fase 3: Interfaz y Reportes</h3>
+
+                    <div class="activity">
+                        <div class="activity-title">Interfaz operador FICEM</div>
+                        <div class="activity-desc">Dashboard Streamlit para operador con funciones de carga, visualización y gestión de datos</div>
+                    </div>
+
+                    <div class="activity">
+                        <div class="activity-title">Testing datos reales</div>
+                        <div class="activity-desc">Pruebas dirigidas con archivos reales y validación por spot checks de cálculos críticos</div>
+                    </div>
+
+                    <div class="activity">
+                        <div class="activity-title">Reportes y deploy</div>
+                        <div class="activity-desc">Reportes básicos, despliegue final en Railway y entrega de documentación esencial</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            gantt: {
+                useMaxWidth: true,
+                leftPadding: 150,
+                gridLineStartPadding: 350,
+                fontSize: 11,
+                fontFamily: '"Segoe UI", sans-serif',
+                sectionFontSize: 24,
+                numberSectionStyles: 3
+            }
+        });
+    </script>
+</body>
+</html>

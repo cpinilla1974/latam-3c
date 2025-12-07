@@ -1,0 +1,192 @@
+{
+  "uuid_empresa": "550e8400-e29b-41d4-a716-446655440002",
+  "periodo": 2023,
+  "hoja_empresa": {
+    "nombre_empresa": "Cementos Andinos S.A.",
+    "pais": "Colombia",
+    "responsable": "María Rodríguez",
+    "email": "m.rodriguez@cementosandinos.com"
+  },
+  "hoja_produccion": [
+    {
+      "categoria": "Concreto_Estructural",
+      "tipo_concreto": "Convencional",
+      "resistencia": "21 MPa",
+      "volumen_m3_anual": 185000
+    },
+    {
+      "categoria": "Concreto_Estructural",
+      "tipo_concreto": "Convencional", 
+      "resistencia": "28 MPa",
+      "volumen_m3_anual": 225000
+    },
+    {
+      "categoria": "Concreto_Estructural",
+      "tipo_concreto": "Convencional",
+      "resistencia": "35 MPa", 
+      "volumen_m3_anual": 95000
+    },
+    {
+      "categoria": "Concreto_Arquitectónico",
+      "tipo_concreto": "Color_Integral",
+      "resistencia": "25 MPa",
+      "volumen_m3_anual": 35000
+    },
+    {
+      "categoria": "Concreto_Especialidad",
+      "tipo_concreto": "Autocompactante",
+      "resistencia": "40 MPa",
+      "volumen_m3_anual": 15000
+    }
+  ],
+  "hoja_mezclas": [
+    {
+      "id_mezcla": "MX_COL_21",
+      "resistencia": "21 MPa",
+      "cemento_kg_m3": 320,
+      "tipo_cemento": "Andino Premium",
+      "arena_kg_m3": 765,
+      "grava_kg_m3": 1050,
+      "agua_l_m3": 195,
+      "aditivo_principal_l_m3": 1.6
+    },
+    {
+      "id_mezcla": "MX_COL_28",
+      "resistencia": "28 MPa",
+      "cemento_kg_m3": 380,
+      "tipo_cemento": "Andino Premium",
+      "arena_kg_m3": 720,
+      "grava_kg_m3": 1020,
+      "agua_l_m3": 185,
+      "aditivo_principal_l_m3": 1.9
+    },
+    {
+      "id_mezcla": "MX_COL_35",
+      "resistencia": "35 MPa", 
+      "cemento_kg_m3": 420,
+      "tipo_cemento": "Andino Premium",
+      "arena_kg_m3": 690,
+      "grava_kg_m3": 980,
+      "agua_l_m3": 175,
+      "aditivo_principal_l_m3": 2.1
+    },
+    {
+      "id_mezcla": "MX_COL_25_ARQ",
+      "resistencia": "25 MPa",
+      "cemento_kg_m3": 350,
+      "tipo_cemento": "Andino Eco-Build",
+      "arena_kg_m3": 750,
+      "grava_kg_m3": 1000,
+      "agua_l_m3": 190,
+      "aditivo_principal_l_m3": 2.8
+    },
+    {
+      "id_mezcla": "MX_COL_40_AUTO",
+      "resistencia": "40 MPa",
+      "cemento_kg_m3": 450,
+      "tipo_cemento": "Andino Ultra-Rápido",
+      "arena_kg_m3": 660,
+      "grava_kg_m3": 960,
+      "agua_l_m3": 165,
+      "aditivo_principal_l_m3": 4.5
+    }
+  ],
+  "hoja_agregados": [
+    {
+      "material": "Arena",
+      "tipo": "Arena_Río",
+      "proveedor": "Agregados Bogotá SAS",
+      "cantidad_ton_anual": 185000,
+      "distancia_km": 28,
+      "modo_transporte": "Camión"
+    },
+    {
+      "material": "Arena", 
+      "tipo": "Arena_Triturada",
+      "proveedor": "Canteras del Valle",
+      "cantidad_ton_anual": 95000,
+      "distancia_km": 45,
+      "modo_transporte": "Camión"
+    },
+    {
+      "material": "Grava",
+      "tipo": "Grava_3/4",
+      "proveedor": "Agregados Bogotá SAS", 
+      "cantidad_ton_anual": 220000,
+      "distancia_km": 28,
+      "modo_transporte": "Camión"
+    },
+    {
+      "material": "Grava",
+      "tipo": "Grava_1/2",
+      "proveedor": "Canteras del Valle",
+      "cantidad_ton_anual": 115000,
+      "distancia_km": 45,
+      "modo_transporte": "Camión"
+    },
+    {
+      "material": "Grava",
+      "tipo": "Gravilla_3/8",
+      "proveedor": "Minas y Canteras Ltda",
+      "cantidad_ton_anual": 85000,
+      "distancia_km": 65,
+      "modo_transporte": "Camión"
+    }
+  ],
+  "hoja_aditivos": [
+    {
+      "tipo_aditivo": "Superplastificante",
+      "funcion": "Reductor_Agua_Alto_Rango",
+      "marca": "MasterGlenium SKY",
+      "proveedor": "BASF Colombia",
+      "cantidad_l_anual": 485000,
+      "distancia_km": 35,
+      "modo_transporte": "Camión"
+    },
+    {
+      "tipo_aditivo": "Plastificante",
+      "funcion": "Reductor_Agua",
+      "marca": "MasterPozzolith",
+      "proveedor": "BASF Colombia", 
+      "cantidad_l_anual": 125000,
+      "distancia_km": 35,
+      "modo_transporte": "Camión"
+    },
+    {
+      "tipo_aditivo": "Retardante",
+      "funcion": "Control_Fraguado",
+      "marca": "MasterSet R",
+      "proveedor": "BASF Colombia",
+      "cantidad_l_anual": 55000,
+      "distancia_km": 35,
+      "modo_transporte": "Camión"
+    },
+    {
+      "tipo_aditivo": "Incorporador_Aire",
+      "funcion": "Durabilidad_Hielo_Deshielo", 
+      "marca": "MasterAir",
+      "proveedor": "BASF Colombia",
+      "cantidad_l_anual": 18000,
+      "distancia_km": 35,
+      "modo_transporte": "Camión"
+    },
+    {
+      "tipo_aditivo": "Pigmento",
+      "funcion": "Color_Integral",
+      "marca": "Bayferrox",
+      "proveedor": "Lanxess Colombia",
+      "cantidad_l_anual": 95000,
+      "distancia_km": 55,
+      "modo_transporte": "Camión"
+    },
+    {
+      "tipo_aditivo": "Viscosificante", 
+      "funcion": "Autocompactante",
+      "marca": "MasterMatrix VMA",
+      "proveedor": "BASF Colombia",
+      "cantidad_l_anual": 68000,
+      "distancia_km": 35,
+      "modo_transporte": "Camión"
+    }
+  ]
+}

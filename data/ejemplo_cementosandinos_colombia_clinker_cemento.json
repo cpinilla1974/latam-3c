@@ -1,0 +1,178 @@
+{
+  "uuid_empresa": "550e8400-e29b-41d4-a716-446655440002",
+  "periodo": 2023,
+  "hoja_empresa": {
+    "nombre_empresa": "Cementos Andinos S.A.",
+    "pais": "Colombia",
+    "responsable": "María Rodríguez",
+    "email": "m.rodriguez@cementosandinos.com"
+  },
+  "hoja_plantas": [
+    {
+      "id_planta": "CAND_BOG_001",
+      "nombre": "Planta Bogotá",
+      "ubicacion": "Bogotá D.C., Colombia",
+      "archivo_gcca": "CementosAndinos_Bogota_GCCA_2023.xlsx"
+    },
+    {
+      "id_planta": "CAND_MED_001", 
+      "nombre": "Planta Medellín",
+      "ubicacion": "Medellín, Antioquia, Colombia",
+      "archivo_gcca": "CementosAndinos_Medellin_GCCA_2023.xlsx"
+    }
+  ],
+  "hoja_produccion_clinker": {
+    "minerales": [
+      {
+        "material": "Caliza",
+        "cantidad_ton": 450000,
+        "origen": "Cantera La Calera",
+        "distancia_km": 35,
+        "modo_transporte": "Camión"
+      },
+      {
+        "material": "Arcilla",
+        "cantidad_ton": 85000,
+        "origen": "Cantera Nemocón",
+        "distancia_km": 42,
+        "modo_transporte": "Camión"
+      },
+      {
+        "material": "Mineral_Hierro",
+        "cantidad_ton": 12000,
+        "origen": "Paz de Río",
+        "distancia_km": 180,
+        "modo_transporte": "Camión"
+      },
+      {
+        "material": "Arena_Silica",
+        "cantidad_ton": 8000,
+        "origen": "Cantera Soacha",
+        "distancia_km": 25,
+        "modo_transporte": "Camión"
+      }
+    ],
+    "produccion": {
+      "clinker_producido_ton": 350000
+    }
+  },
+  "hojas_cemento": [
+    {
+      "identificacion": {
+        "tipo_cemento": "Portland Tipo I",
+        "nombre_comercial": "Andino Premium",
+        "produccion_anual_ton": 280000
+      },
+      "composicion": [
+        {
+          "id_material": "CLI_001",
+          "material": "Clinker",
+          "proveedor": "Producción Propia",
+          "cantidad_ton": 238000,
+          "distancia_km": 0,
+          "modo_transporte": "Interno"
+        },
+        {
+          "id_material": "YES_001",
+          "material": "Yeso",
+          "proveedor": "Minas de Yeso Boyacá",
+          "cantidad_ton": 14000,
+          "distancia_km": 150,
+          "modo_transporte": "Camión"
+        },
+        {
+          "id_material": "CAL_001",
+          "material": "Caliza_Adicional",
+          "proveedor": "Cantera Zipaquirá",
+          "cantidad_ton": 28000,
+          "distancia_km": 55,
+          "modo_transporte": "Camión"
+        }
+      ],
+      "molienda": {
+        "electricidad_red_kwh": 18500000,
+        "electricidad_renovable_kwh": 2000000,
+        "factor_emision_red": 0.52,
+        "factor_emision_renovable": 0.0
+      }
+    },
+    {
+      "identificacion": {
+        "tipo_cemento": "Portland Compuesto",
+        "nombre_comercial": "Andino Eco-Build",
+        "produccion_anual_ton": 120000
+      },
+      "composicion": [
+        {
+          "id_material": "CLI_002",
+          "material": "Clinker",
+          "proveedor": "Producción Propia",
+          "cantidad_ton": 84000,
+          "distancia_km": 0,
+          "modo_transporte": "Interno"
+        },
+        {
+          "id_material": "YES_002",
+          "material": "Yeso",
+          "proveedor": "Minas de Yeso Boyacá",
+          "cantidad_ton": 6000,
+          "distancia_km": 150,
+          "modo_transporte": "Camión"
+        },
+        {
+          "id_material": "ESC_001",
+          "material": "Escoria_Siderúrgica",
+          "proveedor": "Acerías Paz del Río",
+          "cantidad_ton": 24000,
+          "distancia_km": 180,
+          "modo_transporte": "Camión"
+        },
+        {
+          "id_material": "CEN_001",
+          "material": "Ceniza_Volante",
+          "proveedor": "Termozipa",
+          "cantidad_ton": 6000,
+          "distancia_km": 45,
+          "modo_transporte": "Camión"
+        }
+      ],
+      "molienda": {
+        "electricidad_red_kwh": 7200000,
+        "electricidad_renovable_kwh": 1800000,
+        "factor_emision_red": 0.52,
+        "factor_emision_renovable": 0.0
+      }
+    },
+    {
+      "identificacion": {
+        "tipo_cemento": "Portland Tipo III",
+        "nombre_comercial": "Andino Ultra-Rápido",
+        "produccion_anual_ton": 45000
+      },
+      "composicion": [
+        {
+          "id_material": "CLI_003",
+          "material": "Clinker_Alta_Resistencia",
+          "proveedor": "Producción Propia",
+          "cantidad_ton": 40500,
+          "distancia_km": 0,
+          "modo_transporte": "Interno"
+        },
+        {
+          "id_material": "YES_003",
+          "material": "Yeso_Especial",
+          "proveedor": "Cementos Especiales SAS",
+          "cantidad_ton": 4500,
+          "distancia_km": 120,
+          "modo_transporte": "Camión"
+        }
+      ],
+      "molienda": {
+        "electricidad_red_kwh": 3600000,
+        "electricidad_renovable_kwh": 400000,
+        "factor_emision_red": 0.52,
+        "factor_emision_renovable": 0.0
+      }
+    }
+  ]
+}

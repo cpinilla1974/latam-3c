@@ -1,0 +1,100 @@
+{
+  "pais": "Perú",
+  "sistema_electrico": "SEIN - Sistema Eléctrico Interconectado Nacional",
+  "unidad": "tCO2/MWh",
+  "fuente": "DGEE-MINEM (Dirección General de Eficiencia Energética - Ministerio de Energía y Minas)",
+  "contacto_fuente": "Alfonso Córdova, especialista DGEE",
+  "fecha_comunicacion": "2019",
+  "nota": "Factores oficiales de emisión para electricidad generada en Perú. Tendencia decreciente por mayor penetración de energías renovables.",
+  "factores_historicos": [
+    {
+      "año": 2010,
+      "factor_tco2_mwh": 0.240,
+      "factor_kgco2_kwh": 0.240,
+      "factor_gco2_kwh": 240.0
+    },
+    {
+      "año": 2011,
+      "factor_tco2_mwh": 0.230,
+      "factor_kgco2_kwh": 0.230,
+      "factor_gco2_kwh": 230.0
+    },
+    {
+      "año": 2012,
+      "factor_tco2_mwh": 0.224,
+      "factor_kgco2_kwh": 0.224,
+      "factor_gco2_kwh": 224.0
+    },
+    {
+      "año": 2013,
+      "factor_tco2_mwh": 0.209,
+      "factor_kgco2_kwh": 0.209,
+      "factor_gco2_kwh": 209.0
+    },
+    {
+      "año": 2014,
+      "factor_tco2_mwh": 0.207,
+      "factor_kgco2_kwh": 0.207,
+      "factor_gco2_kwh": 207.0
+    },
+    {
+      "año": 2015,
+      "factor_tco2_mwh": 0.203,
+      "factor_kgco2_kwh": 0.203,
+      "factor_gco2_kwh": 203.0
+    },
+    {
+      "año": 2016,
+      "factor_tco2_mwh": 0.222,
+      "factor_kgco2_kwh": 0.222,
+      "factor_gco2_kwh": 222.0
+    },
+    {
+      "año": 2017,
+      "factor_tco2_mwh": 0.184,
+      "factor_kgco2_kwh": 0.184,
+      "factor_gco2_kwh": 184.0
+    },
+    {
+      "año": 2018,
+      "factor_tco2_mwh": 0.151,
+      "factor_kgco2_kwh": 0.151,
+      "factor_gco2_kwh": 151.0
+    }
+  ],
+  "estadisticas": {
+    "periodo": "2010-2018",
+    "factor_minimo": {
+      "año": 2018,
+      "valor": 0.151,
+      "unidad": "tCO2/MWh"
+    },
+    "factor_maximo": {
+      "año": 2010,
+      "valor": 0.240,
+      "unidad": "tCO2/MWh"
+    },
+    "factor_promedio": 0.208,
+    "reduccion_porcentual": -37.08,
+    "tendencia": "decreciente"
+  },
+  "conversiones": {
+    "nota": "Factores disponibles en tres unidades equivalentes",
+    "equivalencias": {
+      "1_tco2_mwh": "1 kg CO2/kWh",
+      "1_kgco2_kwh": "1000 g CO2/kWh",
+      "ejemplo": "0.240 tCO2/MWh = 0.240 kg CO2/kWh = 240 g CO2/kWh"
+    }
+  },
+  "actualizacion": {
+    "ultima_actualizacion": "2019",
+    "proxima_actualizacion_recomendada": "Consultar MINEM para datos 2019-2024",
+    "url_minem": "https://www.gob.pe/minem",
+    "contacto_dgee": "Dirección General de Eficiencia Energética - MINEM"
+  },
+  "referencias": [
+    "Protocolo MRV FICEM-ASOCEM Perú 2025",
+    "Hoja de Cálculo Protocolo MRV PRODUCE",
+    "Comunicación oficial DGEE-MINEM 2019"
+  ]
+}

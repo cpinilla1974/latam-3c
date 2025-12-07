@@ -1,0 +1,267 @@
+{
+  "archivo": "ACME_Colombia_2024_P001.xlsx",
+  "empresa_uuid": "uuid-acme-12345",
+  "periodo": 2024,
+  "hoja_empresa": {
+    "nombre_empresa": "ACME Cementos S.A.",
+    "pais": "Colombia",
+    "responsable": "Ana García",
+    "email": "agarcia@acme.com",
+    "telefono": "+57 1 234 5678"
+  },
+  "hoja_planta": {
+    "id_planta": "P001",
+    "nombre": "Planta Norte",
+    "ubicacion": "Bogotá, Cundinamarca",
+    "latitud": 4.7110,
+    "longitud": -74.0721,
+    "tipo_planta": "Integrada",
+    "capacidad_clinker_ton_año": 1200000,
+    "capacidad_cemento_ton_año": 1500000,
+    "archivo_gcca": "GCCA_P001_2024.xlsx"
+  },
+  "hoja_clinker": {
+    "identificacion": {
+      "produccion_clinker_anual_ton": 1200000,
+      "emisiones_proceso_tco2": 780000
+    },
+    "minerales": [
+      {
+        "material": "Caliza",
+        "cantidad_ton": 1800000,
+        "origen": "Cantera propia",
+        "dist_camion_km": 0,
+        "dist_tren_km": 0,
+        "dist_barco_km": 0,
+        "dist_banda_km": 5
+      },
+      {
+        "material": "Arcilla",
+        "cantidad_ton": 200000,
+        "origen": "Cantera local",
+        "dist_camion_km": 25,
+        "dist_tren_km": 0,
+        "dist_barco_km": 0,
+        "dist_banda_km": 0
+      },
+      {
+        "material": "Mineral_Hierro",
+        "cantidad_ton": 18000,
+        "origen": "Proveedor Nacional",
+        "dist_camion_km": 150,
+        "dist_tren_km": 0,
+        "dist_barco_km": 0,
+        "dist_banda_km": 0
+      },
+      {
+        "material": "Arena_Sílice",
+        "cantidad_ton": 12000,
+        "origen": "Cantera regional",
+        "dist_camion_km": 0,
+        "dist_tren_km": 80,
+        "dist_barco_km": 0,
+        "dist_banda_km": 0
+      },
+      {
+        "material": "Yeso",
+        "cantidad_ton": 40000,
+        "origen": "Importado",
+        "dist_camion_km": 35,
+        "dist_tren_km": 0,
+        "dist_barco_km": 500,
+        "dist_banda_km": 0
+      }
+    ],
+    "combustibles_horno_referencia": "[Axioma A001] - Datos tomados de GCCA_P001_2024.xlsx",
+    "energia_electrica": [
+      {
+        "tipo_energia": "Red_Nacional",
+        "cantidad_kwh": 45000000,
+        "factor_emision_kgco2_kwh": 0.126,
+        "fuente": "Sistema Interconectado Nacional"
+      },
+      {
+        "tipo_energia": "Solar_Propia",
+        "cantidad_kwh": 5000000,
+        "factor_emision_kgco2_kwh": 0.000,
+        "fuente": "Paneles fotovoltaicos"
+      }
+    ]
+  },
+  "hojas_cemento": [
+    {
+      "tipo": "CEMENTO_CPC30R_P001",
+      "identificacion": {
+        "tipo_cemento": "CPC 30R",
+        "nombre_comercial": "Cemento Estructural",
+        "resistencia_28d_mpa": 30,
+        "resistencia_28d_psi": 4350,
+        "norma_tecnica": "NTC 121",
+        "produccion_anual_ton": 650000
+      },
+      "composicion": [
+        {
+          "id_material": "CLK_01",
+          "material": "Clinker",
+          "proveedor": "Producción propia",
+          "cantidad_ton": 552500,
+          "dist_camion_km": 0,
+          "dist_tren_km": 0,
+          "dist_barco_km": 0,
+          "dist_banda_km": 0
+        },
+        {
+          "id_material": "ESC_01",
+          "material": "Escoria",
+          "proveedor": "Siderúrgica Nacional",
+          "cantidad_ton": 65000,
+          "dist_camion_km": 200,
+          "dist_tren_km": 0,
+          "dist_barco_km": 0,
+          "dist_banda_km": 0
+        },
+        {
+          "id_material": "CAL_01",
+          "material": "Caliza",
+          "proveedor": "Cantera propia",
+          "cantidad_ton": 26000,
+          "dist_camion_km": 0,
+          "dist_tren_km": 0,
+          "dist_barco_km": 0,
+          "dist_banda_km": 5
+        },
+        {
+          "id_material": "YES_01",
+          "material": "Yeso",
+          "proveedor": "Stock",
+          "cantidad_ton": 6500,
+          "dist_camion_km": 0,
+          "dist_tren_km": 0,
+          "dist_barco_km": 0,
+          "dist_banda_km": 0
+        }
+      ],
+      "molienda_combustibles": {
+        "electricidad_red_kwh": 26000000,
+        "electricidad_renovable_kwh": 1300000,
+        "combustibles_fuera_horno_referencia": "[Axioma A002] - Datos tomados de GCCA_P001_2024.xlsx"
+      }
+    },
+    {
+      "tipo": "CEMENTO_CPO40_P001",
+      "identificacion": {
+        "tipo_cemento": "CPO 40",
+        "nombre_comercial": "Cemento Alta Resistencia",
+        "resistencia_28d_mpa": 40,
+        "resistencia_28d_psi": 5800,
+        "norma_tecnica": "NTC 30",
+        "produccion_anual_ton": 420000
+      },
+      "composicion": [
+        {
+          "id_material": "CLK_01",
+          "material": "Clinker",
+          "proveedor": "Producción propia",
+          "cantidad_ton": 357000,
+          "dist_camion_km": 0,
+          "dist_tren_km": 0,
+          "dist_barco_km": 0,
+          "dist_banda_km": 0
+        },
+        {
+          "id_material": "CLK_02",
+          "material": "Clinker",
+          "proveedor": "Importado Vietnam",
+          "cantidad_ton": 42000,
+          "dist_camion_km": 25,
+          "dist_tren_km": 0,
+          "dist_barco_km": 15000,
+          "dist_banda_km": 0
+        },
+        {
+          "id_material": "CAL_01",
+          "material": "Caliza",
+          "proveedor": "Cantera propia",
+          "cantidad_ton": 16800,
+          "dist_camion_km": 0,
+          "dist_tren_km": 0,
+          "dist_barco_km": 0,
+          "dist_banda_km": 5
+        },
+        {
+          "id_material": "YES_01",
+          "material": "Yeso",
+          "proveedor": "Stock",
+          "cantidad_ton": 4200,
+          "dist_camion_km": 0,
+          "dist_tren_km": 0,
+          "dist_barco_km": 0,
+          "dist_banda_km": 0
+        }
+      ],
+      "molienda_combustibles": {
+        "electricidad_red_kwh": 18900000,
+        "electricidad_renovable_kwh": 0,
+        "combustibles_fuera_horno_referencia": "[Axioma A002] - Datos tomados de GCCA_P001_2024.xlsx"
+      }
+    },
+    {
+      "tipo": "CEMENTO_PUZO_P001",
+      "identificacion": {
+        "tipo_cemento": "Cemento Puzolánico",
+        "nombre_comercial": "EcoCem Norte",
+        "resistencia_28d_mpa": 25,
+        "resistencia_28d_psi": 3625,
+        "norma_tecnica": "NTC 1362",
+        "produccion_anual_ton": 180000
+      },
+      "composicion": [
+        {
+          "id_material": "CLK_01",
+          "material": "Clinker",
+          "proveedor": "Producción propia",
+          "cantidad_ton": 108000,
+          "dist_camion_km": 0,
+          "dist_tren_km": 0,
+          "dist_barco_km": 0,
+          "dist_banda_km": 0
+        },
+        {
+          "id_material": "PUZ_01",
+          "material": "Ceniza Volante",
+          "proveedor": "Termoeléctrica Nacional",
+          "cantidad_ton": 54000,
+          "dist_camion_km": 0,
+          "dist_tren_km": 300,
+          "dist_barco_km": 0,
+          "dist_banda_km": 0
+        },
+        {
+          "id_material": "CAL_01",
+          "material": "Caliza",
+          "proveedor": "Cantera propia",
+          "cantidad_ton": 16200,
+          "dist_camion_km": 0,
+          "dist_tren_km": 0,
+          "dist_barco_km": 0,
+          "dist_banda_km": 5
+        },
+        {
+          "id_material": "YES_01",
+          "material": "Yeso",
+          "proveedor": "Stock",
+          "cantidad_ton": 1800,
+          "dist_camion_km": 0,
+          "dist_tren_km": 0,
+          "dist_barco_km": 0,
+          "dist_banda_km": 0
+        }
+      ],
+      "molienda_combustibles": {
+        "electricidad_red_kwh": 9000000,
+        "electricidad_renovable_kwh": 0,
+        "combustibles_fuera_horno_referencia": "[Axioma A002] - Datos tomados de GCCA_P001_2024.xlsx"
+      }
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "archivo": "GCCA_P001_2024.xlsx",
+  "empresa_uuid": "uuid-acme-12345",
+  "planta": {
+    "id_planta": 1,
+    "codigo_planta": "P001",
+    "nombre": "Planta Norte",
+    "tipo": "integrada"
+  },
+  "periodo": 2024,
+  "datos": {
+    "combustibles": [
+      {
+        "codigo_indicador": "3001",
+        "nombre": "Carbón",
+        "valor": 150000,
+        "unidad": "ton/año"
+      },
+      {
+        "codigo_indicador": "3002",
+        "nombre": "Pet Coke",
+        "valor": 35000,
+        "unidad": "ton/año"
+      },
+      {
+        "codigo_indicador": "3003",
+        "nombre": "Gas Natural",
+        "valor": 8500000,
+        "unidad": "m³/año"
+      },
+      {
+        "codigo_indicador": "3004",
+        "nombre": "Biomasa",
+        "valor": 12000,
+        "unidad": "ton/año"
+      }
+    ],
+    "energia_electrica": [
+      {
+        "codigo_indicador": "4001",
+        "nombre": "Electricidad Red",
+        "valor": 95000000,
+        "unidad": "kWh/año",
+        "factor_emision": 0.126
+      },
+      {
+        "codigo_indicador": "4002",
+        "nombre": "Electricidad Solar",
+        "valor": 5000000,
+        "unidad": "kWh/año",
+        "factor_emision": 0.0
+      }
+    ],
+    "produccion": [
+      {
+        "codigo_indicador": "8",
+        "nombre": "Clinker Total Producido",
+        "valor": 1800000,
+        "unidad": "ton/año"
+      }
+    ],
+    "emisiones_proceso": [
+      {
+        "codigo_indicador": "5001",
+        "nombre": "CO2 Descarbonatación",
+        "valor": 945000,
+        "unidad": "ton CO2/año"
+      }
+    ]
+  }
+}

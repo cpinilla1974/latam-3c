@@ -1,0 +1,206 @@
+{
+  "archivo": "ACME_Colombia_2024_Concreto.xlsx",
+  "empresa_uuid": "uuid-acme-12345",
+  "periodo": 2024,
+  "hoja_empresa": {
+    "nombre_empresa": "ACME Cementos S.A.",
+    "pais": "Colombia",
+    "responsable": "Carlos Mendoza",
+    "email": "cmendoza@acme.com"
+  },
+  "hoja_produccion": [
+    {
+      "categoria": "Estructural",
+      "tipo_concreto": "Convencional",
+      "resistencia": "f'c 210",
+      "volumen_m3_anual": 85000
+    },
+    {
+      "categoria": "Estructural",
+      "tipo_concreto": "Convencional",
+      "resistencia": "f'c 250",
+      "volumen_m3_anual": 120000
+    },
+    {
+      "categoria": "Estructural",
+      "tipo_concreto": "Convencional",
+      "resistencia": "f'c 280",
+      "volumen_m3_anual": 95000
+    },
+    {
+      "categoria": "Alta_Resistencia",
+      "tipo_concreto": "Premium",
+      "resistencia": "f'c 350",
+      "volumen_m3_anual": 35000
+    },
+    {
+      "categoria": "Especiales",
+      "tipo_concreto": "Autocompactante",
+      "resistencia": "-",
+      "volumen_m3_anual": 12000
+    }
+  ],
+  "hoja_mezclas": [
+    {
+      "id_mezcla": "MZ_210",
+      "resistencia": "f'c 210",
+      "cemento_kg_m3": 280,
+      "tipo_cemento": "CPC 30R",
+      "arena_kg_m3": 850,
+      "grava_kg_m3": 950,
+      "agua_l_m3": 165,
+      "aditivo_principal_l_m3": 2.8
+    },
+    {
+      "id_mezcla": "MZ_250",
+      "resistencia": "f'c 250",
+      "cemento_kg_m3": 320,
+      "tipo_cemento": "CPC 30R",
+      "arena_kg_m3": 820,
+      "grava_kg_m3": 980,
+      "agua_l_m3": 170,
+      "aditivo_principal_l_m3": 3.2
+    },
+    {
+      "id_mezcla": "MZ_280",
+      "resistencia": "f'c 280",
+      "cemento_kg_m3": 360,
+      "tipo_cemento": "CPC 30R",
+      "arena_kg_m3": 800,
+      "grava_kg_m3": 990,
+      "agua_l_m3": 168,
+      "aditivo_principal_l_m3": 3.8
+    },
+    {
+      "id_mezcla": "MZ_350",
+      "resistencia": "f'c 350",
+      "cemento_kg_m3": 420,
+      "tipo_cemento": "CPO 40",
+      "arena_kg_m3": 780,
+      "grava_kg_m3": 1020,
+      "agua_l_m3": 160,
+      "aditivo_principal_l_m3": 5.0
+    },
+    {
+      "id_mezcla": "MZ_AUTO",
+      "resistencia": "Autocompactante",
+      "cemento_kg_m3": 380,
+      "tipo_cemento": "CPO 40",
+      "arena_kg_m3": 900,
+      "grava_kg_m3": 850,
+      "agua_l_m3": 180,
+      "aditivo_principal_l_m3": 8.5
+    }
+  ],
+  "hoja_agregados": [
+    {
+      "material": "Arena",
+      "tipo": "Río",
+      "proveedor": "Arenera del Valle",
+      "cantidad_ton_anual": 280000,
+      "distancia_km": 35,
+      "modo_transporte": "Camión"
+    },
+    {
+      "material": "Arena",
+      "tipo": "Triturada",
+      "proveedor": "Cantera Norte",
+      "cantidad_ton_anual": 45000,
+      "distancia_km": 25,
+      "modo_transporte": "Camión"
+    },
+    {
+      "material": "Grava",
+      "tipo": "3/4\"",
+      "proveedor": "Cantera Norte",
+      "cantidad_ton_anual": 220000,
+      "distancia_km": 25,
+      "modo_transporte": "Camión"
+    },
+    {
+      "material": "Grava",
+      "tipo": "1/2\"",
+      "proveedor": "Cantera Sur",
+      "cantidad_ton_anual": 120000,
+      "distancia_km": 40,
+      "modo_transporte": "Camión"
+    }
+  ],
+  "hoja_aditivos": [
+    {
+      "tipo_aditivo": "Plastificante",
+      "funcion": "Reductor de agua",
+      "marca": "MasterGlenium",
+      "proveedor": "BASF",
+      "cantidad_l_anual": 950000,
+      "distancia_km": 100,
+      "modo_transporte": "Camión"
+    },
+    {
+      "tipo_aditivo": "Superplastificante",
+      "funcion": "Alto rango",
+      "marca": "Sikament",
+      "proveedor": "Sika",
+      "cantidad_l_anual": 175000,
+      "distancia_km": 150,
+      "modo_transporte": "Camión"
+    },
+    {
+      "tipo_aditivo": "Retardante",
+      "funcion": "Control fraguado",
+      "marca": "Plastocrete",
+      "proveedor": "Sika",
+      "cantidad_l_anual": 85000,
+      "distancia_km": 150,
+      "modo_transporte": "Camión"
+    }
+  ],
+  "hoja_energia_agua": {
+    "electricidad": [
+      {
+        "concepto": "Plantas_Mezclado",
+        "cantidad_anual": 2800000,
+        "unidad": "kWh",
+        "origen": "Red nacional"
+      },
+      {
+        "concepto": "Plantas_Bombeo",
+        "cantidad_anual": 450000,
+        "unidad": "kWh",
+        "origen": "Red nacional"
+      }
+    ],
+    "combustibles": [
+      {
+        "concepto": "Diesel_Mixers",
+        "cantidad_anual": 680000,
+        "unidad": "L",
+        "uso": "Flota propia 85 unidades"
+      },
+      {
+        "concepto": "Diesel_Bombas",
+        "cantidad_anual": 95000,
+        "unidad": "L",
+        "uso": "Equipos bombeo"
+      }
+    ],
+    "agua": [
+      {
+        "concepto": "Agua_Mezcla",
+        "cantidad_anual": 60000,
+        "unidad": "m³",
+        "origen": "70% red, 30% pozo"
+      },
+      {
+        "concepto": "Agua_Lavado",
+        "cantidad_anual": 12000,
+        "unidad": "m³",
+        "origen": "60% reciclada"
+      }
+    ]
+  },
+  "_notas": {
+    "plantas_concreto": "4 plantas que no se detallan individualmente",
+    "uso_cemento": "PC01 y PC04 usan CPC 30R, PC02 usa ambos, PC03 usa CPO 40"
+  }
+}

@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis de Emisiones CO2 - Cadena Cemento-Concreto</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a5f7a 0%, #159895 50%, #57c5b6 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .header h1 {
+            color: #1a5f7a;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .header .date {
+            color: #159895;
+            font-weight: bold;
+        }
+
+        /* KPI Cards */
+        .kpi-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .kpi-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .kpi-card .value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #1a5f7a;
+        }
+
+        .kpi-card .label {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .kpi-card .diff {
+            font-size: 0.85em;
+            margin-top: 8px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .kpi-card .diff.positive {
+            background: #ffe6e6;
+            color: #e74c3c;
+        }
+
+        .kpi-card .diff.negative {
+            background: #e6ffe6;
+            color: #27ae60;
+        }
+
+        /* Chart Grid */
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .chart-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .chart-card h3 {
+            color: #1a5f7a;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            border-bottom: 2px solid #57c5b6;
+            padding-bottom: 10px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+
+        /* Full Width Section */
+        .full-width {
+            grid-column: span 2;
+        }
+
+        /* Score Section */
+        .score-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .score-section h3 {
+            color: #1a5f7a;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .score-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .score-label {
+            width: 150px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .score-track {
+            flex: 1;
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 0 15px;
+        }
+
+        .score-fill {
+            height: 100%;
+            border-radius: 15px;
+            transition: width 1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .score-fill.critical { background: linear-gradient(90deg, #e74c3c, #c0392b); }
+        .score-fill.moderate { background: linear-gradient(90deg, #f39c12, #e67e22); }
+        .score-fill.good { background: linear-gradient(90deg, #27ae60, #2ecc71); }
+
+        /* Chain Diagram */
+        .chain-diagram {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .chain-diagram h3 {
+            color: #1a5f7a;
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 1.3em;
+        }
+
+        .chain-flow {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .chain-step {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-radius: 15px;
+            min-width: 150px;
+            position: relative;
+        }
+
+        .chain-step .icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .chain-step .value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #1a5f7a;
+        }
+
+        .chain-step .unit {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .chain-arrow {
+            font-size: 2em;
+            color: #159895;
+            padding: 0 10px;
+        }
+
+        /* Recommendations */
+        .recommendations {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .recommendations h3 {
+            color: #1a5f7a;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .rec-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .rec-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-radius: 10px;
+            border-left: 4px solid #159895;
+        }
+
+        .rec-item .number {
+            width: 40px;
+            height: 40px;
+            background: #1a5f7a;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .rec-item .text {
+            flex: 1;
+        }
+
+        .rec-item .text strong {
+            display: block;
+            color: #1a5f7a;
+            margin-bottom: 3px;
+        }
+
+        .rec-item .text span {
+            font-size: 0.85em;
+            color: #666;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .kpi-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .kpi-row, .chart-grid, .rec-grid {
+                grid-template-columns: 1fr;
+            }
+            .full-width {
+                grid-column: span 1;
+            }
+            .chain-flow {
+                flex-direction: column;
+            }
+            .chain-arrow {
+                transform: rotate(90deg);
+                padding: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Análisis de Emisiones CO2</h1>
+            <div class="subtitle">Cadena Cemento-Concreto LATAM</div>
+            <div class="date">Estudio Potenciado con Inteligencia Artificial | Diciembre 2025</div>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="kpi-row">
+            <div class="kpi-card">
+                <div class="value">875</div>
+                <div class="label">kg CO2/t Clínker</div>
+                <div class="diff positive">+10.3% vs Global</div>
+            </div>
+            <div class="kpi-card">
+                <div class="value">0.72</div>
+                <div class="label">Factor Clínker Promedio</div>
+                <div class="diff negative">-7.7% vs Global</div>
+            </div>
+            <div class="kpi-card">
+                <div class="value">189</div>
+                <div class="label">kg CO2/m³ Concreto</div>
+                <div class="diff positive">+5.0% vs Global</div>
+            </div>
+            <div class="kpi-card">
+                <div class="value">57</div>
+                <div class="label">Score Sostenibilidad</div>
+                <div class="diff" style="background: #fff3cd; color: #856404;">Moderado</div>
+            </div>
+        </div>
+
+        <!-- Score de Sostenibilidad -->
+        <div class="score-section">
+            <h3>Score de Sostenibilidad por Operación</h3>
+            <div class="score-bar">
+                <div class="score-label">PACAS (Perú)</div>
+                <div class="score-track">
+                    <div class="score-fill critical" style="width: 40%;">40/100</div>
+                </div>
+            </div>
+            <div class="score-bar">
+                <div class="score-label">MZMA (México)</div>
+                <div class="score-track">
+                    <div class="score-fill moderate" style="width: 60%;">60/100</div>
+                </div>
+            </div>
+            <div class="score-bar">
+                <div class="score-label">YURA (Perú)</div>
+                <div class="score-track">
+                    <div class="score-fill good" style="width: 70%;">70/100</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="chart-grid">
+            <!-- Emisiones por Tipo de Cemento -->
+            <div class="chart-card">
+                <h3>Emisiones CO2 por Tipo de Cemento</h3>
+                <div class="chart-container">
+                    <canvas id="chartCement"></canvas>
+                </div>
+            </div>
+
+            <!-- Resistencia vs Emisiones -->
+            <div class="chart-card">
+                <h3>Resistencia vs Emisiones CO2</h3>
+                <div class="chart-container">
+                    <canvas id="chartResistance"></canvas>
+                </div>
+            </div>
+
+            <!-- Benchmarking Internacional -->
+            <div class="chart-card">
+                <h3>Benchmarking Internacional - CO2 Clínker</h3>
+                <div class="chart-container">
+                    <canvas id="chartBenchmark"></canvas>
+                </div>
+            </div>
+
+            <!-- Tendencias Históricas -->
+            <div class="chart-card">
+                <h3>Tendencias Históricas GCCA (2010-2021)</h3>
+                <div class="chart-container">
+                    <canvas id="chartTrend"></canvas>
+                </div>
+            </div>
+
+            <!-- Distribución de Resistencias -->
+            <div class="chart-card">
+                <h3>Distribución de Resistencias Demandadas</h3>
+                <div class="chart-container">
+                    <canvas id="chartDistribution"></canvas>
+                </div>
+            </div>
+
+            <!-- Factor Clínker por Tipo -->
+            <div class="chart-card">
+                <h3>Factor Clínker por Tipo de Cemento</h3>
+                <div class="chart-container">
+                    <canvas id="chartClinker"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cadena de Emisiones -->
+        <div class="chain-diagram">
+            <h3>Cadena de Emisiones CO2: Clínker → Cemento → Concreto</h3>
+            <div class="chain-flow">
+                <div class="chain-step">
+                    <div class="icon">🏭</div>
+                    <div class="value">875</div>
+                    <div class="unit">kg CO2/t Clínker</div>
+                </div>
+                <div class="chain-arrow">→</div>
+                <div class="chain-step">
+                    <div class="icon">×</div>
+                    <div class="value">0.72</div>
+                    <div class="unit">Factor Clínker</div>
+                </div>
+                <div class="chain-arrow">→</div>
+                <div class="chain-step">
+                    <div class="icon">🧱</div>
+                    <div class="value">630</div>
+                    <div class="unit">kg CO2/t Cemento</div>
+                </div>
+                <div class="chain-arrow">→</div>
+                <div class="chain-step">
+                    <div class="icon">×</div>
+                    <div class="value">320</div>
+                    <div class="unit">kg Cemento/m³</div>
+                </div>
+                <div class="chain-arrow">→</div>
+                <div class="chain-step" style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9);">
+                    <div class="icon">🏗️</div>
+                    <div class="value">189</div>
+                    <div class="unit">kg CO2/m³ Concreto</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recomendaciones -->
+        <div class="recommendations">
+            <h3>Recomendaciones Priorizadas</h3>
+            <div class="rec-grid">
+                <div class="rec-item">
+                    <div class="number">1</div>
+                    <div class="text">
+                        <strong>Aumentar uso de cementos IP/compuestos</strong>
+                        <span>Reducción: 80-120 kg CO2/t | Inversión: Baja | Plazo: Corto</span>
+                    </div>
+                </div>
+                <div class="rec-item">
+                    <div class="number">2</div>
+                    <div class="text">
+                        <strong>Optimizar hornos PACAS</strong>
+                        <span>Reducción: 50-80 kg CO2/t | Inversión: Alta | Plazo: Mediano</span>
+                    </div>
+                </div>
+                <div class="rec-item">
+                    <div class="number">3</div>
+                    <div class="text">
+                        <strong>Combustibles alternativos</strong>
+                        <span>Reducción: 30-50 kg CO2/t | Inversión: Media | Plazo: Mediano</span>
+                    </div>
+                </div>
+                <div class="rec-item">
+                    <div class="number">4</div>
+                    <div class="text">
+                        <strong>Captura de carbono (CCUS)</strong>
+                        <span>Reducción: 200+ kg CO2/t | Inversión: Muy alta | Plazo: Largo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Análisis generado mediante técnicas de minería de datos, correlación estadística y modelado predictivo.</p>
+            <p>Datos procesados: ~450,000+ despachos de concreto | Fecha: Diciembre 2025</p>
+        </div>
+    </div>
+
+    <script>
+        // Colores
+        const colors = {
+            primary: '#1a5f7a',
+            secondary: '#57c5b6',
+            accent: '#159895',
+            warning: '#e74c3c',
+            success: '#27ae60',
+            gradients: [
+                'rgba(26, 95, 122, 0.8)',
+                'rgba(21, 152, 149, 0.8)',
+                'rgba(87, 197, 182, 0.8)',
+                'rgba(240, 249, 255, 0.8)'
+            ]
+        };
+
+        // Gráfico: Emisiones por Tipo de Cemento
+        new Chart(document.getElementById('chartCement'), {
+            type: 'bar',
+            data: {
+                labels: ['Fortimax MS', 'Mortero', 'Extraforte', 'IL', 'Tipo V', 'CPC30R', 'Tipo I', 'Tipo HE', 'I Plus', 'CPC 40'],
+                datasets: [{
+                    label: 'kg CO2/t Cemento',
+                    data: [327, 391, 478, 640, 648, 669, 685, 711, 774, 855],
+                    backgroundColor: [
+                        '#27ae60', '#27ae60', '#2ecc71',
+                        '#f1c40f', '#f1c40f', '#f1c40f',
+                        '#e67e22', '#e67e22', '#e67e22',
+                        '#e74c3c'
+                    ],
+                    borderColor: colors.primary,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 900,
+                        title: { display: true, text: 'kg CO2/t' }
+                    }
+                }
+            }
+        });
+
+        // Gráfico: Resistencia vs Emisiones
+        new Chart(document.getElementById('chartResistance'), {
+            type: 'line',
+            data: {
+                labels: ['70', '100', '140', '175', '210', '245', '280', '315', '350', '450'],
+                datasets: [{
+                    label: 'CO2 kg/m³',
+                    data: [95.9, 149.3, 138.4, 144.4, 155.1, 180.5, 213.8, 273.2, 324.0, 326.7],
+                    borderColor: colors.primary,
+                    backgroundColor: 'rgba(26, 95, 122, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 6,
+                    pointBackgroundColor: colors.accent
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: { title: { display: true, text: 'Resistencia (kg/cm²)' } },
+                    y: { title: { display: true, text: 'CO2 (kg/m³)' }, beginAtZero: true }
+                }
+            }
+        });
+
+        // Gráfico: Benchmarking Internacional
+        new Chart(document.getElementById('chartBenchmark'), {
+            type: 'bar',
+            data: {
+                labels: ['Austria', 'Alemania', 'Francia', 'GCCA', 'España', 'Brasil', 'MZMA', 'Canadá', 'PACAS'],
+                datasets: [{
+                    label: 'kg CO2/t Clínker',
+                    data: [639, 701, 774, 793, 798, 826, 831, 840, 919],
+                    backgroundColor: [
+                        '#27ae60', '#2ecc71', '#82e0aa',
+                        '#f4d03f',
+                        '#f5b041', '#eb984e',
+                        '#e74c3c', '#c0392b', '#922b21'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    annotation: {
+                        annotations: {
+                            line1: {
+                                type: 'line',
+                                yMin: 793,
+                                yMax: 793,
+                                borderColor: '#333',
+                                borderWidth: 2,
+                                borderDash: [5, 5]
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: { beginAtZero: false, min: 600, max: 950 }
+                }
+            }
+        });
+
+        // Gráfico: Tendencias Históricas
+        new Chart(document.getElementById('chartTrend'), {
+            type: 'line',
+            data: {
+                labels: ['2010', '2012', '2014', '2016', '2018', '2020', '2021'],
+                datasets: [{
+                    label: 'CO2 Clínker (kg/t)',
+                    data: [799, 784, 776, 777, 766, 755, 749],
+                    borderColor: colors.primary,
+                    backgroundColor: 'rgba(26, 95, 122, 0.2)',
+                    fill: true,
+                    tension: 0.3
+                }, {
+                    label: 'Factor Clínker (%)',
+                    data: [78.0, 77.7, 77.9, 78.2, 78.3, 78.5, 77.9],
+                    borderColor: colors.accent,
+                    borderDash: [5, 5],
+                    fill: false,
+                    yAxisID: 'y1'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        type: 'linear',
+                        position: 'left',
+                        title: { display: true, text: 'CO2 (kg/t)' },
+                        min: 700,
+                        max: 820
+                    },
+                    y1: {
+                        type: 'linear',
+                        position: 'right',
+                        title: { display: true, text: 'Factor Clínker (%)' },
+                        min: 75,
+                        max: 82,
+                        grid: { drawOnChartArea: false }
+                    }
+                }
+            }
+        });
+
+        // Gráfico: Distribución de Resistencias
+        new Chart(document.getElementById('chartDistribution'), {
+            type: 'doughnut',
+            data: {
+                labels: ['280 kg/cm² (40.5%)', '210 kg/cm² (39.1%)', '175 kg/cm² (16.1%)', '350 kg/cm² (3.1%)', 'Otras (1.2%)'],
+                datasets: [{
+                    data: [40.5, 39.1, 16.1, 3.1, 1.2],
+                    backgroundColor: [
+                        colors.primary,
+                        colors.accent,
+                        colors.secondary,
+                        '#f39c12',
+                        '#95a5a6'
+                    ],
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: { font: { size: 11 } }
+                    }
+                }
+            }
+        });
+
+        // Gráfico: Factor Clínker por Tipo
+        new Chart(document.getElementById('chartClinker'), {
+            type: 'radar',
+            data: {
+                labels: ['Tipo I', 'Tipo IP', 'Tipo HE', 'Tipo V', 'CPC30R', 'CPC40'],
+                datasets: [{
+                    label: 'Factor Clínker',
+                    data: [0.92, 0.70, 0.84, 0.94, 0.70, 0.85],
+                    backgroundColor: 'rgba(26, 95, 122, 0.2)',
+                    borderColor: colors.primary,
+                    pointBackgroundColor: colors.accent,
+                    pointRadius: 5
+                }, {
+                    label: 'Benchmark (0.78)',
+                    data: [0.78, 0.78, 0.78, 0.78, 0.78, 0.78],
+                    backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                    borderColor: '#e74c3c',
+                    borderDash: [5, 5],
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 1,
+                        ticks: { stepSize: 0.2 }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

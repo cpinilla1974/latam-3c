@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis de Calidad de Datos - LATAM 3C | Diagnóstico IA</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #22d3ee;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --bg-card-hover: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-ai: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(34, 211, 238, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(240, 147, 251, 0.08) 0%, transparent 40%);
+            animation: bgMove 20s ease-in-out infinite;
+        }
+
+        @keyframes bgMove {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-5%, -5%); }
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 3rem 2rem;
+            position: relative;
+        }
+
+        .ai-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--gradient-ai);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .ai-badge svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.5); }
+            50% { box-shadow: 0 0 20px 10px rgba(99, 102, 241, 0); }
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem 3rem;
+        }
+
+        /* Score Section */
+        .score-section {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .main-score {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-score::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-3);
+        }
+
+        .score-circle {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin-bottom: 1.5rem;
+        }
+
+        .score-circle svg {
+            transform: rotate(-90deg);
+        }
+
+        .score-circle circle {
+            fill: none;
+            stroke-width: 12;
+        }
+
+        .score-bg {
+            stroke: var(--bg-dark);
+        }
+
+        .score-progress {
+            stroke: url(#scoreGradient);
+            stroke-linecap: round;
+            stroke-dasharray: 502;
+            stroke-dashoffset: 168;
+            animation: scoreAnim 2s ease-out forwards;
+        }
+
+        @keyframes scoreAnim {
+            from { stroke-dashoffset: 502; }
+            to { stroke-dashoffset: 168; }
+        }
+
+        .score-value {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .score-value .number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: var(--gradient-3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .score-value .label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .score-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(245, 158, 11, 0.2);
+            border-radius: 50px;
+            color: var(--warning);
+            font-weight: 600;
+        }
+
+        /* Quick Stats */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            background: var(--bg-card-hover);
+        }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .stat-icon.blue { background: rgba(99, 102, 241, 0.2); }
+        .stat-icon.green { background: rgba(16, 185, 129, 0.2); }
+        .stat-icon.yellow { background: rgba(245, 158, 11, 0.2); }
+        .stat-icon.red { background: rgba(239, 68, 68, 0.2); }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Databases Section */
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title span {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .databases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .db-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .db-card:hover {
+            transform: scale(1.02);
+        }
+
+        .db-card.critical {
+            border: 2px solid var(--danger);
+        }
+
+        .db-card.warning {
+            border: 2px solid var(--warning);
+        }
+
+        .db-card.good {
+            border: 2px solid var(--success);
+        }
+
+        .db-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .db-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .db-country {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .db-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .db-badge.critical {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+        }
+
+        .db-badge.warning {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+        }
+
+        .db-badge.good {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+
+        .db-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .db-stat {
+            text-align: center;
+            padding: 0.75rem;
+            background: var(--bg-dark);
+            border-radius: 10px;
+        }
+
+        .db-stat-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        .db-stat-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        .db-progress {
+            height: 8px;
+            background: var(--bg-dark);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .db-progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+
+        /* Anomalies Section */
+        .anomalies-section {
+            margin-bottom: 3rem;
+        }
+
+        .anomaly-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .anomaly-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border-left: 4px solid;
+        }
+
+        .anomaly-card.critical { border-color: var(--danger); }
+        .anomaly-card.warning { border-color: var(--warning); }
+        .anomaly-card.info { border-color: var(--primary); }
+
+        .anomaly-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .anomaly-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .anomaly-card.critical .anomaly-icon { background: rgba(239, 68, 68, 0.2); }
+        .anomaly-card.warning .anomaly-icon { background: rgba(245, 158, 11, 0.2); }
+        .anomaly-card.info .anomaly-icon { background: rgba(99, 102, 241, 0.2); }
+
+        .anomaly-title {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .anomaly-count {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .anomaly-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Charts Section */
+        .charts-section {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .chart-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 1.5rem;
+        }
+
+        .chart-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 250px;
+        }
+
+        /* Recommendations */
+        .recommendations-section {
+            margin-bottom: 3rem;
+        }
+
+        .rec-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .rec-item {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .rec-item:hover {
+            background: var(--bg-card-hover);
+            transform: translateX(10px);
+        }
+
+        .rec-priority {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .rec-priority.high {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+        }
+
+        .rec-priority.medium {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+        }
+
+        .rec-priority.low {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+
+        .rec-content h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .rec-content p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .rec-impact {
+            margin-left: auto;
+            padding: 0.5rem 1rem;
+            background: var(--bg-dark);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            color: var(--secondary);
+            white-space: nowrap;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--bg-card);
+        }
+
+        .footer .ai-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg-card);
+            border-radius: 50px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .score-section {
+                grid-template-columns: 1fr;
+            }
+            .charts-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.75rem;
+            }
+            .quick-stats {
+                grid-template-columns: 1fr;
+            }
+            .rec-item {
+                flex-direction: column;
+            }
+            .rec-impact {
+                margin-left: 0;
+                margin-top: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <header class="header">
+        <div class="ai-badge">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            Análisis Potenciado con IA
+        </div>
+        <h1>🔬 Diagnóstico de Calidad de Datos</h1>
+        <p>LATAM 3C - Consolidación de Bases de Datos Cementeras</p>
+    </header>
+
+    <main class="container">
+        <!-- Score Section -->
+        <section class="score-section">
+            <div class="main-score">
+                <div class="score-circle">
+                    <svg width="180" height="180" viewBox="0 0 180 180">
+                        <defs>
+                            <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#4facfe"/>
+                                <stop offset="100%" style="stop-color:#00f2fe"/>
+                            </linearGradient>
+                        </defs>
+                        <circle class="score-bg" cx="90" cy="90" r="80"/>
+                        <circle class="score-progress" cx="90" cy="90" r="80"/>
+                    </svg>
+                    <div class="score-value">
+                        <div class="number">67%</div>
+                        <div class="label">Calidad Global</div>
+                    </div>
+                </div>
+                <div class="score-status">
+                    <span>⚠️</span> Calidad Moderada - Requiere Atención
+                </div>
+            </div>
+
+            <div class="quick-stats">
+                <div class="stat-card">
+                    <div class="stat-icon blue">📊</div>
+                    <div class="stat-value">96,186</div>
+                    <div class="stat-label">Registros Analizados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon green">✓</div>
+                    <div class="stat-value">94%</div>
+                    <div class="stat-label">Integridad Referencial</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon yellow">⚠️</div>
+                    <div class="stat-value">2.3%</div>
+                    <div class="stat-label">Anomalías Detectadas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon red">🔴</div>
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">Alertas Críticas</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Databases Section -->
+        <section class="databases-section">
+            <h2 class="section-title">🗄️ <span>Estado por Base de Datos</span></h2>
+            <div class="databases-grid">
+                <div class="db-card good">
+                    <div class="db-header">
+                        <div>
+                            <div class="db-name">PACAS</div>
+                            <div class="db-country">🇵🇪 Perú</div>
+                        </div>
+                        <span class="db-badge good">80%</span>
+                    </div>
+                    <div class="db-stats">
+                        <div class="db-stat">
+                            <div class="db-stat-value">56.9K</div>
+                            <div class="db-stat-label">Registros</div>
+                        </div>
+                        <div class="db-stat">
+                            <div class="db-stat-value">59</div>
+                            <div class="db-stat-label">Plantas</div>
+                        </div>
+                    </div>
+                    <div class="db-progress">
+                        <div class="db-progress-fill" style="width: 80%; background: var(--success);"></div>
+                    </div>
+                </div>
+
+                <div class="db-card critical">
+                    <div class="db-header">
+                        <div>
+                            <div class="db-name">MZMA</div>
+                            <div class="db-country">🇲🇽 México</div>
+                        </div>
+                        <span class="db-badge critical">⚠️ Config</span>
+                    </div>
+                    <div class="db-stats">
+                        <div class="db-stat">
+                            <div class="db-stat-value">31.2K</div>
+                            <div class="db-stat-label">Registros</div>
+                        </div>
+                        <div class="db-stat">
+                            <div class="db-stat-value">3</div>
+                            <div class="db-stat-label">Plantas</div>
+                        </div>
+                    </div>
+                    <div class="db-progress">
+                        <div class="db-progress-fill" style="width: 60%; background: var(--danger);"></div>
+                    </div>
+                </div>
+
+                <div class="db-card warning">
+                    <div class="db-header">
+                        <div>
+                            <div class="db-name">MELON</div>
+                            <div class="db-country">🇨🇱 Chile</div>
+                        </div>
+                        <span class="db-badge warning">40%</span>
+                    </div>
+                    <div class="db-stats">
+                        <div class="db-stat">
+                            <div class="db-stat-value">4.5K</div>
+                            <div class="db-stat-label">Registros</div>
+                        </div>
+                        <div class="db-stat">
+                            <div class="db-stat-value">61</div>
+                            <div class="db-stat-label">Plantas</div>
+                        </div>
+                    </div>
+                    <div class="db-progress">
+                        <div class="db-progress-fill" style="width: 40%; background: var(--warning);"></div>
+                    </div>
+                </div>
+
+                <div class="db-card warning">
+                    <div class="db-header">
+                        <div>
+                            <div class="db-name">YURA</div>
+                            <div class="db-country">🇵🇪 Perú</div>
+                        </div>
+                        <span class="db-badge warning">30%</span>
+                    </div>
+                    <div class="db-stats">
+                        <div class="db-stat">
+                            <div class="db-stat-value">3.5K</div>
+                            <div class="db-stat-label">Registros</div>
+                        </div>
+                        <div class="db-stat">
+                            <div class="db-stat-value">6</div>
+                            <div class="db-stat-label">Plantas</div>
+                        </div>
+                    </div>
+                    <div class="db-progress">
+                        <div class="db-progress-fill" style="width: 30%; background: var(--warning);"></div>
+                    </div>
+                </div>
+
+                <div class="db-card good">
+                    <div class="db-header">
+                        <div>
+                            <div class="db-name">FICEM</div>
+                            <div class="db-country">🌎 Benchmark</div>
+                        </div>
+                        <span class="db-badge good">Ref</span>
+                    </div>
+                    <div class="db-stats">
+                        <div class="db-stat">
+                            <div class="db-stat-value">17.7K</div>
+                            <div class="db-stat-label">GNR Data</div>
+                        </div>
+                        <div class="db-stat">
+                            <div class="db-stat-value">265</div>
+                            <div class="db-stat-label">Plantas Ref</div>
+                        </div>
+                    </div>
+                    <div class="db-progress">
+                        <div class="db-progress-fill" style="width: 85%; background: var(--success);"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Anomalies Section -->
+        <section class="anomalies-section">
+            <h2 class="section-title">🚨 <span>Anomalías Detectadas</span></h2>
+            <div class="anomaly-grid">
+                <div class="anomaly-card critical">
+                    <div class="anomaly-header">
+                        <div class="anomaly-icon">🔴</div>
+                        <div>
+                            <div class="anomaly-title">Ruta MZMA Incorrecta</div>
+                            <div class="anomaly-count">31,205 registros en riesgo</div>
+                        </div>
+                    </div>
+                    <p class="anomaly-description">
+                        La configuración apunta a una base vacía. La base real está en
+                        <code>mzma-3c/data/main.db</code> con 2GB de datos.
+                    </p>
+                </div>
+
+                <div class="anomaly-card critical">
+                    <div class="anomaly-header">
+                        <div class="anomaly-icon">🔴</div>
+                        <div>
+                            <div class="anomaly-title">GNR Data Incompleto</div>
+                            <div class="anomaly-count">6,701 registros sin país</div>
+                        </div>
+                    </div>
+                    <p class="anomaly-description">
+                        38% de los datos de benchmark mundial carecen de identificación
+                        geográfica, limitando comparativas internacionales.
+                    </p>
+                </div>
+
+                <div class="anomaly-card warning">
+                    <div class="anomaly-header">
+                        <div class="anomaly-icon">⚠️</div>
+                        <div>
+                            <div class="anomaly-title">Valores Negativos</div>
+                            <div class="anomaly-count">98 registros en PACAS</div>
+                        </div>
+                    </div>
+                    <p class="anomaly-description">
+                        Indicadores 10a/10b con valores extremos (&lt;-100,000 t).
+                        Mayormente válidos pero requieren verificación de magnitud.
+                    </p>
+                </div>
+
+                <div class="anomaly-card warning">
+                    <div class="anomaly-header">
+                        <div class="anomaly-icon">⚠️</div>
+                        <div>
+                            <div class="anomaly-title">Factor Clinker Anómalo</div>
+                            <div class="anomaly-count">2 registros en MELON</div>
+                        </div>
+                    </div>
+                    <p class="anomaly-description">
+                        Valores de 0.004 y 0.014 detectados. Posible confusión
+                        entre formato decimal (0.72) y porcentaje (72%).
+                    </p>
+                </div>
+
+                <div class="anomaly-card info">
+                    <div class="anomaly-header">
+                        <div class="anomaly-icon">ℹ️</div>
+                        <div>
+                            <div class="anomaly-title">Plantas sin ISO3</div>
+                            <div class="anomaly-count">57 plantas en PACAS</div>
+                        </div>
+                    </div>
+                    <p class="anomaly-description">
+                        Plantas de concreto y proveedores sin código de país asignado.
+                        Principalmente corresponden a Perú (PER).
+                    </p>
+                </div>
+
+                <div class="anomaly-card info">
+                    <div class="anomaly-header">
+                        <div class="anomaly-icon">ℹ️</div>
+                        <div>
+                            <div class="anomaly-title">Indicadores Vacíos</div>
+                            <div class="anomaly-count">Códigos 20 y 33</div>
+                        </div>
+                    </div>
+                    <p class="anomaly-description">
+                        Cemento producido (20) y Consumo eléctrico total (33) sin datos
+                        en ninguna base. Indicadores GCCA críticos faltantes.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Charts Section -->
+        <section class="charts-section">
+            <div class="chart-card">
+                <h3 class="chart-title">📈 Cobertura Temporal por Base</h3>
+                <div class="chart-container">
+                    <canvas id="temporalChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <h3 class="chart-title">🎯 Distribución de Calidad de Datos</h3>
+                <div class="chart-container">
+                    <canvas id="qualityChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recommendations Section -->
+        <section class="recommendations-section">
+            <h2 class="section-title">✅ <span>Recomendaciones Priorizadas</span></h2>
+            <div class="rec-grid">
+                <div class="rec-item">
+                    <div class="rec-priority high">1</div>
+                    <div class="rec-content">
+                        <h4>Corregir ruta de base MZMA</h4>
+                        <p>Actualizar config.py: mzma_main.db → mzma-3c/data/main.db</p>
+                    </div>
+                    <div class="rec-impact">+31K registros</div>
+                </div>
+
+                <div class="rec-item">
+                    <div class="rec-priority high">2</div>
+                    <div class="rec-content">
+                        <h4>Completar países en GNR Data</h4>
+                        <p>Asignar código ISO3 a 6,701 registros huérfanos de benchmark</p>
+                    </div>
+                    <div class="rec-impact">+38% cobertura</div>
+                </div>
+
+                <div class="rec-item">
+                    <div class="rec-priority high">3</div>
+                    <div class="rec-content">
+                        <h4>Validar factor clinker en MELON</h4>
+                        <p>Verificar si valores son decimales (0.72) o porcentajes (72%)</p>
+                    </div>
+                    <div class="rec-impact">Consistencia datos</div>
+                </div>
+
+                <div class="rec-item">
+                    <div class="rec-priority medium">4</div>
+                    <div class="rec-content">
+                        <h4>Completar códigos ISO3 en PACAS</h4>
+                        <p>57 plantas sin país asignado - principalmente Perú</p>
+                    </div>
+                    <div class="rec-impact">Análisis geográfico</div>
+                </div>
+
+                <div class="rec-item">
+                    <div class="rec-priority medium">5</div>
+                    <div class="rec-content">
+                        <h4>Revisar valores negativos extremos</h4>
+                        <p>Indicador 10a con valores &lt; -100,000 t en PACAS</p>
+                    </div>
+                    <div class="rec-impact">Precisión cálculos</div>
+                </div>
+
+                <div class="rec-item">
+                    <div class="rec-priority low">6</div>
+                    <div class="rec-content">
+                        <h4>Poblar indicadores GCCA faltantes</h4>
+                        <p>Códigos 20 (Cemento producido) y 33 (Consumo eléctrico)</p>
+                    </div>
+                    <div class="rec-impact">Completitud KPIs</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>Análisis realizado el 2025-12-03 | LATAM 3C - Consolidación de Datos</p>
+        <div class="ai-tag">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            Diagnóstico generado con Inteligencia Artificial
+        </div>
+    </footer>
+
+    <script>
+        // Temporal Coverage Chart
+        const temporalCtx = document.getElementById('temporalChart').getContext('2d');
+        new Chart(temporalCtx, {
+            type: 'bar',
+            data: {
+                labels: ['2014', '2016', '2018', '2020', '2021', '2022', '2023', '2024', '2025'],
+                datasets: [
+                    {
+                        label: 'PACAS',
+                        data: [80, 87, 109, 135, 160, 268, 383, 409, 204],
+                        backgroundColor: 'rgba(16, 185, 129, 0.7)',
+                        borderRadius: 4
+                    },
+                    {
+                        label: 'MZMA',
+                        data: [0, 0, 0, 248, 187, 199, 292, 266, 33],
+                        backgroundColor: 'rgba(99, 102, 241, 0.7)',
+                        borderRadius: 4
+                    },
+                    {
+                        label: 'MELON',
+                        data: [0, 0, 0, 0, 3, 0, 351, 25, 0],
+                        backgroundColor: 'rgba(245, 158, 11, 0.7)',
+                        borderRadius: 4
+                    },
+                    {
+                        label: 'YURA',
+                        data: [0, 0, 0, 47, 57, 64, 51, 49, 0],
+                        backgroundColor: 'rgba(239, 68, 68, 0.7)',
+                        borderRadius: 4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#94a3b8',
+                            padding: 20,
+                            usePointStyle: true
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        stacked: true,
+                        grid: { color: 'rgba(148, 163, 184, 0.1)' },
+                        ticks: { color: '#94a3b8' }
+                    },
+                    y: {
+                        stacked: true,
+                        grid: { color: 'rgba(148, 163, 184, 0.1)' },
+                        ticks: { color: '#94a3b8' }
+                    }
+                }
+            }
+        });
+
+        // Quality Distribution Chart
+        const qualityCtx = document.getElementById('qualityChart').getContext('2d');
+        new Chart(qualityCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Datos Válidos', 'Valores Cero', 'Anomalías', 'Nulos/Vacíos'],
+                datasets: [{
+                    data: [64.5, 25.1, 2.3, 8.1],
+                    backgroundColor: [
+                        'rgba(16, 185, 129, 0.8)',
+                        'rgba(245, 158, 11, 0.8)',
+                        'rgba(239, 68, 68, 0.8)',
+                        'rgba(148, 163, 184, 0.5)'
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '65%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#94a3b8',
+                            padding: 20,
+                            usePointStyle: true
+                        }
+                    }
+                }
+            }
+        });
+
+        // Animate progress bars
+        document.querySelectorAll('.db-progress-fill').forEach(bar => {
+            const width = bar.style.width;
+            bar.style.width = '0';
+            setTimeout(() => {
+                bar.style.width = width;
+            }, 500);
+        });
+    </script>
+</body>
+</html>

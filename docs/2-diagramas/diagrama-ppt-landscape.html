@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora 3C País - Diagrama PPT</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            padding: 20px;
+            background-color: #f8f9fa; 
+            overflow-x: auto;
+        }
+        .presentation-container { 
+            width: 1920px; /* Ancho estándar PPT apaisado */
+            height: 1080px; /* Alto estándar PPT apaisado */
+            margin: 0 auto; 
+            background: white; 
+            padding: 40px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            box-sizing: border-box;
+        }
+        
+        .title { 
+            text-align: center; 
+            font-size: 36px; 
+            font-weight: bold; 
+            color: #2c3e50; 
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .subtitle {
+            text-align: center; 
+            font-size: 20px; 
+            color: #7f8c8d; 
+            margin-bottom: 40px;
+        }
+        
+        .mermaid { 
+            width: 100%; 
+            height: 900px; /* Usar la mayor parte del espacio disponible */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* Optimizaciones para PPT */
+        .presentation-container svg {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        
+        /* Footer para referencia */
+        .footer {
+            position: absolute;
+            bottom: 10px;
+            right: 20px;
+            font-size: 12px;
+            color: #95a5a6;
+        }
+        
+        /* Botón para pantalla completa */
+        .fullscreen-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            z-index: 1000;
+        }
+        
+        .fullscreen-btn:hover {
+            background: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <button class="fullscreen-btn" onclick="toggleFullscreen()">📽️ Pantalla Completa</button>
+    
+    <div class="presentation-container" id="presentation">
+        <div class="title">🌍 Calculadora 3C País</div>
+        <div class="subtitle">Proceso Completo: Recopilación y Análisis de Datos de Huella de Carbono</div>
+        
+        <div class="mermaid">
+graph LR
+    %% Definir actores principales con posiciones optimizadas
+    A[🏭 Empresas<br/>Cementeras y<br/>Concreteras] 
+    
+    %% Subproceso de ingreso
+    subgraph INPUT[" 📝 INGRESO DE DATOS "]
+        E[Acceso a<br/>Formularios]
+        F{Tipo de<br/>Planta}
+        G[🏭 Formulario<br/>Cemento<br/>• Datos empresa<br/>• Datos planta<br/>• Producción clínker<br/>• Composición<br/>• Emisiones proceso]
+        H[🚛 Formulario<br/>Concreto<br/>• Datos empresa<br/>• Datos planta<br/>• Dosificaciones<br/>• Resistencias<br/>• Transporte]
+        I[📊 Generación<br/>Excel<br/>Validable]
+    end
+    
+    %% Subproceso de validación y procesamiento
+    subgraph PROCESS[" ⚙️ PROCESAMIENTO "]
+        J[✅ Validación<br/>Externa<br/>Técnica]
+        K[🔄 Carga al<br/>Sistema<br/>Base Datos]
+        L[Motor de<br/>Cálculos]
+        M[🧮 Cálculo<br/>Huellas CO2<br/>• Factor emisión<br/>• Huella total]
+        N[📈 Clasificación<br/>GCCA<br/>Bandas A-G<br/>Bandas AA-F]
+    end
+    
+    %% Subproceso de agregación
+    subgraph AGGREGATE[" 🌐 AGREGACIÓN NACIONAL "]
+        O[Consolidación<br/>Datos País]
+        P[📊 Indicadores<br/>Nacionales<br/>• CO2/Clínker<br/>• CO2/Cemento<br/>• CO2/Concreto<br/>• CO2/Resistencia]
+    end
+    
+    %% Outputs finales
+    Q[🎯 Dashboard<br/>Nacional<br/>Visualizaciones]
+    R[📋 Reportes<br/>FICEM<br/>Comparativos<br/>Regionales]
+    S[🌍 Benchmarking<br/>Internacional]
+    
+    %% Actores finales
+    B[🏛️ FICEM<br/>Federación]
+    T[📢 Políticas y<br/>Mejores<br/>Prácticas]
+    
+    %% Flujo principal
+    A --> E
+    E --> F
+    F -->|Cemento| G
+    F -->|Concreto| H
+    G --> I
+    H --> I
+    I --> J
+    J --> K
+    K --> L
+    L --> M
+    M --> N
+    N --> O
+    O --> P
+    
+    %% Outputs
+    P --> Q
+    P --> R
+    P --> S
+    
+    %% Ciclo de retroalimentación
+    R --> B
+    B --> T
+    T --> A
+    
+    %% Estilos optimizados para PPT
+    classDef empresa fill:#E3F2FD,stroke:#1976D2,stroke-width:3px,color:#000
+    classDef formulario fill:#F1F8E9,stroke:#689F38,stroke-width:2px,color:#000
+    classDef proceso fill:#FFF3E0,stroke:#F57C00,stroke-width:2px,color:#000
+    classDef output fill:#FCE4EC,stroke:#C2185B,stroke-width:2px,color:#000
+    classDef feedback fill:#F3E5F5,stroke:#7B1FA2,stroke-width:2px,color:#000
+    
+    class A empresa
+    class E,F,G,H,I formulario
+    class J,K,L,M,N,O proceso
+    class P,Q,R,S output
+    class B,T feedback
+    
+    %% Estilos para subgrafos
+    style INPUT fill:#f8f9fa,stroke:#6c757d,stroke-width:2px
+    style PROCESS fill:#f8f9fa,stroke:#6c757d,stroke-width:2px  
+    style AGGREGATE fill:#f8f9fa,stroke:#6c757d,stroke-width:2px
+        </div>
+        
+        <div class="footer">Calculadora 3C País - FICEM</div>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'base',
+            themeVariables: {
+                primaryColor: '#ffffff',
+                primaryTextColor: '#000000',
+                primaryBorderColor: '#000000',
+                lineColor: '#666666',
+                secondaryColor: '#f8f9fa',
+                tertiaryColor: '#ffffff',
+                background: '#ffffff',
+                mainBkg: '#ffffff',
+                secondBkg: '#f8f9fa',
+                tertiaryBkg: '#ffffff'
+            },
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis',
+                padding: 20
+            },
+            fontSize: '16px'
+        });
+
+        function toggleFullscreen() {
+            const elem = document.getElementById('presentation');
+            if (!document.fullscreenElement) {
+                elem.requestFullscreen().catch(err => {
+                    console.log(`Error: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+        
+        // Detectar pantalla completa para ajustar estilos
+        document.addEventListener('fullscreenchange', function() {
+            const container = document.querySelector('.presentation-container');
+            if (document.fullscreenElement) {
+                container.style.width = '100vw';
+                container.style.height = '100vh';
+                container.style.maxWidth = 'none';
+                container.style.maxHeight = 'none';
+            } else {
+                container.style.width = '1920px';
+                container.style.height = '1080px';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,233 @@
+{
+  "main": {
+    "id": "da1be7d86d95bddf",
+    "type": "split",
+    "children": [
+      {
+        "id": "fa10674648000684",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "15801ffe9f2c7dce",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "admin/propuesta-tecnico-economica-etapa1.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "propuesta-tecnico-economica-etapa1"
+            }
+          },
+          {
+            "id": "a4bb8bd44d084e43",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "infraestructura/analisis-hosting-openproject.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "analisis-hosting-openproject"
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "88d992aa6e37790d",
+    "type": "split",
+    "children": [
+      {
+        "id": "9dd0154d4380f5e5",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "2723b0af5b73365d",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Explorador de archivos"
+            }
+          },
+          {
+            "id": "9c35385a901351e0",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Buscar"
+            }
+          },
+          {
+            "id": "28db999073849dbd",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Marcadores"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 397.5
+  },
+  "right": {
+    "id": "74e5e20ef53542bf",
+    "type": "split",
+    "children": [
+      {
+        "id": "e04970bd16e388b9",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b1b6a99235707239",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "infraestructura/analisis-hosting-openproject.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": true,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Enlaces entrantes de analisis-hosting-openproject"
+            }
+          },
+          {
+            "id": "39f3c37c66e088e9",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "1-tecnica/13-plan-etapa-1.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Enlaces salientes de 13-plan-etapa-1"
+            }
+          },
+          {
+            "id": "e3185191a435ad91",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Etiquetas"
+            }
+          },
+          {
+            "id": "d71eec311b539372",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "1-tecnica/13-plan-etapa-1.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Esquema de 13-plan-etapa-1"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "canvas:Crear nuevo lienzo": false,
+      "bases:Crear nueva base": false,
+      "switcher:Abrir selector rápido": false,
+      "graph:Abrir vista gráfica": false,
+      "daily-notes:Abrir la nota de hoy": false,
+      "templates:Insertar plantilla": false,
+      "command-palette:Abrir paleta de comandos": false
+    }
+  },
+  "active": "a4bb8bd44d084e43",
+  "lastOpenFiles": [
+    "admin/propuesta-tecnico-economica-etapa1.pdf",
+    "infraestructura/analisis-hosting-openproject.md",
+    "infraestructura/analisis-hosting-openproject.md.tmp.117602.1759964583585",
+    "admin/plan-trabajo-etapa1.md",
+    "infraestructura",
+    "admin/plan-trabajo-etapa1.pdf",
+    "admin/plan-detallado-etapa1.md",
+    "admin/propuesta-tecnico-economica-etapa1.md",
+    "admin/plan-trabajo-etapa1.md.tmp.5915.1759957380702",
+    "admin/propuesta-tecnico-economica-etapa1.md.tmp.5915.1759956681588",
+    "admin/propuesta-tecnico-economica-etapa1.md.tmp.5915.1759956594044",
+    "admin/propuesta-tecnico-economica-etapa1.md.tmp.5915.1759956589525",
+    "admin/propuesta-tecnico-economica-etapa1.md.tmp.5915.1759956586373",
+    "admin/propuesta-tecnico-economica-etapa1.md.tmp.5915.1759956403531",
+    "admin/propuesta-tecnico-economica-etapa1.md.tmp.5915.1759956324400",
+    "1-tecnica/metodologia-calculo-mrv-peru.md",
+    "admin/propuesta-items-mrv-produce.md",
+    "2-diagramas/images/gantt-etapa1.png",
+    "2-diagramas/images/flujo-operativo.png",
+    "2-diagramas/images/gantt-etapa1-1.png",
+    "2-diagramas/images/flujo-general-etapa1-1.png",
+    "2-diagramas/gantt-etapa1-replanteado.md",
+    "3-sesiones/sesion_2025-10-02.md",
+    "4-historico/v1/19-cronograma-etapa1-replanteado.md",
+    "4-historico/v1/18-captura-formularios-etapa2.md",
+    "4-historico/v1/17-detalle-tareas-etapa-1.md",
+    "4-historico/v1/16-gantt-etapa-1.md",
+    "4-historico/v1/15-analisis-riesgos.md",
+    "4-historico/v1/14-plan-etapa-2-tentativo.md",
+    "4-historico/v1/13-plan-etapa-1.md",
+    "4-historico/v1/12-planificacion-costos.md",
+    "4-historico/v1/11-arquitectura-tecnica.md",
+    "4-historico/v1/08-seguridad-auditoria.md",
+    "4-historico/v1/07-perfiles-usuario.md",
+    "v0/opciones-arquitectura.md",
+    "v0/modelo-propuesto.md",
+    "v0/estructura-excel-v4.md",
+    "v0/estructura-excel-v3.md",
+    "v0/estructura-excel-v2.md",
+    "v0/estructura-concreto-detalle.md",
+    "2-diagramas/images/secuencia-temporal-etapa1.png",
+    "2-diagramas/images/flujo-general-etapa1.png",
+    "Sin título.canvas"
+  ]
+}

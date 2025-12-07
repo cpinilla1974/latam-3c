@@ -1,0 +1,442 @@
+{
+  "archivo": "ACME_Colombia_2024_Concreto.xlsx",
+  "empresa_uuid": "uuid-acme-12345",
+  "periodo": 2024,
+  "hoja_empresa": {
+    "nombre_empresa": "ACME Cementos S.A.",
+    "pais": "Colombia",
+    "responsable": "Carlos Mendoza",
+    "email": "cmendoza@acme.com",
+    "telefono": "+57 1 234 5679"
+  },
+  "hoja_plantas_concreto": [
+    {
+      "id_planta": "PC001",
+      "nombre": "Planta Concreto Norte",
+      "ubicacion": "Bogotá, Cundinamarca",
+      "latitud": 4.7110,
+      "longitud": -74.0721,
+      "tipo": "Fija",
+      "capacidad_m3_año": 180000
+    },
+    {
+      "id_planta": "PC002",
+      "nombre": "Planta Concreto Sur",
+      "ubicacion": "Cali, Valle del Cauca",
+      "latitud": 3.4516,
+      "longitud": -76.5320,
+      "tipo": "Fija",
+      "capacidad_m3_año": 120000
+    },
+    {
+      "id_planta": "PC003",
+      "nombre": "Planta Concreto Oriente",
+      "ubicacion": "Medellín, Antioquia",
+      "latitud": 6.2442,
+      "longitud": -75.5812,
+      "tipo": "Móvil",
+      "capacidad_m3_año": 80000
+    },
+    {
+      "id_planta": "PC004",
+      "nombre": "Planta Concreto Costa",
+      "ubicacion": "Cartagena, Bolívar",
+      "latitud": 10.3910,
+      "longitud": -75.4794,
+      "tipo": "Fija",
+      "capacidad_m3_año": 90000
+    }
+  ],
+  "hoja_produccion": [
+    {
+      "id_planta": "PC001",
+      "categoria": "Estructural",
+      "tipo_concreto": "Convencional",
+      "resistencia": "f'c 210",
+      "volumen_m3_anual": 45000
+    },
+    {
+      "id_planta": "PC001",
+      "categoria": "Estructural",
+      "tipo_concreto": "Convencional",
+      "resistencia": "f'c 250",
+      "volumen_m3_anual": 60000
+    },
+    {
+      "id_planta": "PC001",
+      "categoria": "Alta_Resistencia",
+      "tipo_concreto": "Premium",
+      "resistencia": "f'c 350",
+      "volumen_m3_anual": 25000
+    },
+    {
+      "id_planta": "PC002",
+      "categoria": "Estructural",
+      "tipo_concreto": "Convencional",
+      "resistencia": "f'c 210",
+      "volumen_m3_anual": 40000
+    },
+    {
+      "id_planta": "PC002",
+      "categoria": "Estructural",
+      "tipo_concreto": "Convencional",
+      "resistencia": "f'c 280",
+      "volumen_m3_anual": 35000
+    },
+    {
+      "id_planta": "PC002",
+      "categoria": "Especiales",
+      "tipo_concreto": "Autocompactante",
+      "resistencia": "-",
+      "volumen_m3_anual": 12000
+    },
+    {
+      "id_planta": "PC003",
+      "categoria": "Estructural",
+      "tipo_concreto": "Convencional",
+      "resistencia": "f'c 250",
+      "volumen_m3_anual": 30000
+    },
+    {
+      "id_planta": "PC003",
+      "categoria": "Alta_Resistencia",
+      "tipo_concreto": "Premium",
+      "resistencia": "f'c 420",
+      "volumen_m3_anual": 10000
+    },
+    {
+      "id_planta": "PC004",
+      "categoria": "Estructural",
+      "tipo_concreto": "Convencional",
+      "resistencia": "f'c 210",
+      "volumen_m3_anual": 50000
+    },
+    {
+      "id_planta": "PC004",
+      "categoria": "Estructural",
+      "tipo_concreto": "Convencional",
+      "resistencia": "f'c 250",
+      "volumen_m3_anual": 30000
+    }
+  ],
+  "hoja_mezclas": [
+    {
+      "id_mezcla": "MZ_210",
+      "resistencia": "f'c 210",
+      "cemento_kg_m3": 280,
+      "tipo_cemento": "CPC 30R",
+      "arena_kg_m3": 850,
+      "id_arena": "ARE_01",
+      "grava_kg_m3": 950,
+      "id_grava": "GRA_01",
+      "agua_l_m3": 165,
+      "aditivo_l_m3": 2.8,
+      "id_aditivo": "ADI_01",
+      "adiciones_kg_m3": 0,
+      "id_adicion": "-"
+    },
+    {
+      "id_mezcla": "MZ_250",
+      "resistencia": "f'c 250",
+      "cemento_kg_m3": 320,
+      "tipo_cemento": "CPC 30R",
+      "arena_kg_m3": 820,
+      "id_arena": "ARE_01",
+      "grava_kg_m3": 980,
+      "id_grava": "GRA_01",
+      "agua_l_m3": 170,
+      "aditivo_l_m3": 3.2,
+      "id_aditivo": "ADI_01",
+      "adiciones_kg_m3": 0,
+      "id_adicion": "-"
+    },
+    {
+      "id_mezcla": "MZ_280",
+      "resistencia": "f'c 280",
+      "cemento_kg_m3": 380,
+      "tipo_cemento": "CPO 40",
+      "arena_kg_m3": 820,
+      "id_arena": "ARE_02",
+      "grava_kg_m3": 920,
+      "id_grava": "GRA_01",
+      "agua_l_m3": 175,
+      "aditivo_l_m3": 3.2,
+      "id_aditivo": "ADI_02",
+      "adiciones_kg_m3": 30,
+      "id_adicion": "ESC_01"
+    },
+    {
+      "id_mezcla": "MZ_350",
+      "resistencia": "f'c 350",
+      "cemento_kg_m3": 420,
+      "tipo_cemento": "CPO 40",
+      "arena_kg_m3": 780,
+      "id_arena": "ARE_02",
+      "grava_kg_m3": 1020,
+      "id_grava": "GRA_02",
+      "agua_l_m3": 160,
+      "aditivo_l_m3": 5.0,
+      "id_aditivo": "ADI_02",
+      "adiciones_kg_m3": 0,
+      "id_adicion": "-"
+    },
+    {
+      "id_mezcla": "MZ_420",
+      "resistencia": "f'c 420",
+      "cemento_kg_m3": 480,
+      "tipo_cemento": "CPO 40",
+      "arena_kg_m3": 750,
+      "id_arena": "ARE_02",
+      "grava_kg_m3": 1050,
+      "id_grava": "GRA_02",
+      "agua_l_m3": 155,
+      "aditivo_l_m3": 6.2,
+      "id_aditivo": "ADI_02",
+      "adiciones_kg_m3": 0,
+      "id_adicion": "-"
+    },
+    {
+      "id_mezcla": "MZ_AUTO",
+      "resistencia": "Autocompactante",
+      "cemento_kg_m3": 380,
+      "tipo_cemento": "CPO 40",
+      "arena_kg_m3": 900,
+      "id_arena": "ARE_01",
+      "grava_kg_m3": 850,
+      "id_grava": "GRA_01",
+      "agua_l_m3": 180,
+      "aditivo_l_m3": 8.5,
+      "id_aditivo": "ADI_03",
+      "adiciones_kg_m3": 25,
+      "id_adicion": "ESC_01"
+    }
+  ],
+  "hoja_agregados_adiciones": [
+    {
+      "id_material": "ARE_01",
+      "material": "Arena",
+      "tipo": "Río",
+      "proveedor": "Arenera del Valle",
+      "cantidad_ton_anual": 200000,
+      "dist_camion_km": 35,
+      "dist_tren_km": 0,
+      "dist_barco_km": 0
+    },
+    {
+      "id_material": "ARE_02",
+      "material": "Arena",
+      "tipo": "Triturada",
+      "proveedor": "Cantera Norte",
+      "cantidad_ton_anual": 125000,
+      "dist_camion_km": 25,
+      "dist_tren_km": 0,
+      "dist_barco_km": 0
+    },
+    {
+      "id_material": "GRA_01",
+      "material": "Grava",
+      "tipo": "3/4\"",
+      "proveedor": "Cantera Norte",
+      "cantidad_ton_anual": 220000,
+      "dist_camion_km": 25,
+      "dist_tren_km": 0,
+      "dist_barco_km": 0
+    },
+    {
+      "id_material": "GRA_02",
+      "material": "Grava",
+      "tipo": "1/2\"",
+      "proveedor": "Cantera Sur",
+      "cantidad_ton_anual": 120000,
+      "dist_camion_km": 0,
+      "dist_tren_km": 120,
+      "dist_barco_km": 0
+    },
+    {
+      "id_material": "ESC_01",
+      "material": "Escoria",
+      "tipo": "Granulada",
+      "proveedor": "Acerías del Pacífico",
+      "cantidad_ton_anual": 2500,
+      "dist_camion_km": 180,
+      "dist_tren_km": 0,
+      "dist_barco_km": 0
+    },
+    {
+      "id_material": "CEN_01",
+      "material": "Ceniza",
+      "tipo": "Volante",
+      "proveedor": "Termoeléctrica del Caribe",
+      "cantidad_ton_anual": 0,
+      "dist_camion_km": 250,
+      "dist_tren_km": 0,
+      "dist_barco_km": 0
+    }
+  ],
+  "hoja_aditivos": [
+    {
+      "id_aditivo": "ADI_01",
+      "tipo_aditivo": "Plastificante",
+      "funcion": "Reductor de agua",
+      "marca": "MasterGlenium",
+      "proveedor": "BASF",
+      "cantidad_l_anual": 650000,
+      "dist_camion_km": 100,
+      "dist_tren_km": 0,
+      "dist_barco_km": 0
+    },
+    {
+      "id_aditivo": "ADI_02",
+      "tipo_aditivo": "Superplastificante",
+      "funcion": "Alto rango",
+      "marca": "Sikament",
+      "proveedor": "Sika",
+      "cantidad_l_anual": 240000,
+      "dist_camion_km": 150,
+      "dist_tren_km": 0,
+      "dist_barco_km": 0
+    },
+    {
+      "id_aditivo": "ADI_03",
+      "tipo_aditivo": "Fluidificante",
+      "funcion": "Autocompactante",
+      "marca": "Glenium ACE",
+      "proveedor": "BASF",
+      "cantidad_l_anual": 85000,
+      "dist_camion_km": 100,
+      "dist_tren_km": 0,
+      "dist_barco_km": 0
+    },
+    {
+      "id_aditivo": "ADI_04",
+      "tipo_aditivo": "Retardante",
+      "funcion": "Control fraguado",
+      "marca": "Plastocrete",
+      "proveedor": "Sika",
+      "cantidad_l_anual": 45000,
+      "dist_camion_km": 150,
+      "dist_tren_km": 0,
+      "dist_barco_km": 0
+    }
+  ],
+  "hoja_energia_agua": {
+    "electricidad": [
+      {
+        "concepto": "Plantas_Mezclado",
+        "cantidad_anual": 2800000,
+        "unidad": "kWh",
+        "origen": "Red nacional"
+      },
+      {
+        "concepto": "Plantas_Bombeo",
+        "cantidad_anual": 450000,
+        "unidad": "kWh",
+        "origen": "Red nacional"
+      }
+    ],
+    "combustibles": [
+      {
+        "concepto": "Diesel_Mixers",
+        "cantidad_anual": 680000,
+        "unidad": "L",
+        "uso": "Flota propia 85 unidades"
+      },
+      {
+        "concepto": "Diesel_Bombas",
+        "cantidad_anual": 95000,
+        "unidad": "L",
+        "uso": "Equipos bombeo"
+      }
+    ],
+    "agua": [
+      {
+        "concepto": "Agua_Mezcla",
+        "cantidad_anual": 60000,
+        "unidad": "m³",
+        "origen": "70% red, 30% pozo"
+      },
+      {
+        "concepto": "Agua_Lavado",
+        "cantidad_anual": 12000,
+        "unidad": "m³",
+        "origen": "60% reciclada"
+      }
+    ]
+  },
+  "hoja_consumos_especificos_planta": [
+    {
+      "id_planta": "PC001",
+      "electricidad_kwh_m3": 4.2,
+      "diesel_cargador_l_m3": 0.8,
+      "diesel_otros_l_m3": 0.2,
+      "notas": "Incluye iluminación LED"
+    },
+    {
+      "id_planta": "PC002",
+      "electricidad_kwh_m3": 4.5,
+      "diesel_cargador_l_m3": 0.9,
+      "diesel_otros_l_m3": 0.3,
+      "notas": "Equipo más antiguo"
+    },
+    {
+      "id_planta": "PC003",
+      "electricidad_kwh_m3": 5.8,
+      "diesel_cargador_l_m3": 1.2,
+      "diesel_otros_l_m3": 0.4,
+      "notas": "Planta móvil, mayor consumo"
+    },
+    {
+      "id_planta": "PC004",
+      "electricidad_kwh_m3": 4.0,
+      "diesel_cargador_l_m3": 0.7,
+      "diesel_otros_l_m3": 0.15,
+      "notas": "Planta nueva, eficiente"
+    }
+  ],
+  "hoja_transporte_mixer": [
+    {
+      "id_planta": "PC001",
+      "radio_promedio_km": 15,
+      "diesel_l_m3": 3.5,
+      "tipo_camion": "Mixer estándar",
+      "capacidad_m3": 8,
+      "factor_retorno": 0.7
+    },
+    {
+      "id_planta": "PC002",
+      "radio_promedio_km": 22,
+      "diesel_l_m3": 4.8,
+      "tipo_camion": "Mixer estándar",
+      "capacidad_m3": 8,
+      "factor_retorno": 0.6
+    },
+    {
+      "id_planta": "PC003",
+      "radio_promedio_km": 18,
+      "diesel_l_m3": 4.2,
+      "tipo_camion": "Mixer pequeño",
+      "capacidad_m3": 6,
+      "factor_retorno": 0.8
+    },
+    {
+      "id_planta": "PC004",
+      "radio_promedio_km": 12,
+      "diesel_l_m3": 2.8,
+      "tipo_camion": "Mixer estándar",
+      "capacidad_m3": 8,
+      "factor_retorno": 0.75
+    }
+  ],
+  "hoja_sitios_minerales": [
+    {
+      "id_sitio": "M001",
+      "tipo": "Cantera",
+      "material_principal": "Caliza",
+      "ubicacion": "Soacha, Cundinamarca",
+      "latitud": 4.5854,
+      "longitud": -74.2197,
+      "capacidad_anual_ton": 2000000,
+      "distancia_planta_km": 35
+    }
+  ]
+}

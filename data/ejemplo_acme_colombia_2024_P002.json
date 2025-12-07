@@ -1,0 +1,133 @@
+{
+  "archivo": "ACME_Colombia_2024_P002.xlsx",
+  "empresa_uuid": "uuid-acme-12345",
+  "periodo": 2024,
+  "hoja_empresa": {
+    "nombre_empresa": "ACME Cementos S.A.",
+    "pais": "Colombia",
+    "responsable": "Ana García",
+    "email": "agarcia@acme.com",
+    "telefono": "+57 1 234 5678"
+  },
+  "hoja_planta": {
+    "id_planta": "P002",
+    "nombre": "Planta Sur",
+    "ubicacion": "Cali, Valle del Cauca",
+    "latitud": 3.4516,
+    "longitud": -76.5320,
+    "tipo_planta": "Molienda",
+    "capacidad_clinker_ton_año": 0,
+    "capacidad_cemento_ton_año": 800000,
+    "archivo_gcca": "GCCA_P002_2024.xlsx"
+  },
+  "hoja_clinker": null,
+  "_nota_clinker": "Esta planta solo hace molienda, no produce clinker",
+  "hojas_cemento": [
+    {
+      "tipo": "CEMENTO_CPC30R_P002",
+      "identificacion": {
+        "tipo_cemento": "CPC 30R",
+        "nombre_comercial": "Cemento Estructural Sur",
+        "resistencia_28d_mpa": 30,
+        "resistencia_28d_psi": 4350,
+        "norma_tecnica": "NTC 121",
+        "produccion_anual_ton": 300000
+      },
+      "composicion": [
+        {
+          "id_material": "CLK_01",
+          "material": "Clinker",
+          "proveedor": "Planta Norte (P001)",
+          "cantidad_ton": 255000,
+          "dist_camion_km": 0,
+          "dist_tren_km": 450,
+          "dist_barco_km": 0,
+          "dist_banda_km": 0
+        },
+        {
+          "id_material": "ESC_01",
+          "material": "Escoria",
+          "proveedor": "Acerías del Valle",
+          "cantidad_ton": 30000,
+          "dist_camion_km": 80,
+          "dist_tren_km": 0,
+          "dist_barco_km": 0,
+          "dist_banda_km": 0
+        },
+        {
+          "id_material": "CAL_01",
+          "material": "Caliza",
+          "proveedor": "Cantera regional",
+          "cantidad_ton": 12000,
+          "dist_camion_km": 120,
+          "dist_tren_km": 0,
+          "dist_barco_km": 0,
+          "dist_banda_km": 0
+        },
+        {
+          "id_material": "YES_01",
+          "material": "Yeso",
+          "proveedor": "Stock",
+          "cantidad_ton": 3000,
+          "dist_camion_km": 0,
+          "dist_tren_km": 0,
+          "dist_barco_km": 0,
+          "dist_banda_km": 0
+        }
+      ],
+      "molienda_combustibles": {
+        "electricidad_red_kwh": 12000000,
+        "electricidad_renovable_kwh": 3000000,
+        "combustibles_fuera_horno_referencia": "[Axioma A002] - Datos tomados de GCCA_P002_2024.xlsx"
+      }
+    },
+    {
+      "tipo": "CEMENTO_CPO40RS_P002",
+      "identificacion": {
+        "tipo_cemento": "CPO 40RS",
+        "nombre_comercial": "Cemento Resistente Sulfatos",
+        "resistencia_28d_mpa": 40,
+        "resistencia_28d_psi": 5800,
+        "norma_tecnica": "NTC 321",
+        "produccion_anual_ton": 120000
+      },
+      "composicion": [
+        {
+          "id_material": "CLK_01",
+          "material": "Clinker",
+          "proveedor": "Planta Norte (P001)",
+          "cantidad_ton": 108000,
+          "dist_camion_km": 0,
+          "dist_tren_km": 450,
+          "dist_barco_km": 0,
+          "dist_banda_km": 0
+        },
+        {
+          "id_material": "CAL_01",
+          "material": "Caliza",
+          "proveedor": "Cantera regional",
+          "cantidad_ton": 9600,
+          "dist_camion_km": 120,
+          "dist_tren_km": 0,
+          "dist_barco_km": 0,
+          "dist_banda_km": 0
+        },
+        {
+          "id_material": "YES_01",
+          "material": "Yeso",
+          "proveedor": "Stock",
+          "cantidad_ton": 2400,
+          "dist_camion_km": 0,
+          "dist_tren_km": 0,
+          "dist_barco_km": 0,
+          "dist_banda_km": 0
+        }
+      ],
+      "molienda_combustibles": {
+        "electricidad_red_kwh": 5400000,
+        "electricidad_renovable_kwh": 600000,
+        "combustibles_fuera_horno_referencia": "[Axioma A002] - Datos tomados de GCCA_P002_2024.xlsx"
+      }
+    }
+  ]
+}

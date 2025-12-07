@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagrama Flujo General - Etapa 1</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #2196F3 0%, #21CBF3 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.2em;
+            font-weight: 300;
+        }
+        .content {
+            padding: 40px;
+        }
+        .mermaid {
+            text-align: center;
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .description {
+            background: #e3f2fd;
+            border-left: 5px solid #2196F3;
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #1565C0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Diagrama de Flujo General - Etapa 1</h1>
+        </div>
+
+        <div class="content">
+            <div class="description">
+                <strong>Proceso completo del sistema LATAM-3C Etapa 1:</strong><br>
+                Flujo desde la solicitud de templates Excel por parte de las empresas hasta la generación de indicadores nacionales,
+                pasando por el procesamiento centralizado de FICEM.
+            </div>
+
+            <div class="mermaid">
+graph TD
+    A[Empresas Cementeras]
+    B[FICEM Operador]
+    C[Sistema 3C]
+    D[Indicadores Nacionales]
+
+    A --> E[Solicita Template]
+    E --> F{Perfil Planta}
+
+    F -->|Integrada| G[Excel Integrada]
+    F -->|Molienda| H[Excel Molienda]
+    F -->|Concreto| I[Excel Concreto]
+
+    G --> J[Completado Offline]
+    H --> J
+    I --> J
+
+    J --> K[Validación Interna]
+    K --> L[Envío FICEM]
+
+    L --> B
+    B --> M[Carga Sistema]
+    M --> N[Validación]
+    N --> O{Válido}
+
+    O -->|No| P[Errores]
+    P --> A
+    O -->|Sí| Q[Cálculos]
+
+    Q --> R[Emisiones A1-A3]
+    R --> S[Clasificación GCCA]
+    S --> T[Agregación Nacional]
+    T --> U[Indicadores País]
+
+    U --> V[Dashboard FICEM]
+    U --> W[Reportes Empresa]
+    U --> D
+
+    V --> B
+    W --> A
+
+    classDef empresa fill:#e3f2fd,stroke:#1976d2,stroke-width:3px
+    classDef ficem fill:#f3e5f5,stroke:#7b1fa2,stroke-width:3px
+    classDef sistema fill:#e8f5e8,stroke:#388e3c,stroke-width:3px
+    classDef output fill:#fff3e0,stroke:#f57c00,stroke-width:3px
+
+    class A,E,F,G,H,I,J,K,L empresa
+    class B,M,N,O,P ficem
+    class C,Q,R,S,T sistema
+    class U,V,W,D output
+            </div>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+    </script>
+</body>
+</html>
