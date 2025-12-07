@@ -22,18 +22,17 @@
 
 | # | Funcionalidad |
 |---|--------------|
-| 1 | Cargar archivos Excel de empresas |
-| 2 | Validar datos (estructura, formato, coherencia) |
-| 3 | Ejecutar cálculos A1-A3 (clinker, cemento, concreto) |
-| 4 | Clasificar GCCA (bandas A-G, AA-F) |
-| 5 | Gestionar factores de emisión por país/año |
-| 6 | Generar plantillas Excel personalizadas |
-| 7 | Ver resultados consolidados LATAM |
-| 8 | Gestionar empresas/plantas |
-| 9 | Monitorear procesamiento |
-| 10 | Benchmarking regional (anónimo) |
+| 1 | Revisar envíos validados por países |
+| 2 | Ejecutar cálculos A1-A3 (clinker, cemento, concreto) |
+| 3 | Clasificar GCCA (bandas A-G, AA-F) |
+| 4 | Gestionar factores de emisión por país/año |
+| 5 | Generar plantillas Excel personalizadas |
+| 6 | Ver resultados consolidados LATAM |
+| 7 | Gestionar empresas/plantas/usuarios |
+| 8 | Monitorear procesamiento |
+| 9 | Benchmarking regional (anónimo) |
 
-**Interfaz requerida**: Sí (app completa con frontend)
+**Interfaz requerida**: Sí (Streamlit en ficem-core)
 
 ---
 
@@ -46,15 +45,15 @@
 | 1 | Dashboard métricas país |
 | 2 | Listado empresas del país |
 | 3 | Descargar plantillas Excel |
-| 4 | Ver resultados cálculos empresas |
-| 5 | Benchmarking nacional |
-| 6 | Generar reportes país |
-| 7 | Coordinación con FICEM para validación |
+| 4 | Revisar envíos de empresas (aprobar/rechazar) |
+| 5 | Ver resultados cálculos empresas |
+| 6 | Benchmarking nacional |
+| 7 | Generar reportes país |
 | 8 | Funcionalidades específicas según TDR local |
 
 **Nota**: Cada país tendrá sus propios stakeholders (gobierno, gremio, etc.) con requisitos específicos. Ejemplo Perú: ASOCEM (gremio) + PRODUCE (gobierno) + TDR específico.
 
-**Interfaz requerida**: Sí (app específica por país)
+**Interfaz requerida**: Sí (4c-peru en Next.js)
 
 ---
 
@@ -65,13 +64,15 @@
 | # | Funcionalidad |
 |---|--------------|
 | 1 | Descargar plantilla Excel |
-| 2 | Cargar datos de la empresa |
-| 3 | Ver sus resultados de cálculos |
-| 4 | Ver su posición en benchmarking (anónimo) |
-| 5 | Recibir reporte individual |
-| 6 | Aprobar/rechazar envíos (supervisores) |
+| 2 | Cargar Excel con datos de la empresa |
+| 3 | Ver estado del envío (borrador, enviado, validado, rechazado, etc.) |
+| 4 | Corregir y reenviar si fue rechazado |
+| 5 | Ver sus resultados de cálculos |
+| 6 | Ver su posición en benchmarking (anónimo) |
+| 7 | Descargar reporte individual |
+| 8 | Aprobar envío interno (supervisores) |
 
-**Interfaz requerida**: Acceso limitado (dentro de app país o portal futuro)
+**Interfaz requerida**: Acceso vía app país (4c-peru)
 
 ---
 
@@ -140,8 +141,8 @@ Basado en las funcionalidades y considerando que es un solo desarrollador:
         │  └─────────────────────────────────────────┘ │
         │  ┌─────────────────────────────────────────┐ │
         │  │ Streamlit (Operador FICEM):             │ │
-        │  │  • Carga Excel, validación, cálculos    │ │
-        │  │  • Gestión empresas/plantas             │ │
+        │  │  • Revisar envíos, ejecutar cálculos    │ │
+        │  │  • Gestión empresas/plantas/usuarios    │ │
         │  └─────────────────────────────────────────┘ │
         └───────────────────┬───────────────────────────┘
                             │ APIs REST
@@ -152,10 +153,11 @@ Basado en las funcionalidades y considerando que es un solo desarrollador:
     │    4c-peru       │       │   4c-colombia    │
     │    (Next.js)     │       │    (futuro)      │
     │                  │       │                  │
+    │ • Login empresa  │       │ • Login empresa  │
+    │ • Carga Excel    │       │ • Carga Excel    │
     │ • Dashboard PE   │       │ • Dashboard CO   │
-    │ • Empresas PE    │       │ • Empresas CO    │
+    │ • Revisión envíos│       │ • Revisión envíos│
     │ • Reportes PE    │       │ • Reportes CO    │
-    │ • TDR PRODUCE    │       │ • TDR local      │
     └──────────────────┘       └──────────────────┘
 ```
 
