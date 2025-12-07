@@ -161,6 +161,39 @@ Basado en las funcionalidades y considerando que es un solo desarrollador:
 
 ---
 
+## Autenticación
+
+**Decisión: JWT centralizado en ficem-core**
+
+- ficem-core emite y valida tokens JWT
+- Los frontends (4c-peru, etc.) no gestionan usuarios, solo consumen el token
+- Sin dependencias externas (Auth0, etc.)
+
+**Flujo:**
+```
+Usuario → Frontend (login form)
+              ↓
+         POST /api/auth/login → ficem-core
+              ↓
+         ficem-core valida credenciales en PostgreSQL
+              ↓
+         Retorna JWT + refresh token
+              ↓
+         Frontend guarda en cookie httpOnly
+              ↓
+         Cada request incluye JWT en header Authorization
+```
+
+**Contenido del JWT:**
+- user_id
+- email
+- rol (operador, coordinador, editor, etc.)
+- grupo (ficem, pais, empresa)
+- pais_code (PE, CO, etc.) - para usuarios de país/empresa
+- empresa_id - para usuarios de empresa
+
+---
+
 ## Notas
 
 1. **FICEM Core es el único backend**: Centraliza datos, cálculos, usuarios y sesiones
