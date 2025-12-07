@@ -46,14 +46,8 @@ config.local.py
 # Claude instructions
 CLAUDE.md
 
-# Obsidian
-.obsidian/workspace*
-.obsidian/cache
-.obsidian/hotkeys.json
-
 # Herramientas
 tools/
-obsidian.sh
 
 # Entornos virtuales adicionales
 **/venv*/
