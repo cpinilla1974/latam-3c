@@ -1,0 +1,38 @@
+===========================================
+AGREGADOS NACIONALES PERÚ - AÑO 2023
+===========================================
+
+GRUPO 1: PRODUCCIÓN
+-------------------
+[8]  Producción Clínker:       65.30 Mt
+[11] Consumo Clínker:           57.37 Mt
+[20] Producción Cemento:        70.83 Mt
+[21a] Producción Cementitious:  78.75 Mt
+
+GRUPO 2: CONTENIDO CLÍNKER
+---------------------------
+[92a] Factor Clínker:           81.0%
+[12] Puzolana:                  85,746 t
+[13] Escoria:                   267,449 t
+[14] Ceniza volante:            64,860 t
+[16] Caliza:                    119,546 t
+
+GRUPO 3: EMISIONES CO₂
+----------------------
+[60a] Emisiones Clínker:        492.66 kg CO₂/t
+[62a] Emisiones Cementitious:   404.04 kg CO₂/t
+[60] Emisiones proceso:         16,674 t CO₂
+[73] Emisiones indirectas:      16,576 t CO₂
+
+GRUPO 4: EFICIENCIA
+-------------------
+[93] Eficiencia Térmica:        3,460.60 MJ/t clínker
+[1151] Energía fósil:           0.19 TJ
+[1152] Energía biomasa:         0.59 TJ
+[1155] Energía residuos:        0.18 TJ
+
+GRUPO 5: ELÉCTRICOS
+-------------------
+[97] Consumo Eléctrico Esp.:    119.50 kWh/t
+
+NOTA: Valores consolidados de 3 empresas (Pacasmayo, Yura, UNACEM)

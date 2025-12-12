@@ -1,77 +1,48 @@
 # Flujo de Datos - Sistema 4C
 
-**Fecha**: 2025-12-11
+**Fecha**: 2025-12-07
 **Estado**: Vigente
 
-> **Nota histórica**: Este documento reemplaza a `docs/4-historico/v1/03-flujo-datos_HASTA_2025-12-11.md`.
+> **Nota histórica**: Este documento reemplaza a `docs/4-historico/v1/06-flujo-proceso_HASTA_2025-12-07.md` que describía el flujo centralizado vía email.
 
 ---
 
 ## Resumen
 
-Las empresas cargan sus datos directamente a través de la app país (4c-peru, etc.), que actúa como frontend. El backend centralizado (ficem-core) procesa, valida y calcula. **Flujo de doble aprobación**: Empresa → FICEM (el coordinador país solo observa).
+Las empresas cargan sus datos directamente a través de la app país (4c-peru, etc.), que actúa como frontend. El backend centralizado (ficem-core) procesa, valida y calcula.
 
 ---
 
 ## Actores
 
-| Actor | Rol BD | Descripción | App que usa |
-|-------|--------|-------------|-------------|
-| **Informante** | `INFORMANTE_EMPRESA` | Carga datos de la empresa | 4c-peru |
-| **Supervisor** | `SUPERVISOR_EMPRESA` | Aprueba envío interno | 4c-peru |
-| **Visor** | `VISOR_EMPRESA` | Solo lectura | 4c-peru |
-| **Coordinador País** | `COORDINADOR_PAIS` | Observa (no aprueba) | 4c-peru |
-| **Admin Proceso** | `ADMIN_PROCESO` | Aprueba final, ejecuta cálculos | ficem-core |
-| **Root** | `ROOT` | Superadmin | ficem-core |
+| Actor | Descripción | App que usa |
+|-------|-------------|-------------|
+| **Empresa** | Usuario de empresa cementera (editor, supervisor) | 4c-peru |
+| **Coordinador País** | Coordinador del gremio o gobierno | 4c-peru |
+| **Operador FICEM** | Equipo técnico regional | ficem-core (Streamlit) |
 
 ---
 
-## Estados del Submission
+## Estados del Envío
 
 | Estado | Descripción | Quién actúa siguiente |
 |--------|-------------|----------------------|
-| `BORRADOR` | Informante trabajando | Informante Empresa |
-| `ENVIADO` | Informante envió a supervisor | Supervisor Empresa |
-| `APROBADO_EMPRESA` | Supervisor empresa aprobó | Admin FICEM |
-| `EN_REVISION_FICEM` | Admin FICEM revisando | Admin FICEM |
-| `APROBADO_FICEM` | Admin FICEM aprobó (final) | Sistema (cálculos) |
-| `RECHAZADO_EMPRESA` | Supervisor rechazó | Informante (corrige) |
-| `RECHAZADO_FICEM` | Admin FICEM rechazó | Supervisor (corrige) |
-| `PUBLICADO` | Visible públicamente | - |
-| `ARCHIVADO` | Histórico | - |
+| `borrador` | Empresa subió archivo, puede modificar | Empresa |
+| `enviado` | Empresa confirmó envío | Coordinador País |
+| `en_revision` | Coordinador revisando | Coordinador País |
+| `rechazado` | Errores encontrados | Empresa (corrige) |
+| `validado` | País aprobó, listo para procesar | FICEM |
+| `procesado` | Cálculos ejecutados | - |
+| `publicado` | Resultados disponibles | Empresa (consulta) |
 
 ---
 
-## Flujo de Aprobación (Doble)
-
-```
-Informante carga datos
-       ↓
-    [BORRADOR]
-       ↓
-Informante envía a supervisor
-       ↓
-    [ENVIADO]
-       ↓
-Supervisor Empresa aprueba
-       ↓
- [APROBADO_EMPRESA]
-       ↓
-Admin Proceso FICEM aprueba
-       ↓
-  [APROBADO_FICEM]
-       ↓
-   [PUBLICADO]
-
-Coordinador País observa todo el flujo (no aprueba)
-```
-
-## Flujo Técnico Completo
+## Flujo Completo
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│ INFORMANTE  │     │  4c-peru    │     │ ficem-core  │     │ADMIN_PROCESO│
-│  (empresa)  │     │ (frontend)  │     │  (backend)  │     │   (FICEM)   │
+│   EMPRESA   │     │  4c-peru    │     │ ficem-core  │     │   FICEM     │
+│  (usuario)  │     │ (frontend)  │     │  (backend)  │     │ (operador)  │
 └──────┬──────┘     └──────┬──────┘     └──────┬──────┘     └──────┬──────┘
        │                   │                   │                   │
        │ 1. Login          │                   │                   │
@@ -90,35 +61,25 @@ Coordinador País observa todo el flujo (no aprueba)
        │                   │                   │                   │
        │ 4. Sube Excel     │                   │                   │
        │──────────────────>│ POST /uploads     │                   │
-       │                   │──────────────────>│ [BORRADOR]        │
+       │                   │──────────────────>│                   │
        │                   │<── validación ────│                   │
        │<── errores/ok ────│                   │                   │
        │                   │                   │                   │
-       │ 5. Envía a supervisor                 │                   │
+       │ 5. Envía (confirma)                   │                   │
        │──────────────────>│ POST /submit      │                   │
-       │                   │──────────────────>│ [ENVIADO]         │
+       │                   │──────────────────>│ estado: enviado   │
        │                   │                   │                   │
-       │                   │                   │                   │
-┌──────┴──────┐            │                   │                   │
-│ SUPERVISOR  │            │                   │                   │
-│  (empresa)  │            │                   │                   │
-└──────┬──────┘            │                   │                   │
-       │ 6. Aprueba interno│                   │                   │
-       │──────────────────>│ POST /approve     │                   │
-       │                   │──────────────────>│[APROBADO_EMPRESA] │
-       │                   │                   │                   │
-       │                   │                   │ 7. Admin revisa   │
+       │                   │                   │ 6. Notifica       │
        │                   │                   │──────────────────>│
        │                   │                   │                   │
-       │                   │                   │ 8. Aprueba final  │
+       │                   │                   │ 7. Coordinador    │
+       │                   │                   │    revisa/valida  │
        │                   │                   │<──────────────────│
-       │                   │                   │ [APROBADO_FICEM]  │
        │                   │                   │                   │
-       │                   │                   │ 9. Cálculos       │
-       │                   │                   │ (A1-A3, GCCA)     │
-       │                   │                   │ [PUBLICADO]       │
+       │                   │                   │ 8. Procesa        │
+       │                   │                   │ (cálculos A1-A3)  │
        │                   │                   │                   │
-       │ 10. Ve resultados │                   │                   │
+       │ 9. Ve resultados  │                   │                   │
        │──────────────────>│ GET /results      │                   │
        │                   │──────────────────>│                   │
        │<── dashboard ─────│<── datos ─────────│                   │
@@ -200,21 +161,19 @@ Coordinador País observa todo el flujo (no aprueba)
 
 ## Permisos por Rol
 
-| Acción | INFORMANTE | SUPERVISOR | VISOR | COORD_PAIS | ADMIN_PROCESO | ROOT |
-|--------|------------|------------|-------|------------|---------------|------|
-| Descargar template | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| Cargar Excel | ✓ | - | - | - | ✓ | ✓ |
-| Enviar a supervisor | ✓ | - | - | - | - | - |
-| Aprobar (empresa) | - | ✓ | - | - | - | - |
-| Ver envíos país | - | - | - | ✓ | ✓ | ✓ |
-| Aprobar (FICEM) | - | - | - | - | ✓ | ✓ |
-| Ejecutar cálculos | - | - | - | - | ✓ | ✓ |
-| Ver resultados propios | ✓ | ✓ | ✓ | - | - | - |
-| Ver resultados país | - | - | - | ✓ | ✓ | ✓ |
-| Ver resultados LATAM | - | - | - | - | ✓ | ✓ |
-| Gestionar procesos | - | - | - | - | ✓ | ✓ |
-| Eliminar procesos | - | - | - | - | - | ✓ |
+| Acción | Empresa Editor | Empresa Supervisor | Coordinador País | FICEM |
+|--------|----------------|-------------------|------------------|-------|
+| Descargar template | ✓ | ✓ | ✓ | ✓ |
+| Cargar Excel | ✓ | ✓ | - | ✓ |
+| Enviar | ✓ | ✓ | - | - |
+| Aprobar envío empresa | - | ✓ | - | - |
+| Revisar envíos país | - | - | ✓ | ✓ |
+| Aprobar/Rechazar | - | - | ✓ | ✓ |
+| Ejecutar cálculos | - | - | - | ✓ |
+| Ver resultados propios | ✓ | ✓ | - | - |
+| Ver resultados país | - | - | ✓ | ✓ |
+| Ver resultados LATAM | - | - | - | ✓ |
 
 ---
 
-**Última actualización**: 2025-12-11
+**Última actualización**: 2025-12-07

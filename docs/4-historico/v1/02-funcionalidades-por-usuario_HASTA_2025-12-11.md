@@ -1,58 +1,57 @@
 # Funcionalidades por Grupo de Usuarios
 
-**Fecha**: 2025-12-11
-**Estado**: Esquema definitivo de roles y permisos
+**Fecha**: 2025-12-07
+**Estado**: Documento base para decisiones de arquitectura
 
 ---
 
-## Roles del Sistema
+## Grupos de Usuarios
 
-| # | Rol | Valor BD | Quién es | Qué puede ver | Qué puede hacer |
-|---|-----|----------|----------|---------------|-----------------|
-| 1 | Root | `ROOT` | Superadmin FICEM | Todo | Todo |
-| 2 | Admin Proceso | `ADMIN_PROCESO` | Staff FICEM | Todo | Gestionar procesos, aprobar submissions |
-| 3 | Ejecutivo FICEM | `EJECUTIVO_FICEM` | Directivo FICEM | Todo | Solo ver |
-| 4 | Amigo FICEM | `AMIGO_FICEM` | Académico, consultor | Público + Amigos FICEM | Solo ver + API |
-| 5 | Coordinador País | `COORDINADOR_PAIS` | Asociación nacional | Todo de su país | Solo ver + enviar recordatorios |
-| 6 | Supervisor Empresa | `SUPERVISOR_EMPRESA` | Jefe en empresa | Su empresa + Amigos FICEM | Aprobar antes de enviar |
-| 7 | Informante Empresa | `INFORMANTE_EMPRESA` | Empleado empresa | Su empresa + Amigos FICEM | Cargar datos |
-| 8 | Visor Empresa | `VISOR_EMPRESA` | Empleado empresa | Su empresa + Amigos FICEM | Solo ver |
+| Grupo | Alcance | Descripción |
+|-------|---------|-------------|
+| **FICEM** | Regional (LATAM) | Equipo técnico regional, gestiona datos de todos los países |
+| **País** | Nacional | Stakeholders nacionales (gremio, gobierno, coordinadores) |
+| **Empresas** | Individual | Personal de empresas cementeras con diferentes roles |
+| **IA/Analítica** | Transversal | Servicio consumido por todos los grupos |
 
 ---
 
 ## 1. FICEM (Equipo Regional)
 
-**Roles**: `ROOT`, `ADMIN_PROCESO`, `EJECUTIVO_FICEM`, `AMIGO_FICEM`
+**Roles posibles**: Operador, Administrador, Analista
 
-| # | Funcionalidad | ROOT | ADMIN_PROCESO | EJECUTIVO | AMIGO |
-|---|--------------|------|---------------|-----------|-------|
-| 1 | Gestionar usuarios | ✓ | ✓ | - | - |
-| 2 | Gestionar procesos MRV | ✓ | ✓ | - | - |
-| 3 | Aprobar submissions (final) | ✓ | ✓ | - | - |
-| 4 | Ejecutar cálculos A1-A3 | ✓ | ✓ | - | - |
-| 5 | Gestionar factores de emisión | ✓ | ✓ | - | - |
-| 6 | Ver resultados LATAM | ✓ | ✓ | ✓ | - |
-| 7 | Benchmarking regional | ✓ | ✓ | ✓ | ✓ |
-| 8 | Eliminar procesos | ✓ | - | - | - |
+| # | Funcionalidad |
+|---|--------------|
+| 1 | Revisar envíos validados por países |
+| 2 | Ejecutar cálculos A1-A3 (clinker, cemento, concreto) |
+| 3 | Clasificar GCCA (bandas A-G, AA-F) |
+| 4 | Gestionar factores de emisión por país/año |
+| 5 | Generar plantillas Excel personalizadas |
+| 6 | Ver resultados consolidados LATAM |
+| 7 | Gestionar empresas/plantas/usuarios |
+| 8 | Monitorear procesamiento |
+| 9 | Benchmarking regional (anónimo) |
 
-**Interfaz requerida**: Sí (Streamlit en ficem-core + API REST)
+**Interfaz requerida**: Sí (Streamlit en ficem-core)
 
 ---
 
-## 2. País
+## 2. País (ej: Perú - ASOCEM + PRODUCE + particularidades)
 
-**Rol**: `COORDINADOR_PAIS`
+**Roles posibles**: Coordinador gremio, Funcionario gobierno, Analista país, Observador
 
 | # | Funcionalidad |
 |---|--------------|
 | 1 | Dashboard métricas país |
 | 2 | Listado empresas del país |
-| 3 | Ver estado de envíos (solo observar, NO aprueba) |
-| 4 | Ver resultados cálculos empresas |
-| 5 | Benchmarking nacional |
-| 6 | Enviar recordatorios a empresas |
+| 3 | Descargar plantillas Excel |
+| 4 | Revisar envíos de empresas (aprobar/rechazar) |
+| 5 | Ver resultados cálculos empresas |
+| 6 | Benchmarking nacional |
+| 7 | Generar reportes país |
+| 8 | Funcionalidades específicas según TDR local |
 
-**Nota importante**: El coordinador país **observa** pero **no aprueba** envíos. La aprobación va: Empresa → FICEM directamente.
+**Nota**: Cada país tendrá sus propios stakeholders (gobierno, gremio, etc.) con requisitos específicos. Ejemplo Perú: ASOCEM (gremio) + PRODUCE (gobierno) + TDR específico.
 
 **Interfaz requerida**: Sí (4c-peru en Next.js)
 
@@ -60,18 +59,18 @@
 
 ## 3. Empresas Cementeras
 
-**Roles**: `SUPERVISOR_EMPRESA`, `INFORMANTE_EMPRESA`, `VISOR_EMPRESA`
+**Roles posibles**: Editor (carga datos), Supervisor (revisa/aprueba), Observador (solo lectura)
 
-| # | Funcionalidad | SUPERVISOR | INFORMANTE | VISOR |
-|---|--------------|------------|------------|-------|
-| 1 | Descargar plantilla Excel | ✓ | ✓ | ✓ |
-| 2 | Cargar Excel con datos | - | ✓ | - |
-| 3 | Ver estado del envío | ✓ | ✓ | ✓ |
-| 4 | Enviar a supervisor | - | ✓ | - |
-| 5 | Aprobar envío interno | ✓ | - | - |
-| 6 | Ver resultados de cálculos | ✓ | ✓ | ✓ |
-| 7 | Descargar reporte individual | ✓ | ✓ | ✓ |
-| 8 | Benchmarking (posición anónima) | ✓ | ✓ | ✓ |
+| # | Funcionalidad |
+|---|--------------|
+| 1 | Descargar plantilla Excel |
+| 2 | Cargar Excel con datos de la empresa |
+| 3 | Ver estado del envío (borrador, enviado, validado, rechazado, etc.) |
+| 4 | Corregir y reenviar si fue rechazado |
+| 5 | Ver sus resultados de cálculos |
+| 6 | Ver su posición en benchmarking (anónimo) |
+| 7 | Descargar reporte individual |
+| 8 | Aprobar envío interno (supervisores) |
 
 **Interfaz requerida**: Acceso vía app país (4c-peru)
 
@@ -190,9 +189,10 @@ Usuario → Frontend (login form)
 **Contenido del JWT:**
 - user_id
 - email
-- rol (`ROOT`, `ADMIN_PROCESO`, `COORDINADOR_PAIS`, `INFORMANTE_EMPRESA`, etc.)
-- pais (código país o "regional" para FICEM)
-- empresa_id (para usuarios de empresa, null para otros)
+- rol (operador, coordinador, editor, etc.)
+- grupo (ficem, pais, empresa)
+- pais_code (PE, CO, etc.) - para usuarios de país/empresa
+- empresa_id - para usuarios de empresa
 
 ---
 
@@ -203,9 +203,8 @@ Usuario → Frontend (login form)
 3. **Datos por país**: Almacenados en ficem-core con esquemas/tablas separadas
 4. **knowledge-api crece después**: Cuando se contrate, se integra como servicio adicional
 5. **Las empresas acceden vía app país**: No tienen app propia
-6. **Coordinador país solo observa**: No aprueba envíos, la aprobación es Empresa → FICEM
 
 ---
 
-**Última actualización**: 2025-12-11
-**Decisión tomada**: 2025-12-10
+**Última actualización**: 2025-12-07
+**Decisión tomada**: 2025-12-07
