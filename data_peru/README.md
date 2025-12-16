@@ -42,9 +42,26 @@ Este directorio contiene el análisis de datos para el **Reporte de Seguimiento 
    - ✅ Gráficos guardados en: `graficos/`
    - ✅ Abrir: `graficos/reporte_completo.html`
 
+7. **Reporte de Seguimiento HR Perú 2030** ✅ (TDR Ítem 2)
+   - ✅ Script: `scripts/12_reporte_seguimiento_hr.py`
+   - ✅ Metas HR 2030 configuradas (basadas en documento oficial)
+   - ✅ Gráficos de progreso y trayectorias generados
+   - ✅ Excel exportado: `reportes_hr/seguimiento_hr_peru_2030.xlsx`
+   - ✅ Reporte markdown: `reportes_hr/reporte_seguimiento_hr_2030.md`
+
+### 📈 Progreso hacia Metas HR 2030
+
+| Indicador | Baseline 2019 | Valor 2024 | Meta 2030 | Progreso |
+|-----------|---------------|------------|-----------|----------|
+| Factor Clínker (92a) | 76.0% | 73.7% | 70.0% | 37.9% |
+| Eficiencia Térmica (93) | 3,398 MJ/t | 3,341 MJ/t | 3,301 MJ/t | 59.1% ✅ |
+| Consumo Eléctrico (97) | 114 kWh/t | 105 kWh/t | 103 kWh/t | 77.3% ✅ |
+| Emisiones CO₂ Cem (62a) | 395 kg/t | 383 kg/t | 349 kg/t | 26.9% |
+| Emisiones CO₂ Ck (60a) | 504 kg/t | 510 kg/t | 479 kg/t | -23.0% ⚠️ |
+
 ### ⏳ Pendiente
 
-7. **Validar** contra datos oficiales del reporte PDF
+8. **Validar** contra datos oficiales del reporte PDF
 
 ---
 
@@ -89,15 +106,20 @@ data_peru/
 ├── scripts/
 │   ├── 01_explorar_bases_datos.py     (✅ completado)
 │   ├── 02_crear_base_consolidada.py   (✅ completado)
-│   ├── 03_extraer_pacasmayo.py        (✅ completado - 3,288 registros)
-│   ├── 04_extraer_yura.py             (✅ completado - 94 registros)
-│   ├── 05_extraer_unacem.py           (✅ completado - 1,980 registros)
-│   ├── 06_calcular_agregados.py       (✅ completado - 269 agregados)
-│   └── 07_generar_graficos.py         (✅ completado - 8 gráficos)
+│   ├── 03_extraer_pacasmayo.py        (✅ completado)
+│   ├── 04_extraer_yura.py             (✅ completado)
+│   ├── 05_extraer_unacem.py           (✅ completado)
+│   ├── 06_calcular_agregados.py       (✅ completado)
+│   ├── 07_generar_graficos.py         (✅ completado)
+│   └── 12_reporte_seguimiento_hr.py   (✅ TDR Ítem 2 - Reporte HR 2030)
 │
 ├── datos_raw/                         (vacío - para datos extraídos)
 ├── datos_procesados/
-│   └── agregados_nacionales.csv       (✅ 269 agregados 2010-2030)
+│   └── agregados_nacionales.csv       (✅ 78 agregados 2010-2024)
+├── reportes_hr/                       (✅ Entregables TDR Ítem 2)
+│   ├── reporte_seguimiento_hr_2030.md (reporte markdown)
+│   ├── seguimiento_hr_peru_2030.xlsx  (planilla Excel oficial)
+│   └── *.png                          (gráficos de trayectorias)
 ├── notebooks/                         (vacío - para análisis Jupyter)
 └── graficos/                          (✅ 8 gráficos PNG + reporte HTML)
 ```

@@ -2,8 +2,8 @@
 """
 Valida los agregados calculados contra los valores oficiales del reporte PDF.
 
-Compara los valores de los años clave (2010, 2014, 2019, 2021, 2023)
-contra las cifras publicadas en el Reporte de Seguimiento oficial.
+Compara los valores extraídos del PDF (tabla datos_pdf_referencia)
+contra los agregados calculados (tabla agregados_nacionales).
 """
 
 import sqlite3
@@ -13,84 +13,30 @@ from pathlib import Path
 # Rutas
 DB_CONSOLIDADA = Path(__file__).parent.parent / "peru_consolidado.db"
 
-# Años reportados oficialmente
-AÑOS_REPORTE = [2010, 2014, 2019, 2021, 2023]
+def cargar_datos_pdf():
+    """Carga los valores oficiales extraídos del PDF."""
+    print(f"\n📄 Cargando datos del PDF de referencia...")
 
-# Valores oficiales del reporte PDF (extraídos manualmente de los gráficos)
-VALORES_OFICIALES = {
-    # Grupo 1: Producción
-    '8': {  # Producción Clínker (Mt)
-        2010: 6.16,
-        2014: 8.80,
-        2019: 9.13,
-        2021: 9.94,
-        2023: 9.45
-    },
-    '11': {  # Consumo Clínker (Mt)
-        2010: 6.74,
-        2014: 8.44,
-        2019: 7.95,
-        2021: 9.76,
-        2023: 8.41
-    },
-    '20': {  # Producción Cemento (Mt)
-        2010: 8.20,
-        2014: 10.60,
-        2019: 10.47,
-        2021: 12.72,
-        2023: 11.42
-    },
-    '21a': {  # Producción Cementitious (Mt)
-        2010: 7.62,
-        2014: 10.96,
-        2019: 11.64,
-        2021: 12.90,
-        2023: 12.45
-    },
+    conn = sqlite3.connect(DB_CONSOLIDADA)
 
-    # Grupo 2: Contenido Clínker
-    '92a': {  # Factor Clínker (%)
-        2010: 82,
-        2014: 80,
-        2019: 76,
-        2021: 77,
-        2023: 74
-    },
+    query = """
+        SELECT
+            codigo_indicador,
+            año,
+            valor,
+            unidad
+        FROM datos_pdf_referencia
+        ORDER BY codigo_indicador, año
+    """
 
-    # Grupo 3: Emisiones
-    '60a': {  # Emisiones CO₂ Clínker (kg CO₂/t)
-        2010: 798,
-        2014: 791,
-        2019: 775,
-        2021: 773,
-        2023: 773
-    },
-    '62a': {  # Emisiones CO₂ Cementitious (kg CO₂/t)
-        2010: 645,
-        2014: 635,
-        2019: 607,
-        2021: 596,
-        2023: 587
-    },
+    df = pd.read_sql_query(query, conn)
+    conn.close()
 
-    # Grupo 4: Eficiencia
-    '93': {  # Eficiencia Térmica (MJ/t clínker)
-        2010: 3545,
-        2014: 3403,
-        2019: 3398,
-        2021: 3386,
-        2023: 3351
-    },
+    print(f"   ✅ {len(df):,} valores del PDF cargados")
+    print(f"   📊 Indicadores: {df['codigo_indicador'].unique().tolist()}")
+    print(f"   📅 Años: {sorted(df['año'].unique())}")
 
-    # Grupo 5: Eléctricos
-    '97': {  # Consumo Eléctrico Específico (kWh/t)
-        2010: 110,
-        2014: 109,
-        2019: 115,
-        2021: 105,
-        2023: 108
-    },
-}
+    return df
 
 def cargar_agregados_calculados():
     """Carga los agregados calculados de la base de datos."""
@@ -104,45 +50,64 @@ def cargar_agregados_calculados():
             año,
             valor_nacional
         FROM agregados_nacionales
-        WHERE año IN (2010, 2014, 2019, 2021, 2023)
         ORDER BY codigo_indicador, año
     """
 
     df = pd.read_sql_query(query, conn)
     conn.close()
 
-    print(f"   ✅ {len(df):,} agregados cargados para validación")
+    print(f"   ✅ {len(df):,} agregados calculados cargados")
 
     return df
 
-def convertir_unidades(codigo, valor):
-    """Convierte valores a las unidades del reporte oficial."""
-    # Convertir toneladas a millones de toneladas
-    if codigo in ['8', '11', '20', '21a']:
+def convertir_unidades(codigo, valor, unidad_pdf):
+    """Convierte valores a las mismas unidades para comparación."""
+    # Si el valor del PDF está en Mt, convertir el valor calculado (en toneladas) a Mt
+    if unidad_pdf == 'Mt' and codigo in ['8', '11', '20', '21a']:
         return valor / 1_000_000
 
-    # Factor Clínker: convertir decimal a porcentaje
+    # Si el valor del PDF está en fracción (0-1), el valor calculado ya debe estar en fracción
+    # Si el PDF tiene % y el calculado está en fracción, convertir calculado a %
     if codigo == '92a':
+        # Valor calculado está en fracción (0-1), PDF también está en fracción
+        # Para comparar, convertir ambos a porcentaje
         return valor * 100
 
     # Otros indicadores ya están en las unidades correctas
     return valor
 
-def comparar_valores(df_calculados, valores_oficiales):
-    """Compara valores calculados vs oficiales y genera reporte."""
+def comparar_valores(df_calculados, df_pdf):
+    """Compara valores calculados vs PDF y genera reporte."""
     print(f"\n{'='*100}")
-    print("VALIDACIÓN CONTRA REPORTE OFICIAL")
+    print("VALIDACIÓN CONTRA VALORES EXTRAÍDOS DEL PDF")
     print(f"{'='*100}\n")
 
     resultados = []
     errores_totales = []
 
-    for codigo, años_oficiales in valores_oficiales.items():
+    # Agrupar por indicador
+    indicadores = df_pdf['codigo_indicador'].unique()
+
+    for codigo in indicadores:
+        df_ind_pdf = df_pdf[df_pdf['codigo_indicador'] == codigo]
+
         print(f"\n📌 Indicador [{codigo}]")
-        print(f"{'Año':<8} {'Oficial':<15} {'Calculado':<15} {'Diferencia':<15} {'Error %':<10} {'Estado'}")
+        print(f"{'Año':<8} {'PDF (Ref)':<15} {'Calculado':<15} {'Diferencia':<15} {'Error %':<10} {'Estado'}")
         print("-" * 100)
 
-        for año, valor_oficial in años_oficiales.items():
+        for _, row_pdf in df_ind_pdf.iterrows():
+            año = row_pdf['año']
+            valor_pdf_raw = row_pdf['valor']
+            unidad_pdf = row_pdf['unidad']
+
+            # Convertir valor del PDF a unidades de comparación
+            if unidad_pdf == 'Mt':
+                valor_pdf = valor_pdf_raw  # Ya está en Mt
+            elif unidad_pdf == 'fracción' and codigo == '92a':
+                valor_pdf = valor_pdf_raw * 100  # Convertir fracción a porcentaje
+            else:
+                valor_pdf = valor_pdf_raw
+
             # Buscar valor calculado
             df_valor = df_calculados[
                 (df_calculados['codigo_indicador'] == codigo) &
@@ -150,15 +115,24 @@ def comparar_valores(df_calculados, valores_oficiales):
             ]
 
             if len(df_valor) == 0:
-                print(f"{año:<8} {valor_oficial:<15.2f} {'NO CALCULADO':<15} {'-':<15} {'-':<10} ❌ FALTANTE")
+                print(f"{año:<8} {valor_pdf:<15.2f} {'NO CALCULADO':<15} {'-':<15} {'-':<10} ❌ FALTANTE")
+                resultados.append({
+                    'codigo': codigo,
+                    'año': año,
+                    'pdf': valor_pdf,
+                    'calculado': None,
+                    'diferencia': None,
+                    'error_pct': None,
+                    'estado': 'FALTANTE'
+                })
                 continue
 
             valor_calculado_raw = df_valor.iloc[0]['valor_nacional']
-            valor_calculado = convertir_unidades(codigo, valor_calculado_raw)
+            valor_calculado = convertir_unidades(codigo, valor_calculado_raw, unidad_pdf)
 
             # Calcular diferencia y error porcentual
-            diferencia = valor_calculado - valor_oficial
-            error_pct = abs(diferencia / valor_oficial * 100) if valor_oficial != 0 else 0
+            diferencia = valor_calculado - valor_pdf
+            error_pct = abs(diferencia / valor_pdf * 100) if valor_pdf != 0 else 0
 
             # Determinar estado (tolerancia 2%)
             if error_pct <= 2:
@@ -168,15 +142,16 @@ def comparar_valores(df_calculados, valores_oficiales):
             else:
                 estado = "❌ REVISAR"
 
-            print(f"{año:<8} {valor_oficial:<15.2f} {valor_calculado:<15.2f} {diferencia:<15.2f} {error_pct:<10.2f} {estado}")
+            print(f"{año:<8} {valor_pdf:<15.2f} {valor_calculado:<15.2f} {diferencia:<15.2f} {error_pct:<10.2f} {estado}")
 
             resultados.append({
                 'codigo': codigo,
                 'año': año,
-                'oficial': valor_oficial,
+                'pdf': valor_pdf,
                 'calculado': valor_calculado,
                 'diferencia': diferencia,
-                'error_pct': error_pct
+                'error_pct': error_pct,
+                'estado': estado
             })
 
             errores_totales.append(error_pct)
@@ -230,11 +205,14 @@ def main():
         return
 
     try:
+        # Cargar datos del PDF
+        df_pdf = cargar_datos_pdf()
+
         # Cargar agregados calculados
         df_calculados = cargar_agregados_calculados()
 
         # Comparar valores
-        resultados, errores = comparar_valores(df_calculados, VALORES_OFICIALES)
+        resultados, errores = comparar_valores(df_calculados, df_pdf)
 
         # Generar resumen
         df_resumen = generar_resumen(resultados, errores)

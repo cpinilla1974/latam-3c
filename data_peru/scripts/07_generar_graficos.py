@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Genera gráficos del Reporte de Seguimiento 2010-2023 del Sector Cemento Perú.
+Genera gráficos del Reporte de Seguimiento 2010-2024 del Sector Cemento Perú.
 
 Recrea los gráficos principales del reporte usando los agregados nacionales calculados.
 """
@@ -27,7 +27,7 @@ DB_CONSOLIDADA = Path(__file__).parent.parent / "peru_consolidado.db"
 DIR_GRAFICOS = Path(__file__).parent.parent / "graficos"
 
 # Años del reporte oficial (se actualizará con años disponibles)
-AÑOS_REPORTE = [2010, 2014, 2019, 2020, 2021]
+AÑOS_REPORTE = [2010, 2014, 2019, 2020, 2021, 2024]
 
 def cargar_agregados():
     """Carga todos los agregados nacionales."""
@@ -70,7 +70,7 @@ def crear_directorio_graficos():
     print(f"\n📁 Directorios de gráficos creados en: {DIR_GRAFICOS}")
 
 def grafico_produccion_clinker(df):
-    """Gráfico 1.1: Producción de Clínker 2010-2023"""
+    """Gráfico 1.1: Producción de Clínker 2010-2024"""
     print(f"\n📈 Generando: Producción de Clínker...")
 
     datos = df[df['codigo_indicador'] == '8'].copy()
@@ -95,7 +95,7 @@ def grafico_produccion_clinker(df):
 
     ax.set_xlabel('Año', fontweight='bold')
     ax.set_ylabel('Millones de toneladas (Mt)', fontweight='bold')
-    ax.set_title('Producción de Clínker - Perú\n2010-2023', fontweight='bold', fontsize=13)
+    ax.set_title('Producción de Clínker - Perú\n2010-2024', fontweight='bold', fontsize=13)
     ax.grid(True, alpha=0.3, axis='y')
 
     plt.tight_layout()
@@ -134,7 +134,7 @@ def grafico_produccion_cemento(df):
 
     ax.set_xlabel('Año', fontweight='bold')
     ax.set_ylabel('Millones de toneladas (Mt)', fontweight='bold')
-    ax.set_title('Producción de Cemento y Cementitious - Perú\n2010-2023',
+    ax.set_title('Producción de Cemento y Cementitious - Perú\n2010-2024',
                  fontweight='bold', fontsize=13)
     ax.set_xticks(x)
     ax.set_xticklabels(AÑOS_REPORTE)
@@ -175,7 +175,7 @@ def grafico_factor_clinker(df):
 
     ax.set_xlabel('Año', fontweight='bold')
     ax.set_ylabel('Porcentaje (%)', fontweight='bold')
-    ax.set_title('Factor Clínker (Contenido de clínker en cemento) - Perú\n2010-2023',
+    ax.set_title('Factor Clínker (Contenido de clínker en cemento) - Perú\n2010-2024',
                  fontweight='bold', fontsize=13)
     ax.set_ylim(75, 90)
     ax.grid(True, alpha=0.3)
@@ -211,7 +211,7 @@ def grafico_emisiones_clinker(df):
 
     ax.set_xlabel('Año', fontweight='bold')
     ax.set_ylabel('kg CO₂/t clínker', fontweight='bold')
-    ax.set_title('Emisiones Netas CO₂ del Clínker - Perú\n2010-2023',
+    ax.set_title('Emisiones Netas CO₂ del Clínker - Perú\n2010-2024',
                  fontweight='bold', fontsize=13)
     ax.grid(True, alpha=0.3, axis='y')
 
@@ -246,7 +246,7 @@ def grafico_emisiones_cementitious(df):
 
     ax.set_xlabel('Año', fontweight='bold')
     ax.set_ylabel('kg CO₂/t cementitious', fontweight='bold')
-    ax.set_title('Emisiones Netas CO₂ del Cementitious - Perú\n2010-2023',
+    ax.set_title('Emisiones Netas CO₂ del Cementitious - Perú\n2010-2024',
                  fontweight='bold', fontsize=13)
     ax.grid(True, alpha=0.3, axis='y')
 
@@ -256,6 +256,232 @@ def grafico_emisiones_cementitious(df):
     plt.close()
 
     print(f"   ✅ Guardado: grupo3_emisiones/02_emisiones_cementitious.png")
+
+def grafico_emisiones_netas_combustibles(df):
+    """Gráfico 3.3: Emisiones Netas Combustibles (Indicador 60)"""
+    print(f"\n📈 Generando: Emisiones Netas Combustibles...")
+
+    datos = df[df['codigo_indicador'] == '60'].copy()
+
+    # Si no hay datos en años del reporte, usar todos los años disponibles
+    if len(datos[datos['año'].isin(AÑOS_REPORTE)]) == 0 and len(datos) > 0:
+        print(f"   ℹ️  Usando años disponibles: {sorted(datos['año'].unique())}")
+    else:
+        datos = datos[datos['año'].isin(AÑOS_REPORTE)]
+
+    if len(datos) == 0:
+        print("   ⚠️  No hay datos disponibles")
+        return
+
+    # Convertir a millones de toneladas
+    datos['valor_Mt'] = datos['valor_nacional'] / 1_000_000
+
+    fig, ax = plt.subplots(figsize=(10, 6))
+
+    ax.bar(datos['año'], datos['valor_Mt'], color='darkgreen', alpha=0.7, width=1.5)
+    ax.plot(datos['año'], datos['valor_Mt'], marker='o', color='darkslategray',
+            linewidth=2, markersize=7)
+
+    # Etiquetas de valores
+    for _, row in datos.iterrows():
+        ax.text(row['año'], row['valor_Mt'] + 0.05, f"{row['valor_Mt']:.2f}",
+                ha='center', va='bottom', fontsize=9, fontweight='bold')
+
+    ax.set_xlabel('Año', fontweight='bold')
+    ax.set_ylabel('Millones de toneladas CO₂ (Mt)', fontweight='bold')
+    ax.set_title('Emisiones Netas de Combustibles - Perú\n2010-2024',
+                 fontweight='bold', fontsize=13)
+    ax.grid(True, alpha=0.3, axis='y')
+
+    plt.tight_layout()
+    plt.savefig(DIR_GRAFICOS / "grupo3_emisiones" / "03_emisiones_netas_combustibles.png",
+                dpi=300, bbox_inches='tight')
+    plt.close()
+
+    print(f"   ✅ Guardado: grupo3_emisiones/03_emisiones_netas_combustibles.png")
+
+def grafico_emisiones_indirectas_alcance2(df):
+    """Gráfico 3.4: Emisiones Indirectas Alcance 2 (Indicador 73)"""
+    print(f"\n📈 Generando: Emisiones Indirectas Alcance 2...")
+
+    datos = df[df['codigo_indicador'] == '73'].copy()
+
+    # Si no hay datos en años del reporte, usar todos los años disponibles
+    if len(datos[datos['año'].isin(AÑOS_REPORTE)]) == 0 and len(datos) > 0:
+        print(f"   ℹ️  Usando años disponibles: {sorted(datos['año'].unique())}")
+    else:
+        datos = datos[datos['año'].isin(AÑOS_REPORTE)]
+
+    if len(datos) == 0:
+        print("   ⚠️  No hay datos disponibles")
+        return
+
+    # Convertir a miles de toneladas
+    datos['valor_kt'] = datos['valor_nacional'] / 1_000
+
+    fig, ax = plt.subplots(figsize=(10, 6))
+
+    ax.bar(datos['año'], datos['valor_kt'], color='steelblue', alpha=0.7, width=1.5)
+    ax.plot(datos['año'], datos['valor_kt'], marker='s', color='navy',
+            linewidth=2, markersize=7)
+
+    # Etiquetas de valores
+    for _, row in datos.iterrows():
+        ax.text(row['año'], row['valor_kt'] + 5, f"{row['valor_kt']:.1f}",
+                ha='center', va='bottom', fontsize=9, fontweight='bold')
+
+    ax.set_xlabel('Año', fontweight='bold')
+    ax.set_ylabel('Miles de toneladas CO₂ (kt)', fontweight='bold')
+    ax.set_title('Emisiones Indirectas Alcance 2 (Electricidad) - Perú\n2010-2024',
+                 fontweight='bold', fontsize=13)
+    ax.grid(True, alpha=0.3, axis='y')
+
+    plt.tight_layout()
+    plt.savefig(DIR_GRAFICOS / "grupo3_emisiones" / "04_emisiones_alcance2.png",
+                dpi=300, bbox_inches='tight')
+    plt.close()
+
+    print(f"   ✅ Guardado: grupo3_emisiones/04_emisiones_alcance2.png")
+
+def grafico_especifica_bruta_cementitious(df):
+    """Gráfico 3.5: Emisión Específica Bruta Cementitious (Indicador 62)"""
+    print(f"\n📈 Generando: Emisión Específica Bruta Cementitious...")
+
+    datos = df[df['codigo_indicador'] == '62'].copy()
+    datos = datos[datos['año'].isin(AÑOS_REPORTE)]
+
+    if len(datos) == 0:
+        print("   ⚠️  No hay datos disponibles")
+        return
+
+    fig, ax = plt.subplots(figsize=(10, 6))
+
+    ax.bar(datos['año'], datos['valor_nacional'], color='coral', alpha=0.7, width=1.5)
+    ax.plot(datos['año'], datos['valor_nacional'], marker='D', color='firebrick',
+            linewidth=2, markersize=7)
+
+    # Etiquetas de valores
+    for _, row in datos.iterrows():
+        ax.text(row['año'], row['valor_nacional'] + 10, f"{row['valor_nacional']:.1f}",
+                ha='center', va='bottom', fontsize=9, fontweight='bold')
+
+    ax.set_xlabel('Año', fontweight='bold')
+    ax.set_ylabel('kg CO₂/t cementitious', fontweight='bold')
+    ax.set_title('Emisión Específica Bruta (Cementitious) - Perú\n2010-2024',
+                 fontweight='bold', fontsize=13)
+    ax.grid(True, alpha=0.3, axis='y')
+
+    plt.tight_layout()
+    plt.savefig(DIR_GRAFICOS / "grupo3_emisiones" / "05_especifica_bruta_cementitious.png",
+                dpi=300, bbox_inches='tight')
+    plt.close()
+
+    print(f"   ✅ Guardado: grupo3_emisiones/05_especifica_bruta_cementitious.png")
+
+def grafico_emision_bruta_cemento_eq(df):
+    """Gráfico 3.6: Emisión Bruta Cemento Equivalente (Indicador 63)"""
+    print(f"\n📈 Generando: Emisión Bruta Cemento Equivalente...")
+
+    datos = df[df['codigo_indicador'] == '63'].copy()
+    datos = datos[datos['año'].isin(AÑOS_REPORTE)]
+
+    if len(datos) == 0:
+        print("   ⚠️  No hay datos disponibles")
+        return
+
+    fig, ax = plt.subplots(figsize=(10, 6))
+
+    ax.bar(datos['año'], datos['valor_nacional'], color='mediumpurple', alpha=0.7, width=1.5)
+    ax.plot(datos['año'], datos['valor_nacional'], marker='o', color='indigo',
+            linewidth=2, markersize=7)
+
+    # Etiquetas de valores
+    for _, row in datos.iterrows():
+        ax.text(row['año'], row['valor_nacional'] + 10, f"{row['valor_nacional']:.1f}",
+                ha='center', va='bottom', fontsize=9, fontweight='bold')
+
+    ax.set_xlabel('Año', fontweight='bold')
+    ax.set_ylabel('kg CO₂/t cemento eq', fontweight='bold')
+    ax.set_title('Emisión Bruta Cemento Equivalente - Perú\n2010-2024',
+                 fontweight='bold', fontsize=13)
+    ax.grid(True, alpha=0.3, axis='y')
+
+    plt.tight_layout()
+    plt.savefig(DIR_GRAFICOS / "grupo3_emisiones" / "06_emision_bruta_cemento_eq.png",
+                dpi=300, bbox_inches='tight')
+    plt.close()
+
+    print(f"   ✅ Guardado: grupo3_emisiones/06_emision_bruta_cemento_eq.png")
+
+def grafico_especifica_neta_cementitious(df):
+    """Gráfico 3.7: Emisión Específica Neta Cementitious (Indicador 74)"""
+    print(f"\n📈 Generando: Emisión Específica Neta Cementitious...")
+
+    datos = df[df['codigo_indicador'] == '74'].copy()
+    datos = datos[datos['año'].isin(AÑOS_REPORTE)]
+
+    if len(datos) == 0:
+        print("   ⚠️  No hay datos disponibles")
+        return
+
+    fig, ax = plt.subplots(figsize=(10, 6))
+
+    ax.bar(datos['año'], datos['valor_nacional'], color='teal', alpha=0.7, width=1.5)
+    ax.plot(datos['año'], datos['valor_nacional'], marker='s', color='darkcyan',
+            linewidth=2, markersize=7)
+
+    # Etiquetas de valores
+    for _, row in datos.iterrows():
+        ax.text(row['año'], row['valor_nacional'] + 10, f"{row['valor_nacional']:.1f}",
+                ha='center', va='bottom', fontsize=9, fontweight='bold')
+
+    ax.set_xlabel('Año', fontweight='bold')
+    ax.set_ylabel('kg CO₂/t cementitious', fontweight='bold')
+    ax.set_title('Emisión Específica Neta (Cementitious) - Perú\n2010-2024',
+                 fontweight='bold', fontsize=13)
+    ax.grid(True, alpha=0.3, axis='y')
+
+    plt.tight_layout()
+    plt.savefig(DIR_GRAFICOS / "grupo3_emisiones" / "07_especifica_neta_cementitious.png",
+                dpi=300, bbox_inches='tight')
+    plt.close()
+
+    print(f"   ✅ Guardado: grupo3_emisiones/07_especifica_neta_cementitious.png")
+
+def grafico_emision_neta_cemento_eq(df):
+    """Gráfico 3.8: Emisión Neta Cemento Equivalente (Indicador 75)"""
+    print(f"\n📈 Generando: Emisión Neta Cemento Equivalente...")
+
+    datos = df[df['codigo_indicador'] == '75'].copy()
+    datos = datos[datos['año'].isin(AÑOS_REPORTE)]
+
+    if len(datos) == 0:
+        print("   ⚠️  No hay datos disponibles")
+        return
+
+    fig, ax = plt.subplots(figsize=(10, 6))
+
+    ax.bar(datos['año'], datos['valor_nacional'], color='darkgoldenrod', alpha=0.7, width=1.5)
+    ax.plot(datos['año'], datos['valor_nacional'], marker='D', color='saddlebrown',
+            linewidth=2, markersize=7)
+
+    # Etiquetas de valores
+    for _, row in datos.iterrows():
+        ax.text(row['año'], row['valor_nacional'] + 10, f"{row['valor_nacional']:.1f}",
+                ha='center', va='bottom', fontsize=9, fontweight='bold')
+
+    ax.set_xlabel('Año', fontweight='bold')
+    ax.set_ylabel('kg CO₂/t cemento eq', fontweight='bold')
+    ax.set_title('Emisión Neta Cemento Equivalente - Perú\n2010-2024',
+                 fontweight='bold', fontsize=13)
+    ax.grid(True, alpha=0.3, axis='y')
+
+    plt.tight_layout()
+    plt.savefig(DIR_GRAFICOS / "grupo3_emisiones" / "08_emision_neta_cemento_eq.png",
+                dpi=300, bbox_inches='tight')
+    plt.close()
+
+    print(f"   ✅ Guardado: grupo3_emisiones/08_emision_neta_cemento_eq.png")
 
 def grafico_eficiencia_termica(df):
     """Gráfico 4.1: Eficiencia Térmica"""
@@ -281,7 +507,7 @@ def grafico_eficiencia_termica(df):
 
     ax.set_xlabel('Año', fontweight='bold')
     ax.set_ylabel('MJ/t clínker', fontweight='bold')
-    ax.set_title('Eficiencia Térmica (Consumo Térmico Específico) - Perú\n2010-2023',
+    ax.set_title('Eficiencia Térmica (Consumo Térmico Específico) - Perú\n2010-2024',
                  fontweight='bold', fontsize=13)
     ax.grid(True, alpha=0.3)
 
@@ -316,7 +542,7 @@ def grafico_consumo_electrico(df):
 
     ax.set_xlabel('Año', fontweight='bold')
     ax.set_ylabel('kWh/t cementitious', fontweight='bold')
-    ax.set_title('Consumo Eléctrico Específico - Perú\n2010-2023',
+    ax.set_title('Consumo Eléctrico Específico - Perú\n2010-2024',
                  fontweight='bold', fontsize=13)
     ax.grid(True, alpha=0.3, axis='y')
 
@@ -380,7 +606,7 @@ def generar_reporte_html(df):
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reporte de Seguimiento 2010-2023 - Sector Cemento Perú</title>
+    <title>Reporte de Seguimiento 2010-2024 - Sector Cemento Perú</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -430,11 +656,11 @@ def generar_reporte_html(df):
     </style>
 </head>
 <body>
-    <h1>Reporte de Seguimiento 2010-2023<br>Sector Cemento Perú</h1>
+    <h1>Reporte de Seguimiento 2010-2024<br>Sector Cemento Perú</h1>
 
     <div class="info">
         <p><strong>Datos consolidados de 3 empresas:</strong> Pacasmayo, Yura, UNACEM</p>
-        <p><strong>Años del reporte:</strong> 2010, 2014, 2019, 2021, 2023</p>
+        <p><strong>Años del reporte:</strong> 2010, 2014, 2019, 2020, 2021, 2024</p>
         <p><strong>Total agregados nacionales:</strong> 269 indicadores calculados (2010-2030)</p>
     </div>
 
@@ -518,6 +744,12 @@ def main():
         grafico_factor_clinker(df)
         grafico_emisiones_clinker(df)
         grafico_emisiones_cementitious(df)
+        grafico_emisiones_netas_combustibles(df)
+        grafico_emisiones_indirectas_alcance2(df)
+        grafico_especifica_bruta_cementitious(df)
+        grafico_emision_bruta_cemento_eq(df)
+        grafico_especifica_neta_cementitious(df)
+        grafico_emision_neta_cemento_eq(df)
         grafico_eficiencia_termica(df)
         grafico_consumo_electrico(df)
         grafico_resumen_evolucion(df)
@@ -530,7 +762,7 @@ def main():
         print(f"{'='*80}\n")
 
         print(f"📊 Resumen:")
-        print(f"   - Gráficos generados: 8")
+        print(f"   - Gráficos generados: 14")
         print(f"   - Ubicación: {DIR_GRAFICOS}")
         print(f"   - Reporte HTML: {DIR_GRAFICOS / 'reporte_completo.html'}")
         print(f"\n💡 Abre el reporte HTML en tu navegador para ver todos los gráficos")
