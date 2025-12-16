@@ -8,6 +8,25 @@
 | Versión | Fecha | Autor | Cambios |
 |---------|-------|-------|---------|
 | 1.0 | 2025-12-15 | CPinilla | Creación inicial |
+| 1.1 | 2025-12-16 | CPinilla | Corregida fórmula cemento equivalente: [21b] = [8] / [92a] |
+| 1.2 | 2025-12-16 | CPinilla | Filtro por años válidos (cobertura completa de plantas) |
+
+---
+
+## Años Válidos para Agregación
+
+Solo se calculan agregados nacionales para años con **cobertura completa de plantas**:
+
+| Año | Plantas | Notas |
+|-----|---------|-------|
+| 2010 | 5 | Piura no existía |
+| 2014 | 5 | Piura no existía |
+| 2019 | 6 | Completo |
+| 2020 | 6 | Completo |
+| 2021 | 6 | Completo |
+| 2024 | 6 | Completo |
+
+**Años excluidos** (datos incompletos): 2015, 2016, 2017, 2018, 2022, 2023
 
 ---
 
@@ -121,7 +140,7 @@ Sumar desde `datos_plantas` agrupando por año. Estos son los campos auxiliares 
 | 1023_eq | (Σ[41] / Σ[cem_eq]) × 1000 |
 | 1024_eq | (Σ[50] / Σ[cem_eq]) × 1000 |
 
-**Nota:** cem_eq = Σ[20] + Σ[10] × 1.6
+**Nota:** [21b] = [8] / [92a] = Clínker producido / Factor clínker (Fuente: hoja Comments protocolo GNR)
 
 ---
 

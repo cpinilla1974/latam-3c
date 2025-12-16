@@ -17,6 +17,15 @@ from pathlib import Path
 DB_PATH = Path(__file__).parent.parent / "peru_consolidado.db"
 
 # =============================================================================
+# AÑOS VÁLIDOS PARA AGREGACIÓN NACIONAL
+# Solo años con cobertura completa de plantas
+# =============================================================================
+# 2010, 2014: 5 plantas (Piura no existía)
+# 2019, 2020, 2021, 2024: 6 plantas (completo)
+# Años excluidos por datos incompletos: 2015, 2016, 2017, 2018, 2022, 2023
+AÑOS_VALIDOS = [2010, 2014, 2019, 2020, 2021, 2024]
+
+# =============================================================================
 # CAMPOS SUMABLES (se agregan directamente desde datos_plantas)
 # =============================================================================
 CAMPOS_SUMABLES = [
@@ -29,6 +38,7 @@ CAMPOS_SUMABLES = [
     '11',     # Clínker consumido
     '20',     # Cemento producido
     '21a',    # Producto cementitious
+    '21b',    # Cemento equivalente (calculado por planta como [8]/[92a])
     # Energía
     '25',     # Consumo térmico total hornos
     '27',     # Energía fósiles alternativos
@@ -65,12 +75,10 @@ def limpiar_agregados(conn):
 def insertar_sumables(conn):
     """Paso 2: Insertar campos sumables agrupados por año."""
     print("\nPaso 2: Insertando campos sumables...")
+    print(f"   Años válidos para agregación: {AÑOS_VALIDOS}")
 
-    # Obtener años disponibles
-    años = pd.read_sql_query(
-        "SELECT DISTINCT año FROM datos_plantas ORDER BY año",
-        conn
-    )['año'].tolist()
+    # Solo usar años con cobertura completa de plantas
+    años = AÑOS_VALIDOS
 
     registros = 0
     for campo in CAMPOS_SUMABLES:
@@ -311,46 +319,51 @@ def calcular_indicadores(conn):
 
         # --- Emisiones Específicas - Cemento Equivalente ---
         # Códigos según BD común: 21b, 63a, 82c, 1410, 1411, 1412, 1416, 1417, 63, 75
-        # Cemento equivalente = [20] + [10] × 1.6
+        # Cemento equivalente [21b] = [8] / [92a] por planta, luego se suma
+        # Fuente: Hoja 'Comments' del protocolo GNR (row 67)
 
-        # 21b: Cemento equivalente producido
-        if s.get('20') is not None and s.get('10') is not None:
-            cem_eq = s['20'] + s['10'] * 1.6
-            indicadores.append(('21b', cem_eq, 'formula', '20'))
+        # 21b: Cemento equivalente - usar suma de plantas si existe (ya cargado en paso 2)
+        cem_eq = s.get('21b')  # Suma de 21b por planta
 
-            if cem_eq > 0:
-                # 63a: Descarbonatación por cemento equivalente (Calcination)
-                if s.get('59a'):
-                    indicadores.append(('63a', (s['59a'] / cem_eq) * 1000, 'promedio_ponderado', 'cem_eq'))
+        # Si no hay 21b por planta, calcular a nivel nacional
+        if cem_eq is None or cem_eq == 0:
+            if s.get('8') and s.get('11') and s.get('20') and s['11'] != 0:
+                cem_eq = s['8'] * s['20'] / s['11']
+                indicadores.append(('21b', cem_eq, 'formula', '8'))
 
-                # 63 y 75 se calculan después de tener los componentes (ver abajo)
+        if cem_eq and cem_eq > 0:
+            # 63a: Descarbonatación por cemento equivalente (Calcination)
+            if s.get('59a'):
+                indicadores.append(('63a', (s['59a'] / cem_eq) * 1000, 'promedio_ponderado', 'cem_eq'))
 
-                # 82c: Electricidad externa (cem. eq.) = (Σ[49a] / Σ[cem_eq]) × 1000
-                if s.get('49a'):
-                    indicadores.append(('82c', (s['49a'] / cem_eq) * 1000, 'promedio_ponderado', 'cem_eq'))
+            # 63 y 75 se calculan después de tener los componentes (ver abajo)
 
-                # 1410: Fósiles convencionales (cem. eq.) = (Σ[40] / Σ[cem_eq]) × 1000
-                if s.get('40'):
-                    indicadores.append(('1410', (s['40'] / cem_eq) * 1000, 'promedio_ponderado', 'cem_eq'))
+            # 82c: Electricidad externa (cem. eq.) = (Σ[49a] / Σ[cem_eq]) × 1000
+            if s.get('49a'):
+                indicadores.append(('82c', (s['49a'] / cem_eq) * 1000, 'promedio_ponderado', 'cem_eq'))
 
-                # 1411: Fósiles alternativos (cem. eq.) = (Σ[41] / Σ[cem_eq]) × 1000
-                if s.get('41'):
-                    indicadores.append(('1411', (s['41'] / cem_eq) * 1000, 'promedio_ponderado', 'cem_eq'))
+            # 1410: Fósiles convencionales (cem. eq.) = (Σ[40] / Σ[cem_eq]) × 1000
+            if s.get('40'):
+                indicadores.append(('1410', (s['40'] / cem_eq) * 1000, 'promedio_ponderado', 'cem_eq'))
 
-                # 1412: Biomasa (cem. eq.) = (Σ[50] / Σ[cem_eq]) × 1000
-                if s.get('50'):
-                    indicadores.append(('1412', (s['50'] / cem_eq) * 1000, 'promedio_ponderado', 'cem_eq'))
+            # 1411: Fósiles alternativos (cem. eq.) = (Σ[41] / Σ[cem_eq]) × 1000
+            if s.get('41'):
+                indicadores.append(('1411', (s['41'] / cem_eq) * 1000, 'promedio_ponderado', 'cem_eq'))
 
-                # 1416: Fuera de horno (cem. eq.) = (Σ[44] + Σ[45a] + Σ[45b]) / Σ[cem_eq] × 1000
-                fuera_horno_eq = (s.get('44') or 0) + (s.get('45a') or 0) + (s.get('45b') or 0)
-                if fuera_horno_eq > 0:
-                    indicadores.append(('1416', (fuera_horno_eq / cem_eq) * 1000, 'promedio_ponderado', 'cem_eq'))
+            # 1412: Biomasa (cem. eq.) = (Σ[50] / Σ[cem_eq]) × 1000
+            if s.get('50'):
+                indicadores.append(('1412', (s['50'] / cem_eq) * 1000, 'promedio_ponderado', 'cem_eq'))
 
-                # 1417: Generación on-site (cem. eq.)
-                if len(df_plantas) > 0:
-                    val_1417 = calcular_1020(df_plantas, s, None, cem_eq)
-                    if val_1417 is not None:
-                        indicadores.append(('1417', val_1417, 'formula_compleja', 'cem_eq'))
+            # 1416: Fuera de horno (cem. eq.) = (Σ[44] + Σ[45a] + Σ[45b]) / Σ[cem_eq] × 1000
+            fuera_horno_eq = (s.get('44') or 0) + (s.get('45a') or 0) + (s.get('45b') or 0)
+            if fuera_horno_eq > 0:
+                indicadores.append(('1416', (fuera_horno_eq / cem_eq) * 1000, 'promedio_ponderado', 'cem_eq'))
+
+            # 1417: Generación on-site (cem. eq.)
+            if len(df_plantas) > 0:
+                val_1417 = calcular_1020(df_plantas, s, None, cem_eq)
+                if val_1417 is not None:
+                    indicadores.append(('1417', val_1417, 'formula_compleja', 'cem_eq'))
 
         # --- Calcular brutas y netas como suma de componentes ---
         # Crear diccionario para acceso rápido a indicadores calculados
@@ -548,7 +561,10 @@ def calcular_1005(df_plantas, sumas):
 
 
 def calcular_proporcional(df_plantas, campo_emision, campo_11, campo_8, denominador):
-    """Calcula emisión proporcional: Σ([emision]×[11]/[8]) / denominador × 1000"""
+    """Calcula emisión proporcional según FICEM V1.4:
+    - Si [8] >= [11] en planta: usar [emision] × [11]/[8]
+    - Si [8] < [11] en planta: usar [emision] directamente (sin factor)
+    """
     if denominador == 0:
         return None
 
@@ -565,8 +581,19 @@ def calcular_proporcional(df_plantas, campo_emision, campo_11, campo_8, denomina
     if len(pivot) == 0:
         return None
 
-    pivot['numerador'] = pivot[campo_emision] * (pivot[campo_11] / pivot[campo_8])
-    numerador_total = pivot['numerador'].sum()
+    # Aplicar condición FICEM por planta
+    numerador_total = 0
+    for idx, row in pivot.iterrows():
+        v8 = row[campo_8]
+        v11 = row[campo_11]
+        v_emision = row[campo_emision]
+
+        if v8 >= v11:
+            # Planta produce más clínker del que consume: aplicar factor
+            numerador_total += v_emision * (v11 / v8)
+        else:
+            # Planta consume más clínker del que produce: usar emisión directa
+            numerador_total += v_emision
 
     return (numerador_total / denominador) * 1000
 

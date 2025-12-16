@@ -10,6 +10,7 @@
 | 1.0 | 2025-12-15 | CPinilla | Creación inicial con fórmulas oficiales FICEM |
 | 1.1 | 2025-12-15 | CPinilla | Añadidos indicadores de emisiones brutas/netas (60, 73, 62, 74, 1044, 1045, 63, 75) |
 | 1.2 | 2025-12-15 | CPinilla | Corregidos códigos cem. equivalente según BD común (63a, 63b, 82c, 1410-1417) |
+| 1.3 | 2025-12-16 | CPinilla | Corregida fórmula cemento equivalente: [21b] = [8] / [92a] según hoja Comments protocolo GNR |
 
 ---
 
@@ -107,7 +108,7 @@ Indicador Nacional = Σ(numerador_i) / Σ(denominador_i)
 | **63** | **Específica bruta** | kgCO₂/t cem eq | 63a + 1416 + 1410 + 1411 |
 | **75** | **Específica neta** | kgCO₂/t cem eq | 63a + 1416 + 1410 |
 
-**Nota:** Cemento equivalente [cem_eq] = [20] + [10] × factor (típicamente 1.6)
+**Nota:** Cemento equivalente [21b] = Σ([8]ᵢ / [92a]ᵢ) = Suma de [21b] por planta (Fuente: hoja Comments protocolo GNR)
 
 ---
 
